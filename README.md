@@ -205,13 +205,10 @@ If you find build, formatting or linting rules too tedious, you can disable enfo
 - Create a new Supabase project in the console
 - Wait for the database to launch
 - Set up your database schema:
-  - For new Supabase projects:
-    - Go to the [SQL Editor](https://supabase.com/dashboard/project/_/sql) page in the Dashboard.
-    - Run the SQL from `database_migration.sql` to create the initial schema.
-  - For existing projects:
-    - Apply migrations from the `supabase/migrations` directory:
-      1. Go to the Supabase dashboard's SQL Editor.
-      2. Identify the last migration you applied, then run the SQL content of each subsequent file in chronological order.
+  - Go to the [SQL Editor](https://supabase.com/dashboard/project/_/sql) page in your Supabase Dashboard.
+  - Copy the entire contents of the `database_migration.sql` file from the project root.
+  - Paste the SQL into the editor and click "Run" to create the necessary tables and policies. This file contains the complete schema for the project.
+
 - Enable user signups in the [Supabase console](https://app.supabase.com/project/_/settings/auth): sometimes new signups are disabled by default in Supabase projects
 - Go to the [API Settings](https://supabase.com/dashboard/project/_/settings/api) page in the Dashboard. Find your Project-URL (PUBLIC_SUPABASE_URL), anon (PUBLIC_SUPABASE_ANON_KEY) and service_role (PRIVATE_SUPABASE_SERVICE_ROLE).
   - For local development: create a `.env.local` file:

@@ -103,6 +103,13 @@ export const fetchSubscription = async ({
   if (primaryStripeSubscription) {
     const productId =
       primaryStripeSubscription?.items?.data?.[0]?.price.product ?? ""
+    
+    if (!productId) {
+      return {
+        error: "Stripe subscription is missing a product ID. This can happen if the subscription was created improperly or is in a strange state."
+      }
+    }
+
     appSubscription = pricingPlans.find((x) => {
       return x.stripe_product_id === productId
     })
