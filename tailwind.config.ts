@@ -5,7 +5,11 @@ import daisyui from 'daisyui';
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'synth-grid': "url('/images/synthwave_grid.png')",
+      }
+    },
   },
   plugins: [typography, daisyui],
   daisyui: {
@@ -29,7 +33,7 @@ export default {
           "base-100": "#010516",        // The main page background (GUI's darkest color)
           "base-200": "#190025",        // A slightly lighter dark purple (from tab panes)
           "base-300": "#2a2832",        // Dark gray/purple (for inactive elements)
-          "base-content": "#A6ADBB",    // **CRITICAL FIX**: The primary text color (light gray)
+          "base-content": "#A6ADBB",    // The primary text color for the site (light gray)
 
           "info": "#66E6FF",            // Light neon cyan
           "info-content": "#00323D",

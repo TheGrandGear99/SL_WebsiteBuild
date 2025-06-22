@@ -11,23 +11,21 @@
 
 <div class="navbar bg-base-100 container mx-auto">
   <div class="flex-1">
-    <a class="btn btn-ghost normal-case text-xl" href="/">{WebsiteName}</a>
+    <a class="btn btn-ghost text-xl" href="/">
+      <img src="/images/signal-lynx-logo.png" alt="Signal Lynx Logo" class="h-10 w-auto mr-2" />
+      {WebsiteName}
+    </a>
   </div>
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1 hidden sm:flex font-bold text-lg">
-      <li class="md:mx-4">
-        <a
-          href="https://github.com/CriticalMoments/CMSaasStarter"
-          class="border border-primary">★ us on Github</a
-        >
-      </li>
-      <li class="md:mx-2"><a href="/blog">Blog</a></li>
-      <li class="md:mx-2"><a href="/pricing">Pricing</a></li>
+      <li class="md:mx-2"><a href="/#pricing">Pricing</a></li>
+      <li class="md:mx-2"><a href="/faq">FAQ</a></li>
+      <li class="md:mx-2"><a href="/contact_us">Contact Us</a></li>
       <li class="md:mx-2"><a href="/account">Account</a></li>
       <li class="md:mx-0">
         <a href="/search" aria-label="Search">
           <svg
-            fill="#000000"
+            fill="currentColor"
             class="w-6 h-6"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -62,16 +60,11 @@
         tabindex="0"
         class="menu menu-lg dropdown-content mt-3 z-1 p-2 shadow-sm bg-base-100 rounded-box w-52 font-bold"
       >
-        <li><a href="/blog">Blog</a></li>
-        <li><a href="/pricing">Pricing</a></li>
+        <li><a href="/#pricing">Pricing</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/contact_us">Contact Us</a></li>
         <li><a href="/account">Account</a></li>
         <li><a href="/search">Search</a></li>
-        <li>
-          <a
-            href="https://github.com/CriticalMoments/CMSaasStarter"
-            class="border border-primary">★ us on Github</a
-          >
-        </li>
       </ul>
     </div>
   </div>
@@ -92,11 +85,11 @@
       <span class="footer-title opacity-80">Explore</span>
       <a class="link link-hover mb-1" href="/">Overview</a>
       <a class="link link-hover my-1" href="/pricing">Pricing</a>
-      <a class="link link-hover my-1" href="/blog">Blog</a>
+      <a class="link link-hover my-1" href="/faq">FAQ</a>
       <a class="link link-hover my-1" href="/contact_us">Contact Us</a>
       <a
         class="link link-hover my-1"
-        href="https://github.com/CriticalMoments/CMSaasStarter">Github</a
+        href="https://github.com/TheGrandGear99/CMSaasStarter">Github</a
       >
     </nav>
     <aside>
