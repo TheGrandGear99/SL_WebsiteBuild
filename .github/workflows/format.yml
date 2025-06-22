@@ -15,7 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
 
       - name: NPM install
         run: npm install
@@ -23,8 +22,11 @@ jobs:
       - name: Check Code Format
         run: npm run format_check
 
-      - name: Download go misspell utility
-        run: go install github.com/client9/misspell/cmd/misspell@latest
-
-      - name: Run misspell to fine misspelled words
-        run: misspell -error ./src README.md
+      - name: Run misspell to find misspelled words
+        uses: reviewdog/action-misspell@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-check
+          level: error
+          path: "."
+          options: "README.md ./src"

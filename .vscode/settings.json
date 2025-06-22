@@ -1,14 +1,6 @@
 {
-  "editor.formatOnSave": true,
-  "[svelte]": {
-    "editor.defaultFormatter": "svelte.svelte-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "svelte"],
-  "editor.tabSize": 2
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "svelte.plugin.css.diagnostics.enable": false
 }

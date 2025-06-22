@@ -1,14 +1,9 @@
-import { dev } from "$app/environment"
-import { error } from "@sveltejs/kit"
+import { buildSearchIndex } from "$lib/build_index";
+import { json } from "@sveltejs/kit";
+
+export const prerender = true;
 
 export async function GET() {
-  // only build search index in dev mode. It will be pre-built in production (see vite.config.js)
-  if (dev) {
-    const { buildSearchIndex } = await import("$lib/build_index")
-    const searchData = await buildSearchIndex()
-    return new Response(JSON.stringify(searchData), {
-      headers: { "Content-Type": "application/json" },
-    })
-  }
-  error(404, "Search index not found")
+  const searchData = await buildSearchIndex();
+  return json(searchData);
 }
