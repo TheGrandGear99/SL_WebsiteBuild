@@ -27,6 +27,7 @@
           <li><a href="/pricing">License Hub</a></li>
         </ul>
       </li>
+      <li class="md:mx-2"><a href="/docs">Docs</a></li>
       <li class="md:mx-2"><a href="/faq">FAQ</a></li>
       <li class="md:mx-2"><a href="/contact_us">Contact</a></li>
       <li class="md:mx-2"><a href="/account">Account</a></li>
@@ -75,6 +76,7 @@
             <li><a href="/pricing">License Hub</a></li>
           </ul>
         </li>
+        <li><a href="/docs">Docs</a></li>
         <li><a href="/faq">FAQ</a></li>
         <li><a href="/contact_us">Contact Us</a></li>
         <li><a href="/account">Account</a></li>
@@ -102,6 +104,7 @@
     </nav>
     <nav>
         <span class="footer-title opacity-80">Company</span>
+        <a class="link link-hover my-1" href="/docs">Docs</a>
         <a class="link link-hover my-1" href="/faq">FAQ</a>
         <a class="link link-hover my-1" href="/contact_us">Contact Us</a>
     </nav>
