@@ -3,10 +3,7 @@
   import type { Writable } from "svelte/store"
   import SettingsModule from "../settings/settings_module.svelte"
   import PricingModule from "../../../../(marketing)/pricing/pricing_module.svelte"
-  import {
-    pricingPlans,
-    defaultPlanId,
-  } from "../../../../(marketing)/pricing/pricing_plans"
+  import { allProducts, defaultPlanId } from "$lib/data/products"
 
   let adminSection: Writable<string> = getContext("adminSection")
   adminSection.set("billing")
@@ -14,9 +11,9 @@
   let { data } = $props()
 
   let currentPlanId = data.currentPlanId ?? defaultPlanId
-  let currentPlanName = pricingPlans.find(
+  let currentPlanName = allProducts.find(
     (x) => x.id === data.currentPlanId,
-  )?.name
+  )?.title
 </script>
 
 <svelte:head>
@@ -27,7 +24,7 @@
   {data.isActiveCustomer ? "Billing" : "Select a Plan"}
 </h1>
 <div>
-  View our <a href="/pricing" target="_blank" class="link">pricing page</a> for details.
+  View our <a href="/pricing" target="_blank" class="link">product pages</a> for details.
 </div>
 
 {#if !data.isActiveCustomer}

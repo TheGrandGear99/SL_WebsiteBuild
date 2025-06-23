@@ -3,7 +3,7 @@ import type { Database } from "../../../DatabaseDefinitions"
 
 import { PRIVATE_STRIPE_API_KEY } from "$env/static/private"
 import Stripe from "stripe"
-import { pricingPlans } from "../../(marketing)/pricing/pricing_plans"
+import { allProducts } from "$lib/data/products"
 const stripe = new Stripe(PRIVATE_STRIPE_API_KEY, { apiVersion: "2023-08-16" })
 
 export const getOrCreateCustomerId = async ({
@@ -110,7 +110,7 @@ export const fetchSubscription = async ({
       }
     }
 
-    appSubscription = pricingPlans.find((x) => {
+    appSubscription = allProducts.find((x) => {
       return x.stripe_product_id === productId
     })
     if (!appSubscription) {

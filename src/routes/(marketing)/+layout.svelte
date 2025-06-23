@@ -18,9 +18,17 @@
   </div>
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1 hidden sm:flex font-bold text-lg">
-      <li class="md:mx-2"><a href="/#pricing">Pricing</a></li>
+      <li class="dropdown dropdown-hover">
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <div tabindex="0" role="button">Products</div>
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+          <li><a href="/blog">Trading Automation</a></li>
+          <li><a href="/pricing">License Hub</a></li>
+        </ul>
+      </li>
       <li class="md:mx-2"><a href="/faq">FAQ</a></li>
-      <li class="md:mx-2"><a href="/contact_us">Contact Us</a></li>
+      <li class="md:mx-2"><a href="/contact_us">Contact</a></li>
       <li class="md:mx-2"><a href="/account">Account</a></li>
       <li class="md:mx-0">
         <a href="/search" aria-label="Search">
@@ -60,7 +68,13 @@
         tabindex="0"
         class="menu menu-lg dropdown-content mt-3 z-1 p-2 shadow-sm bg-base-100 rounded-box w-52 font-bold"
       >
-        <li><a href="/#pricing">Pricing</a></li>
+        <li>
+          <span>Products</span>
+          <ul class="p-2">
+            <li><a href="/blog">Trading Automation</a></li>
+            <li><a href="/pricing">License Hub</a></li>
+          </ul>
+        </li>
         <li><a href="/faq">FAQ</a></li>
         <li><a href="/contact_us">Contact Us</a></li>
         <li><a href="/account">Account</a></li>
@@ -82,27 +96,23 @@
     class="footer md:footer-horizontal p-10 gap-x-48 lg:gap-x-64 xl:gap-x-96 place-content-center text-base"
   >
     <nav>
-      <span class="footer-title opacity-80">Explore</span>
-      <a class="link link-hover mb-1" href="/">Overview</a>
-      <a class="link link-hover my-1" href="/pricing">Pricing</a>
-      <a class="link link-hover my-1" href="/faq">FAQ</a>
-      <a class="link link-hover my-1" href="/contact_us">Contact Us</a>
-      <a
-        class="link link-hover my-1"
-        href="https://github.com/TheGrandGear99/CMSaasStarter">Github</a
-      >
+      <span class="footer-title opacity-80">Products</span>
+      <a class="link link-hover mb-1" href="/blog">Trading Automation</a>
+      <a class="link link-hover my-1" href="/pricing">License Hub</a>
     </nav>
-    <aside>
-      <span class="footer-title opacity-80">Sponsor</span>
-      <a class="max-w-[260px]" href="https://getkiln.ai">
-        <div class="font-bold text-3xl mb-1">Kiln AI</div>
-        <div class="font-medium mb-3">Build High Quality AI Products</div>
-        <div class="font-light">
-          Use advanced AI tactics, and collaborate with your team. Free apps for
-          Mac and Windows.
-        </div>
-        <div class="link text-sm font-bold mt-2">Learn More</div>
-      </a>
-    </aside>
+    <nav>
+        <span class="footer-title opacity-80">Company</span>
+        <a class="link link-hover my-1" href="/faq">FAQ</a>
+        <a class="link link-hover my-1" href="/contact_us">Contact Us</a>
+    </nav>
+    <nav>
+        <span class="footer-title opacity-80">Community</span>
+        <a href="https://t.me/SignalLynx" class="link link-hover mb-1">Telegram</a>
+        <a href="https://twitter.com/SignalLynx" class="link link-hover my-1">X / Twitter</a>
+        <a
+          class="link link-hover my-1"
+          href="https://github.com/TheGrandGear99/CMSaasStarter">Github</a
+        >
+      </nav>
   </footer>
 </div>
