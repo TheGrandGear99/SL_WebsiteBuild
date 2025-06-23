@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PricingModule from "../../../(marketing)/pricing/pricing_module.svelte"
+  import PricingModule from "$lib/components/pricing_module.svelte";
 </script>
 
 <svelte:head>
@@ -13,7 +13,7 @@
     <div>
       <h1 class="text-2xl font-bold mb-2">Select a Plan</h1>
       <div class="mb-6">
-        View our <a href="/pricing" target="_blank" class="link">pricing page</a
+        View our <a href="/trading-automation" target="_blank" class="link">product pages</a
         > for details.
       </div>
       <PricingModule callToAction="Select Plan" />

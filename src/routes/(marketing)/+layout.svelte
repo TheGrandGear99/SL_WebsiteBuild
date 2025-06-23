@@ -23,8 +23,8 @@
         <div tabindex="0" role="button">Products</div>
         <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
         <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-          <li><a href="/blog">Trading Automation</a></li>
-          <li><a href="/pricing">License Hub</a></li>
+          <li><a href="/trading-automation">Trading Automation</a></li>
+          <li><a href="/license-hub">License Hub</a></li>
         </ul>
       </li>
       <li class="md:mx-2"><a href="/docs">Docs</a></li>
@@ -72,8 +72,8 @@
         <li>
           <span>Products</span>
           <ul class="p-2">
-            <li><a href="/blog">Trading Automation</a></li>
-            <li><a href="/pricing">License Hub</a></li>
+            <li><a href="/trading-automation">Trading Automation</a></li>
+            <li><a href="/license-hub">License Hub</a></li>
           </ul>
         </li>
         <li><a href="/docs">Docs</a></li>
@@ -99,8 +99,8 @@
   >
     <nav>
       <span class="footer-title opacity-80">Products</span>
-      <a class="link link-hover mb-1" href="/blog">Trading Automation</a>
-      <a class="link link-hover my-1" href="/pricing">License Hub</a>
+      <a class="link link-hover mb-1" href="/trading-automation">Trading Automation</a>
+      <a class="link link-hover my-1" href="/license-hub">License Hub</a>
     </nav>
     <nav>
         <span class="footer-title opacity-80">Company</span>

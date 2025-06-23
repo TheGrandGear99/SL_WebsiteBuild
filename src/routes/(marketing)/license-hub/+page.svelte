@@ -1,26 +1,6 @@
 <script lang="ts">
-  const quickDetails = [
-    {
-      icon: "🚀",
-      title: "Launch Speed",
-      description: "docker compose up -d → GUI live in ≈10 min"
-    },
-    {
-      icon: "💾",
-      title: "Backups",
-      description: "Automatic nightly pg_dump to local disk or S3-compatible bucket"
-    },
-    {
-      icon: "🔐",
-      title: "Hashing",
-      description: "Argon2id (OWASP-approved) @ ≥19 MiB RAM, 2 iters"
-    },
-    {
-      icon: "📨",
-      title: "Customer Touch",
-      description: "Auto-emails on Stripe & PayPal payment events"
-    }
-  ];
+  import { licenseHubProduct } from "$lib/data/products";
+  import ProductCard from '$lib/components/ProductCard.svelte';
 </script>
 
 <svelte:head>
@@ -39,27 +19,7 @@
 <!-- Main Content Section with Product Card -->
 <div class="py-16 px-4 bg-base-100">
   <div class="flex justify-center">
-    <div class="card bg-base-200 w-full max-w-2xl flex-none shadow-xl border-2 border-accent">
-      <div class="card-body p-8 flex flex-col">
-        <h3 class="card-title text-2xl text-primary">🔑 License-Hub Dashboard</h3>
-        <p class="text-4xl font-bold mt-2">$5 / mo <span class="text-lg font-normal">or $50 / yr</span></p>
-        <p class="text-base-content/80 flex-grow mt-4">A point-and-click browser dashboard lets you create keys, watch activations, and nuke bad actors—no command lines to memorize.</p>
-        
-        <ul class="my-6 space-y-3 text-left">
-          <li class="flex items-start gap-3"><strong>Webhook Magic:</strong> Stripe or PayPal fires an event; Hub instantly mails a branded key so customers get access before their receipt prints.</li>
-          <li class="flex items-start gap-3"><strong>Rock-Solid Vault:</strong> Passwords and license secrets are hashed with Argon2id, the algorithm OWASP calls “state-of-the-art.”</li>
-          <li class="flex items-start gap-3"><strong>7-Day Offline Tokens:</strong> Generate grace files so air-gapped workstations stay legal during audits.</li>
-          <li class="flex items-start gap-3"><strong>Promo & Dev Keys:</strong> Issue time-boxed freebies for beta testers or flash sales straight from the dashboard.</li>
-        </ul>
-
-        <div class="mt-auto pt-4">
-          <div class="card-actions justify-center">
-            <a href="/account" class="btn btn-primary btn-wide">Start 7-Day Free Trial</a>
-          </div>
-          <p class="text-center text-xs text-base-content/50 mt-2">Digital good · no refunds</p>
-        </div>
-      </div>
-    </div>
+    <ProductCard product={licenseHubProduct} />
   </div>
 </div>
 
@@ -67,15 +27,35 @@
 <div class="py-16 px-4 bg-base-200">
   <div class="max-w-4xl mx-auto">
     <div class="grid md:grid-cols-2 gap-8">
-      {#each quickDetails as detail}
+        <!-- Details can be hardcoded here or moved to data file if needed -->
         <div class="flex items-start gap-4">
-          <div class="text-4xl">{detail.icon}</div>
+          <div class="text-4xl">🚀</div>
           <div>
-            <h4 class="font-bold text-lg">{detail.title}</h4>
-            <p class="text-base-content/70">{detail.description}</p>
+            <h4 class="font-bold text-lg">Launch Speed</h4>
+            <p class="text-base-content/70">docker compose up -d → GUI live in ≈10 min</p>
           </div>
         </div>
-      {/each}
+        <div class="flex items-start gap-4">
+          <div class="text-4xl">💾</div>
+          <div>
+            <h4 class="font-bold text-lg">Backups</h4>
+            <p class="text-base-content/70">Automatic nightly pg_dump to local disk or S3-compatible bucket</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="text-4xl">🔐</div>
+          <div>
+            <h4 class="font-bold text-lg">Hashing</h4>
+            <p class="text-base-content/70">Argon2id (OWASP-approved) @ ≥19 MiB RAM, 2 iters</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="text-4xl">📨</div>
+          <div>
+            <h4 class="font-bold text-lg">Customer Touch</h4>
+            <p class="text-base-content/70">Auto-emails on Stripe & PayPal payment events</p>
+          </div>
+        </div>
     </div>
   </div>
 </div>

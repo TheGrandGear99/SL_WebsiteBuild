@@ -1,10 +1,11 @@
 <script lang="ts">
+  import { onMount, onDestroy } from 'svelte';
   import {
     WebsiteName,
     WebsiteBaseUrl,
     WebsiteDescription,
   } from "./../../config"
-  import PricingModule from "./pricing/pricing_module.svelte";
+  import PricingModule from "$lib/components/pricing_module.svelte";
 
   const ldJson = {
     "@context": "https://schema.org",
@@ -16,30 +17,67 @@
     JSON.stringify(ldJson) + "<"
   }/script>`
 
-  // This section is repurposed as the "Problem -> Solution" band
-  const features = [
+  const featureShowcase = [
     {
-      name: "Your Weekend? Saved.",
-      description:
-        "Manual server hardening can swallow a whole Saturday. Run our script, crack open a can of neon fuel, and you’re production-ready in two minutes.",
-      link: "/products/script", // Link to the setup script product page
-      linkText: "Learn More",
+      title: "Security First",
+      description: "Your keys, your server, your rules. Signal Lynx runs on your hardware so your API keys never leave your control.",
+      details: ["Industry-leading encryption", "Bank-grade TLS configuration", "Rock-solid HTTPS everywhere"]
     },
     {
-      name: "Security First",
-      description:
-        "Your keys, your server, your rules. Signal Lynx runs on your own hardware, so your API keys and strategies never leave your control.",
-      link: "/products", // Link to all products
-      linkText: "Our Tools",
+      title: "Trade Monitoring with PnL",
+      description: "Track your trade history with details on entry, exit, and Profit-and-Loss to optimize your strategies.",
+      details: ["Real-time fill tracking", "Automated PnL calculation", "Historical performance review"]
     },
     {
-      name: "Wallet Friendly",
-      description:
-        "Priced for the front-line trader, not Wall Street. Save your cash for bigger bets and better hardware, not bloated SaaS fees.",
-      link: "/pricing",
-      linkText: "See Pricing",
+      title: "Stay Informed, On the Go",
+      description: "Get real-time notifications on your trades and alerts, even when you're away from your desk.",
+      details: ["Instant Telegram notifications", "Handle multiple accounts", "Monitor multiple exchanges"]
     },
-  ]
+    {
+      title: "Fast and Secure Installation",
+      description: "Streamline your webhook setup on any Windows machine or VPS with our one-click configuration tool.",
+      details: ["15-minute setup", "Automated NGINX & SSL config", "Hardened firewall rules"]
+    },
+     {
+      title: "Self-Hosted License Hub",
+      description: "For SaaS builders who need a robust, affordable, and self-hosted licensing solution.",
+      details: ["Automated key generation", "Stripe & PayPal integration", "Nightly database backups"]
+    }
+  ];
+
+  let scrollContainer: HTMLElement;
+  let scrollInterval: ReturnType<typeof setInterval>;
+
+  function scroll(direction: 'left' | 'right') {
+    if (!scrollContainer) return;
+    const scrollAmount = scrollContainer.clientWidth * 0.8; // Scroll 80% of the container width
+    scrollContainer.scrollBy({ 
+      left: direction === 'right' ? scrollAmount : -scrollAmount, 
+      behavior: 'smooth' 
+    });
+  }
+
+  function startAutoScroll() {
+    scrollInterval = setInterval(() => {
+      // If we've scrolled to the end, loop back to the start
+      if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 1) {
+        scrollContainer.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        scroll('right');
+      }
+    }, 5000); // Auto-scroll every 5 seconds
+  }
+
+  onMount(() => {
+    startAutoScroll();
+    scrollContainer.addEventListener('mouseenter', () => clearInterval(scrollInterval));
+    scrollContainer.addEventListener('mouseleave', startAutoScroll);
+  });
+
+  onDestroy(() => {
+    clearInterval(scrollInterval);
+  });
+
 </script>
 
 <svelte:head>
@@ -64,7 +102,7 @@
       <div
         class="mt-8 flex flex-row flex-wrap gap-4 place-content-center"
       >
-        <a href="/pricing">
+        <a href="#pricing">
           <button class="btn btn-primary px-8">Start Free Trial</button>
         </a>
         <a href="#demo">
@@ -75,34 +113,36 @@
   </div>
 </div>
 
-<div class="min-h-[60vh] bg-base-200">
-  <div class="pt-20 pb-16 px-7">
-    <div
-      class="flex gap-6 max-w-[1064px] mx-auto place-content-center flex-wrap"
-    >
-      {#each features as feature}
-        <div class="card bg-base-100 w-[320px] min-h-[280px] flex-none shadow-xl">
-          <div class="card-body items-center text-center p-[24px] pt-[32px]">
-            <h2 class="card-title text-2xl text-primary">
-              {feature.name}
-            </h2>
-            <p class="text-base-content/70">
-              {feature.description}
-            </p>
-            {#if feature.link}
-              <a href={feature.link} class="mt-4">
-                <button
-                  class="btn btn-sm btn-outline rounded-full btn-accent min-w-[120px]"
-                  >{feature.linkText}</button
-                >
-              </a>
-            {/if}
+<!-- Feature Showcase Section -->
+<div class="py-16 bg-base-200 overflow-hidden relative">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Left Arrow -->
+    <button on:click={() => scroll('left')} class="btn btn-circle btn-ghost absolute left-2 top-1/2 -translate-y-1/2 z-10">❮</button>
+    
+    <div bind:this={scrollContainer} class="flex space-x-8 overflow-x-auto pb-4 hide-scrollbar">
+      {#each featureShowcase as feature}
+        <div class="card bg-base-100 w-80 md:w-96 flex-none shadow-xl flex flex-col">
+          <div class="card-body">
+            <h3 class="card-title text-2xl text-accent">{feature.title}</h3>
+            <p class="text-base-content/70 mt-2 flex-grow">{feature.description}</p>
+            <ul class="mt-4 space-y-2">
+              {#each feature.details as detail}
+                <li class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-success shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z" fill="currentColor"/></svg>
+                  <span>{detail}</span>
+                </li>
+              {/each}
+            </ul>
           </div>
         </div>
       {/each}
     </div>
+
+    <!-- Right Arrow -->
+    <button on:click={() => scroll('right')} class="btn btn-circle btn-ghost absolute right-2 top-1/2 -translate-y-1/2 z-10">❯</button>
   </div>
 </div>
+
 
 <div id="pricing" class="py-16 bg-base-100">
   <div class="max-w-lg mx-auto text-center mb-12">
@@ -113,7 +153,7 @@
         No hidden fees. No enterprise sales calls. Just tools that work.
       </p>
   </div>
-  <PricingModule callToAction="Get Started" highlightedPlanId="pro" />
+  <PricingModule callToAction="Get Started" highlightedPlanId="engine" />
 </div>
 
 <div id="demo" class="hero min-h-[60vh] mt-12 bg-base-300">
@@ -133,3 +173,12 @@
     </div>
   </div>
 </div>
+
+<style>
+  .hide-scrollbar {
+    scrollbar-width: none; /* For Firefox */
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+</style>

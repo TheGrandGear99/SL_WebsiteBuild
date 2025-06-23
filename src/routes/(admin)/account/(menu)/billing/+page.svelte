@@ -2,7 +2,7 @@
   import { getContext } from "svelte"
   import type { Writable } from "svelte/store"
   import SettingsModule from "../settings/settings_module.svelte"
-  import PricingModule from "../../../../(marketing)/pricing/pricing_module.svelte"
+  import PricingModule from "$lib/components/pricing_module.svelte"
   import { allProducts, defaultPlanId } from "$lib/data/products"
 
   let adminSection: Writable<string> = getContext("adminSection")
@@ -24,7 +24,7 @@
   {data.isActiveCustomer ? "Billing" : "Select a Plan"}
 </h1>
 <div>
-  View our <a href="/pricing" target="_blank" class="link">product pages</a> for details.
+  View our <a href="/trading-automation" target="_blank" class="link">product pages</a> for details.
 </div>
 
 {#if !data.isActiveCustomer}

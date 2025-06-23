@@ -77,8 +77,8 @@
   <div
     class="max-w-[400px] lg:max-w-[500px] flex flex-col place-content-center p-4 lg:mr-8 lg:mb-8 lg:min-h-[70vh]"
   >
-    <div class="px-6">
-      <h1 class="text-2xl lg:text-4xl font-bold mb-4">Contact Us</h1>
+    <div class="px-6 text-base-content">
+      <h1 class="text-2xl lg:text-4xl font-bold mb-4 text-primary">Contact Us</h1>
       <p class="text-lg">Talk to one of our service professionals to:</p>
       <ul class="list-disc list-outside pl-6 py-4 space-y-1">
         <li class="">Get a live demo</li>
