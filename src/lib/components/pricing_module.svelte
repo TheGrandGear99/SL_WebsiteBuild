@@ -5,14 +5,12 @@
   interface Props {
     // Module context
     highlightedPlanId?: string
-    callToAction: string
     currentPlanId?: string
     center?: boolean
   }
 
   let {
     highlightedPlanId = "",
-    callToAction,
     currentPlanId = "",
     center = true,
   }: Props = $props()
@@ -26,7 +24,7 @@
   {#each allProducts as plan: Product}
     <div
       class="flex-none card card-bordered {plan.id === highlightedPlanId
-        ? 'border-primary'
+        ? 'border-secondary'
         : 'border-base-300'} shadow-xl flex-1 grow min-w-[260px] max-w-[310px] p-6"
     >
       <div class="flex flex-col h-full">

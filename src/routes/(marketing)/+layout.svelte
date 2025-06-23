@@ -19,10 +19,8 @@
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1 hidden sm:flex font-bold text-lg">
       <li class="dropdown dropdown-hover">
-        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-        <div tabindex="0" role="button">Products</div>
-        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+        <button type="button" class="btn btn-ghost">Products</button>
+        <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
           <li><a href="/trading-automation">Trading Automation</a></li>
           <li><a href="/license-hub">License Hub</a></li>
         </ul>
@@ -47,9 +45,7 @@
       </li>
     </ul>
     <div class="dropdown dropdown-end sm:hidden">
-      <!-- svelte-ignore a11y_label_has_associated_control -->
-      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-      <label tabindex="0" class="btn btn-ghost btn-circle">
+      <button type="button" class="btn btn-ghost btn-circle" aria-label="Menu">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5"
@@ -63,10 +59,8 @@
             d="M4 6h16M4 12h16M4 18h7"
           /></svg
         >
-      </label>
-      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      </button>
       <ul
-        tabindex="0"
         class="menu menu-lg dropdown-content mt-3 z-1 p-2 shadow-sm bg-base-100 rounded-box w-52 font-bold"
       >
         <li>

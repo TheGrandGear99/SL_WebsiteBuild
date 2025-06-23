@@ -15,7 +15,7 @@ export const sharedAppearance = {
         brandButtonText: "oklch(var(--pc))",
         messageText: "oklch(var(--b))",
         dividerBackground: "oklch(var(--n))",
-        inputLabelText: "oklch(var(--n))",
+        inputLabelText: "oklch(var(--p))", // This is the fix
         defaultButtonText: "oklch(var(--n))",
         anchorTextColor: "oklch(var(--p))",
       },

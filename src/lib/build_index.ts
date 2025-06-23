@@ -1,4 +1,4 @@
-import { sortedBlogPosts, blogInfo } from "../routes/(marketing)/blog/posts";
+import { allProducts } from "$lib/data/products";
 import Fuse from "fuse.js";
 
 // Manually define other pages to be included in the search
@@ -9,9 +9,9 @@ const otherPages = [
         path: "/"
     },
     {
-        title: "Pricing",
-        description: "Pricing plans for our services.",
-        path: "/pricing"
+        title: "Documentation",
+        description: "Setup guides, READMEs, and technical documentation for Signal Lynx products.",
+        path: "/docs"
     },
     {
         title: "Contact Us",
@@ -22,11 +22,11 @@ const otherPages = [
 
 export async function buildSearchIndex() {
   const indexData = [
-    ...sortedBlogPosts.map(post => ({
-      title: post.title,
-      description: post.description,
-      body: '', // Body is not available from source, but title/desc are primary
-      path: post.link
+    ...allProducts.map(product => ({
+      title: product.title,
+      description: product.tagline,
+      body: product.features.join(' '), // Combine features for better searchability
+      path: product.id === 'license-hub' ? '/license-hub' : '/trading-automation'
     })),
     ...otherPages.map(page => ({
       title: page.title,
@@ -36,7 +36,7 @@ export async function buildSearchIndex() {
     }))
   ];
 
-  const index = Fuse.createIndex(["title", "description"], indexData);
+  const index = Fuse.createIndex(["title", "description", "body"], indexData);
   const jsonIndex = index.toJSON();
   const data = { index: jsonIndex, indexData, buildTime: Date.now() };
   return data;
