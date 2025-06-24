@@ -18,310 +18,400 @@
         <input type="radio" name="faq-universal" checked />
         <div class="collapse-title text-xl font-medium">How do you bill me?</div>
         <div class="collapse-content">
-          <p>Monthly or yearly subscription—no surprise “pro-plus-turbo” tiers. The price you subscribe at is locked for life. No bait-and-switch.</p>
+          <p>We offer simple monthly or yearly subscriptions. No surprise “pro-plus-turbo” tiers or sneaky in-app purchases. We accept all major credit cards.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-universal" />
         <div class="collapse-title text-xl font-medium">Is there a real free trial?</div>
         <div class="collapse-content">
-          <p>Yep! Seven days, fully unlocked. We do require a card, but if you cancel before the 168-hour mark, you won't get charged a cent.</p>
+          <p>Yep! Seven days, fully unlocked. We do require a card, but if you cancel before the seven-day mark, you won't be charged a cent.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">Refunds?</div>
+        <div class="collapse-title text-xl font-medium">Can I get a refund?</div>
         <div class="collapse-content">
-          <p>Digital code can’t be un-downloaded, so all sales are final. Cancelling only stops future renewals. Please use the free trial to make sure our tools fit your needs.</p>
+          <p>Since our software is a digital download, we can't exactly "un-download" it. Therefore, all sales are final. Canceling your subscription simply prevents future renewals. Please use the free trial to make sure our tools are the right fit for your needs.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-universal" />
         <div class="collapse-title text-xl font-medium">What hardware do I need?</div>
         <div class="collapse-content">
-          <p>Any 64-bit Windows 10/11 or Server 2016+ box with at least 2 vCPU, 2 GB RAM, and a stable ±1 Mbps internet connection. If it runs Minecraft, you’re good.</p>
+          <p>The Signal Lynx applications require minimal processing power. Our tools are lightweight, but please check the specific product page for detailed requirements.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">Laptop or VPS?</div>
+        <div class="collapse-title text-xl font-medium">Should I use a laptop or a VPS?</div>
         <div class="collapse-content">
-          <p>Your gaming PC works, but a $5/month VPS gives you 24/7 uptime and spares your home power bill.</p>
+          <p>Your laptop, desktop, or gaming PC works great, but a Virtual Private Server (VPS) gives you 24/7 uptime and spares your home power bill.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-universal" />
         <div class="collapse-title text-xl font-medium">Can I hide behind a VPN?</div>
         <div class="collapse-content">
-          <p>Only if your VPN gives you a static IP. If the IP changes or rotates, TradingView webhooks will stop working.</p>
+          <p>Only if your VPN provides a static IP address. If the IP changes or rotates, TradingView webhooks won't be able to find your computer or our webhook engine.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">How do I open ports safely?</div>
+        <div class="collapse-title text-xl font-medium">Webhooks? Am I safe from internet baddies?</div>
         <div class="collapse-content">
-          <p>Our setup script creates Windows Firewall rules (netsh advfirewall) for ports 80 & 443, blocking everything else. You can audit or change the rules anytime.</p>
+          <p>Absolutely. The Signal Lynx Installer creates a secure tunnel for webhooks, using industry-standard practices to keep you and your data safe from internet baddies.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">Where’s my public IP?</div>
+        <div class="collapse-title text-xl font-medium">How safe are my passwords & API keys?</div>
         <div class="collapse-content">
-          <p>Go to any “what is my IP” website. That’s the address TradingView should call in your webhook URL.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">How safe are my passwords & keys?</div>
-        <div class="collapse-content">
-          <p>All secrets are encrypted on your local disk using AES-256-GCM. Passwords and license tokens are hashed with Argon2id (19 MiB RAM, 2 iterations)—as recommended by OWASP.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">Do you back up anything?</div>
-        <div class="collapse-content">
-          <p>License-Hub runs a nightly <code>pg_dump</code>, keeps the last 30 compressed snapshots, and can optionally ship them to S3-style buckets.</p>
+          <p>We use leading encryption routines to protect your secure data, and it's all stored right on your local disk. Our security practices meet or exceed the stringent Open Worldwide Application Security Project (OWASP) guidelines.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-universal" />
         <div class="collapse-title text-xl font-medium">How do I scream for help?</div>
         <div class="collapse-content">
-          <p>Telegram DM or X (Twitter) mention—no email, no snail mail, no carrier pigeons.</p>
+          <p>Our DMs are always open on Telegram and X (formerly Twitter). We're here to help.</p>
+        </div>
+      </div>
+<div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">Who is Signal Lynx?</div>
+        <div class="collapse-content">
+          <p>We’re probably a lot like you - a small team of engineers and traders with day jobs. Signal Lynx is what happens when you get tired of tools that are either too expensive or just plain don't work.</p>
+          <p class="mt-2">Fueled by late nights and questionably large amounts of caffeine, we decided to build our own solutions. Now, we're sharing them with the community.</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">Why are your prices so low?</div>
+        <div class="collapse-content">
+          <p>Simple: We're not a giant, venture-capital-funded corporation with a yacht to pay for. Our tools were born out of personal need, and we believe in putting powerful, reliable software in the hands of individuals.</p>
+          <p class="mt-2">We couldn't, in good conscience, charge thousands for something we built for ourselves and our community. We call it a disruptive price - you can call it a fair one.</p>
+          <p class="mt-2">Use the money you're saving to grow your capabilities. Get that first VPS, upgrade your setup, or buy another case of your favorite energy drink. We get it.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-universal" />
         <div class="collapse-title text-xl font-medium">What’s on the roadmap?</div>
         <div class="collapse-content">
-          <p>Coinbase & Bybit support, GitHub-OAuth admin login, purple-neon dark-mode themes. Vote or roast us on Telegram!</p>
+          <p>We're a small, passionate team that's always building. We might not move at the speed of a time-jumping DeLorean, because we have day jobs just like you. <br/>
+          We want to hear your opinions on what to build next! Vote for features or roast us on Telegram or X (formerly Twitter)!</p>
         </div>
       </div>
     </div>
 
-    <!-- Setup Script FAQs -->
-    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">Setup Script FAQs</h2>
+    <!-- Signal Lynx Webhook Engine Installer: FAQs -->
+    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">Signal Lynx Webhook Engine Installer: FAQ's</h2>
     <div class="join join-vertical w-full">
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-setup" checked />
         <div class="collapse-title text-xl font-medium">What exactly gets installed?</div>
         <div class="collapse-content">
-          <p>NGINX (native Windows build) as a reverse proxy, win-acme for Let’s Encrypt SSL (auto-renewal scheduled), and an optional Memurai cache for Redis-style ultra-low-latency storage.</p>
+          <p>Only what's needed to protect your computer and ensure reliable trading. The installer sets up a reverse proxy (NGINX), time synchronization (NetTime), an in-memory database for stability (Memurai), and the NSSM service manager. It also performs full SSL encryption to secure your connection.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-setup" />
-        <div class="collapse-title text-xl font-medium">Does it touch the registry?</div>
+        <div class="collapse-title text-xl font-medium">Does it touch the Windows Registry?</div>
         <div class="collapse-content">
-          <p>Yep—just enough to register NGINX as a service and schedule SSL renewals. Everything is logged to <code>setup.log</code>.</p>
+          <p>Yep—just enough to ensure robust performance of the Webhook Engine. All changes are completely reversible.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-setup" />
-        <div class="collapse-title text-xl font-medium">What if Let’s Encrypt fails?</div>
+        <div class="collapse-title text-xl font-medium">What if the installer fails?</div>
         <div class="collapse-content">
-          <p>The script retries twice, then falls back to a self-signed certificate, so you're never offline.</p>
+          <p>In the unlikely event the setup installer fails, the configuration can be done manually. Just follow the instructions in the Webhook Engine's `README` file for details.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-setup" />
         <div class="collapse-title text-xl font-medium">Can I undo everything?</div>
         <div class="collapse-content">
-          <p>Yes! Just run <code>SignalLynx_Uninstall.ps1</code>—it stops services, deletes rules, and purges SSL certs. Clean uninstall.</p>
+          <p>Yes! Everything the installer does can be quickly and cleanly uninstalled.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-setup" />
-        <div class="collapse-title text-xl font-medium">Does this work on Linux?</div>
+        <div class="collapse-title text-xl font-medium">What operating systems are supported?</div>
         <div class="collapse-content">
-          <p>Not yet. Use a reverse-proxy VPS for now, or wait for our bash port (on the roadmap).</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-setup" />
-        <div class="collapse-title text-xl font-medium">Will it auto-update?</div>
-        <div class="collapse-content">
-          <p>We ship quarterly patchers—just re-run the latest installer and it upgrades in place. No reconfig required.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-setup" />
-        <div class="collapse-title text-xl font-medium">What about dynamic DNS?</div>
-        <div class="collapse-content">
-          <p>Supports DuckDNS & No-IP. The script writes your hostname into the NGINX conf automatically for you.</p>
+          <p>Currently, we only support Windows10/11 and Server 2016+. Support for Linux and macOS is on the roadmap.</p>
         </div>
       </div>
     </div>
 
-    <!-- Webhook Engine FAQs -->
-    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">Webhook Engine FAQs</h2>
+    <!-- Signal Lynx Webhook Engine: FAQs -->
+    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">Signal Lynx Webhook Engine: FAQ's</h2>
     <div class="join join-vertical w-full">
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-engine" checked />
-        <div class="collapse-title text-xl font-medium">Which exchanges today?</div>
+        <div class="collapse-title text-xl font-medium">Which exchanges are supported?</div>
         <div class="collapse-content">
-          <p>Kraken (<code>/AddOrder</code>), Binance US (<code>/api/v3/order</code>), Gemini (<code>/v1/order/new</code>)—spot only, no margin rodeo (yet).</p>
+          <p>Kraken, Gemini, and Binance.US are currently supported. Additional exchanges are forthcoming—let us know which ones you want to see next!</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">What computer operating systems are supported?</div>
+        <div class="collapse-content">
+          <p>Same as the installer: We currently support Windows 10/11 and Server 2016+, with Linux and macOS on the way.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-engine" />
         <div class="collapse-title text-xl font-medium">How fast can I start trading?</div>
         <div class="collapse-content">
-          <p>Average time from first run to live order: about 15 minutes (timed with a microwave burrito).</p>
+          <p>The host computer and Webhook Engine can be configured in less than 15 minutes, including generating your new exchange API keys.</p>
+          <p class="font-semibold mt-4">Key Setup Steps:</p>
+          <ol class="list-decimal list-inside pl-4 space-y-1">
+            <li>Run the Installer.</li>
+            <li>Launch the Webhook Engine.</li>
+            <li>Enter your Master Password.</li>
+            <li>Enter your Webhook Passphrase (a second-tier password for extra security).</li>
+            <li>Enter your License Key (sent to your email after signup).</li>
+            <li>Configure your Telegram Bot Token and Chat ID (for mobile alerts).</li>
+            <li>Configure Exchanges and enter their API Keys.</li>
+          </ol>
+          <p class="mt-2">That's it! The Webhook Engine is up and running, as visually confirmed by the connectivity status in the upper right. All that's left is to configure your TradingView alerts with the appropriate order details.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">How many alerts per second?</div>
+        <div class="collapse-title text-xl font-medium">What order types are supported?</div>
         <div class="collapse-content">
-          <p>Up to 10 alerts/second per endpoint. TradingView caps at 30 requests/second per IP, so you're safe.</p>
+          <p>We support Spot Only trading for Kraken, Gemini, and Binance.US.</p>
+          <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
+            <li><b>Kraken:</b> Limit, Advanced Limit, Market, Take Profit, and Stop Loss orders. <br/>
+               (Note: Kraken Stock Trading is not supported.)</li>
+            <li><b>Gemini:</b> Limit, Advanced Limit, Take Profit, and Stop Loss orders. <br/>
+               (Note: The Gemini API doesn't allow market orders, so our Advanced Limit order type cleverly emulates one for you.)</li>
+            <li><b>Binance.US:</b> Limit, Advanced Limit, Market, Take Profit, and Stop Loss orders.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">How does the engine know what to trade?</div>
+        <div class="collapse-content">
+          <p>The engine takes its instructions from a webhook, typically generated by TradingView.<br/> In TradingView, you set up your alert conditions, assign the webhook URL, and then define the order details in the message box using the JSON format.<br/>
+          (Think of JSON as a simple, universal language for giving instructions to the engine.)</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">Where do I find my public IP address?</div>
+        <div class="collapse-content">
+          <p>Go to any "what is my IP" website. That's the address you'll enter into the TradingView webhook URL (e.g., https://123.456.78.90/webhook).</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">How many alerts per second can it handle?</div>
+        <div class="collapse-content">
+          <p>It safely operates with up to 10 alerts per second.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-engine" />
         <div class="collapse-title text-xl font-medium">What does the dashboard show?</div>
         <div class="collapse-content">
-          <p>Green “Sent” and blue “Filled” badges, PnL totals, last 1,000 events, and a rolling JSON log. It’s all color-coded for sanity—proven to beat wall-of-text console spam.</p>
+          <p>The dashboard shows the engine's operational status, allowing you to see when alerts arrive, how they are processed, and if they are successfully filled by the exchange. <br/>It also shows application and exchange connectivity, subscription status, an audit log of orders, and provides Profit and Loss (PNL) tracking, in addition to error logging for your peace of mind.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">Mobile alerts?</div>
+        <div class="collapse-title text-xl font-medium">Are there mobile alerts?</div>
         <div class="collapse-content">
-          <p>Yes—Telegram bot instantly sends a message when a fill hits. Never miss an execution.</p>
+          <p>Yes! Telegram integration allows you to see what alerts and orders are being triggered and monitor order fills while you're away from your computer. Never miss an execution.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-engine" />
         <div class="collapse-title text-xl font-medium">Is my API key safe?</div>
         <div class="collapse-content">
-          <p>API key files are AES-256-GCM encrypted (using libsodium); your password never leaves your PC—period.</p>
+          <p>API keys and passwords are fully encrypted and stored on your host computer. No cloud services are involved, meaning you are in control of your keys, reducing the risk of third-party breaches.<br/>Signal Lynx does not store or see your passwords or keys—ever. We will never ask for them.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">Offline mode?</div>
+        <div class="collapse-title text-xl font-medium">Is there an offline mode?</div>
         <div class="collapse-content">
-          <p>If your PC goes offline, alerts won’t queue—webhooks are real-time only by design.</p>
+          <p>Afraid not. The Webhook Engine must be running for it to work. If your PC shuts down or loses internet connectivity, webhooks will not be processed.</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">Does the engine auto-update?</div>
+        <div class="collapse-content">
+          <p>No automatic updates here. New versions will be available in the downloads section of your account.<br/>Updates are easy: just download the new `.exe` from our website, place it in your application folder, and delete or archive the old one. You're done. No other setup or configuration is required.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-engine" />
         <div class="collapse-title text-xl font-medium">Can I pause trading?</div>
         <div class="collapse-content">
-          <p>Yes! Toggle “Maintenance Mode” in the dashboard; the engine will ignore all inbound alerts until you flip it back.</p>
+          <p>Yes! There are multiple ways to do this, but the easiest is to simply shut down the Webhook Engine for a universal pause. Pausing individual alerts on TradingView is the recommended and most strategic approach.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">Password reset?</div>
+        <div class="collapse-title text-xl font-medium">What if I forget my password?</div>
         <div class="collapse-content">
-          <p>Delete <code>multikeys.encrypted.json</code>, restart, and re-enter your keys—same as forgetting your gym lock combo.</p>
+          <p>For enhanced security, there is no "forgot password" feature. You can change your password anytime within the "Update Keys" tab.<br/>If you do forget it, the application can be reinitialized in less than 10 minutes. Deleting the `SignalLynx_Vault.encrypted` file will reinitialize the engine. Once deleted, restart the `.exe` file, enter a new master password, re-enter your keys, and you're back up and running.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">Future features?</div>
+        <div class="collapse-title text-xl font-medium">What are some future features?</div>
         <div class="collapse-content">
-          <p>Order-book PnL sync, Coinbase spot, themable skins—ETA depends on caffeine intake.</p>
+          <p>We're focused on adding support for more exchanges and rolling out even more useful dashboard widgets.</p>
         </div>
       </div>
     </div>
 
-    <!-- License-Hub FAQs -->
-    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">License Hub FAQs</h2>
+    <!-- Signal Lynx License-Hub: FAQs -->
+    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">Signal Lynx License-Hub: FAQ's</h2>
     <div class="join join-vertical w-full">
-      <div class="collapse collapse-arrow join-item border border-base-300">
+    <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" checked />
-        <div class="collapse-title text-xl font-medium">Docker in plain English?</div>
+        <div class="collapse-title text-xl font-medium">How hard is the License Hub to learn?</div>
         <div class="collapse-content">
-          <p>Copy your <code>.env</code>, run <code>docker compose up -d</code>, and you’ll have a working GUI on port 3200 in under a minute.</p>
+          <p>It's easy! The Signal Lynx License Hub is designed to be easy to learn and set up.<br/>It features 100% graphical interfaces: no `.env` files and no command-line routines required.<br/>The Administrator Portal provides all the features necessary to set up and manage your customer database.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Which Postgres?</div>
+        <div class="collapse-title text-xl font-medium">What capabilities does License Hub have?</div>
         <div class="collapse-content">
-          <p>Ships with 16-alpine, but any Postgres 13+ server will work—just point <code>DATABASE_URL</code> in your config.</p>
+          <p>License Hub is a full-featured License-as-a-Service (LaaS) solution. It handles key generation, customer management, payment processing, license delivery, revocation, re-issuance, and more.<br/>It also includes a complete Administrator Portal, allowing you to manage your customers and license keys with ease.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Stripe & PayPal—how?</div>
+        <div class="collapse-title text-xl font-medium">Is everything included for one flat rate?</div>
         <div class="collapse-content">
-          <p>Copy the auto-generated HTTPS endpoint into Stripe’s webhook page (events: <code>invoice.paid</code>, <code>customer.subscription.deleted</code>) and PayPal’s Webhook console (<code>PAYMENT.SALE.COMPLETED</code>).</p>
+          <p class="font-semibold">Yes. One price, all features. No hidden fees, "pro" tiers, or surprise add-ons.</p>
+          <p class="mt-2">We were just as irritated with the confusing and expensive tiers on other license managers. It’s frustrating how quickly the price can skyrocket, especially for indie developers and small businesses.</p>
+          <p class="mt-2">License Hub is a non-throttled, all-inclusive application. Bring as many products and customers as you need to support your goals—we don't penalize your growth.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">How do backups work?</div>
+        <div class="collapse-title text-xl font-medium">What do I need to run License Hub?</div>
         <div class="collapse-content">
-          <p>A sidecar container cron-runs <code>pg_dump</code> nightly, gzips the file, keeps 30 days, and can ship backups to any S3-style storage bucket.</p>
+          <p>An inexpensive, low-power VPS configured with Docker is the recommended approach. This provides a low-cost, dedicated, and professionally managed hardware option to run License Hub.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Machine resets?</div>
+        <div class="collapse-title text-xl font-medium">How do I set up and configure License Hub?</div>
         <div class="collapse-content">
-          <p>End-users can move a license to a new machine once per month via the portal—the counter resets every 30 days. No support ticket needed.</p>
+          <p>License Hub is provided as a Docker container and will run on any system that supports Docker.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Offline grace tokens?</div>
+        <div class="collapse-title text-xl font-medium">What are the system requirements?</div>
         <div class="collapse-content">
-          <p>Generate a 7-day signed JSON token—app validates locally and gently nags you for internet after expiry.</p>
+          <p>Minimal system requirements are needed: 2 vCPUs, 8 GB of RAM, and 100 GB of storage should be sufficient. A Docker installation is required.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Argon2 settings?</div>
+        <div class="collapse-title text-xl font-medium">What payment providers are supported?</div>
         <div class="collapse-content">
-          <p>19 MiB RAM, 2 iterations, parallelism 1—straight from the OWASP cheat sheet for max security.</p>
+          <p>Currently, only Stripe is supported by License Hub.<br/>Additional payment providers will be included in future upgrades. Please let us know what you want to see!</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Can I issue dev keys?</div>
+        <div class="collapse-title text-xl font-medium">What product types are supported?</div>
         <div class="collapse-content">
-          <p>Yes—generate time-boxed or feature-flagged promo keys for testers, influencers, or limited trials.</p>
+          <p>Both one-time purchases and recurring subscription orders are supported by License Hub.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Multi-tenant?</div>
+        <div class="collapse-title text-xl font-medium">Does License Hub have software-sharing protections?</div>
         <div class="collapse-content">
-          <p>On the roadmap! Today, each server = one SaaS product. True multi-tenant is coming.</p>
+          <p>Yes! Each license key is paired to a machine ID during initial verification. Post-initialization, only that initial machine ID will be authorized to use the license.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Restore after disaster?</div>
+        <div class="collapse-title text-xl font-medium">What if my user gets a new computer?</div>
         <div class="collapse-content">
-          <p>Spin up a new VPS, restore the last <code>pg_dump</code> with <code>pg_restore</code>, update DNS—15 min RTO, tested and proven in live drills.</p>
+          <p>Machine ID resets are easy! License Hub has hooks for you to create an account-based automated reset using only the user's license key.<br/>To prevent malicious use, automatic resets are limited to once per month, but this allows for a user-driven update. Admins can perform additional machine resets at any time.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Email templates?</div>
+        <div class="collapse-title text-xl font-medium">Does it support offline use?</div>
         <div class="collapse-content">
-          <p> Editable HTML with placeholders for <code>&#123;name&#125;</code>, <code>&#123;key&#125;</code>, <code>&#123;expiry&#125;</code>. Add your own synthwave GIF for extra vibes.</p>
+          <p>Yes! Admins can enable Offline Session Tokens. An initial online connection is required to generate the token, after which the token permits offline use until the next subscription renewal date.</p>
         </div>
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Compliance badges?</div>
+        <div class="collapse-title text-xl font-medium">What's the security like?</div>
         <div class="collapse-content">
-          <p>Coming soon—SOC2 and other badges will appear once our paperwork is done. Until then, hold our energy drink.</p>
+          <p>Our security practices meet or exceed the stringent Open Worldwide Application Security Project (OWASP) guidelines.</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Can I issue developer or custom keys?</div>
+        <div class="collapse-content">
+          <p>Yes! Admins can generate developer and custom keys for testers, influencers, or promotional giveaways.</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Can I manage multiple products and tiers?</div>
+        <div class="collapse-content">
+          <p>Absolutely! There are no product limitations, and it features fully configurable tier mapping.</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Does License Hub back up the database?</div>
+        <div class="collapse-content">
+          <p>Yes! License Hub supports both manual and automatic backups of the customer and payment database.<br/>In addition, it runs reconciliation against the payment provider's database, ensuring no customers are missed and that your database stays current.</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Can it recover from a disaster?</div>
+        <div class="collapse-content">
+          <p>Yes! License Hub is intelligently designed to restore itself after a disaster, even without performing a restoration from a backup.<br/>Reconciliation runs will repopulate your customer database from your payment provider and re-generate the same license keys, maintaining continuity for your paying subscribers!<br/>(Note: Developer keys can only be recovered from a backup, so always keep a copy of your backups!)</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Is license key generation and delivery automatic?</div>
+        <div class="collapse-content">
+          <p>Yes! License Hub will automatically generate and send license keys to new users via email.<br/>Email automation is configurable and preloaded with multiple providers (SMTP, Brevo, and Amazon SES).</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">How do I code my software to integrate with License-Hub?</div>
+        <div class="collapse-content">
+          <p>Please see the License-Hub ReadMe file for full details and suggested code examples to facilitate integration. <br/>
+          Additionally please reach out to us on Telegram or X/Twitter if you need additional help with your application. </p>
         </div>
       </div>
     </div>
 
-    <!-- Final CTA -->
+    <!-- We want to hear from you! -->
     <div class="text-center mt-16">
       <h2 class="text-2xl font-bold">Need more?</h2>
-      <p class="mt-2">Hit us on Telegram. If your question makes us face-palm twice, it goes right into this FAQ—no gatekeeping.</p>
+      <p class="mt-2">Hit us up on Telegram or X (formerly Twitter). <br/>
+      If your question makes us double face-palm, it goes right into this FAQ.</p>
     </div>
   </div>
 </div>
