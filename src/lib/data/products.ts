@@ -1,6 +1,7 @@
 // Define a common type for all products for stability
 export type Product = {
   id: string;
+  name: string;
   title: string;
   tagline: string;
   features: string[];
@@ -14,49 +15,57 @@ export type Product = {
 export const automationProducts: Product[] = [
   {
     id: "script",
-    title: "Bootstrap Your Server in Two Minutes",
-    tagline: "One-click script: SSL, NGINX, firewalls — lifetime license to one machine.",
+    name: "Signal Shield",
+    title: "Automated Trade Configurator",
+    tagline: "One click. One minute. You’re all set.",
     features: [
-      "Installs NGINX + Let's Encrypt",
-      "Locks inbound ports to TradingView IPs",
-      "Generates audit log for every step"
+      "Enables your PC for Automated Trading",
+      "Safely Configures your PC for Webhooks",
+      "Establishs a secure connection to TradingView",
+      "Shields your PC from unwanted access",
+      "Your first step to automated trading"
     ],
     price: "$1 one-time",
     ctaLabel: "Download for $1",
-    footnote: "Digital good · no refunds",
-    // No Stripe ID for one-time purchases via script
+    footnote: "Digital good · no refunds"
   },
   {
     id: "engine",
-    title: "Fire Signals, Track Fills, Repeat",
-    tagline: "Route TradingView alerts to exchanges with nonce guard and Telegram updates.",
+    name: "Lynx-Relay",
+    title: "Automated Trading Executor",
+    tagline: "Turn TradingView alerts into automatic order execution",
     features: [
-      "Retries & fallback order logic",
-      "Real-time Telegram feed",
-      "Free Setup Script included"
+      "Advanced Order Management and Fill Protection",
+      "Track Fills and Trade Performance",
+      "Live Telegram updates - never miss a trade",
+      "Works with Kraken, BinanceUS & Gemini spot markets",
+      "Signal Shield included for free"
     ],
     price: "$5 / month",
     ctaLabel: "Start Free Trial",
-    footnote: "7-day trial. Cancel before renewal to avoid charge.",
-    stripe_product_id: "prod_OXj1CcemGMWOlU", // From original "Pro" plan
-    stripe_price_id: "price_1NkdZCHMjzZ8mGZnRSjUm4yA",
+    footnote: "7-day trial · cancel anytime",
+    stripe_product_id: "prod_OXj1CcemGMWOlU",
+    stripe_price_id: "price_1NkdZCHMjzZ8mGZnRSjUm4yA"
   }
 ];
 
 export const licenseHubProduct: Product = {
   id: "license-hub",
+  name: "Key Commander",
   title: "Ship Software, Not Headaches",
-  tagline: "Self-hosted license manager: Stripe & PayPal webhooks, Argon2 keys, Postgres on your box.",
+  tagline: "Self-Hosted, 100% GUI License Manager",
   features: [
-    "Costs 90% less than legacy platforms",
-    "Keep customer data on your server",
-    "CLI & dashboard for key revokes"
+    "Manage One Time Buys, Subscriptions, and Trials",
+    "Multiple Products and Tiers Supported",
+    "Instantly generate and deliver license keys to customers",
+    "Visual dashboard to manage users, seats, and activations",
+    "Automatic backups keep your data safe",
   ],
   price: "$5 / month",
   ctaLabel: "Start Free Trial",
   footnote: "7-day trial · no refunds",
-  stripe_product_id: "prod_OXj20YNpHYOXi7", // From original "Enterprise" plan
-  stripe_price_id: "price_1Nkda2HMjzZ8mGZn4sKvbDAV",
+  stripe_product_id: "prod_OXj20YNpHYOXi7",
+  stripe_price_id: "price_1Nkda2HMjzZ8mGZn4sKvbDAV"
 };
 
 // A combined list for use in places that need all plans

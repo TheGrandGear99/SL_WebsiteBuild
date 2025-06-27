@@ -315,6 +315,26 @@
       </div>
       <div class="collapse collapse-arrow join-item border border-base-300">
         <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">How does the Key Commander Software Work?</div>
+        <div class="collapse-content">
+          <p>Key Commander is actually two (2) software applications - a Frontend Admin Portal, and a Backend server. <br/>
+          The fully GUI Admin Portal allows the System Administrator to configure the server, manage the customer database, create and manage products, etc. <br/>
+          The Backend server manages license generation, validation and the customer database. <br/>
+          On initial setup, the Frontend and Backend will cryptographically Pair - After this initial binding, only the correct Password will unlock the backend. <br/>
+          Once the Server has been initialized, the Frontend (Admin portal) does not need to be connected for the server to function. Restarts of the server will require unlock from the Frontend.
+        </p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">How does the Admin  Portal Connect to the Server?</div>
+        <div class="collapse-content">
+          <p>License Hub is designed to be fully functionally via a Admin GUI Portal. No Command Prompts, no .env files, and no PostgreSQL calls. <br/>
+          The Admin GUI Portal can be deployed on the VPS with the server back end, or remotely located on your Laptop/Desktop and call into your Backend VPS. The decision is yours</p>
+        </div>
+      </div>
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
         <div class="collapse-title text-xl font-medium">What are the system requirements?</div>
         <div class="collapse-content">
           <p>Minimal system requirements are needed: 2 vCPUs, 8 GB of RAM, and 100 GB of storage should be sufficient. A Docker installation is required.</p>

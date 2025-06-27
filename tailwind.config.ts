@@ -6,9 +6,9 @@ export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {
-      backgroundImage: {
-        'synth-grid': "url('/images/synthwave_grid.png')",
-      }
+      fontFamily: {
+        handwriting: ['Kalam', 'cursive'],
+      },
     },
   },
   plugins: [typography, daisyui],

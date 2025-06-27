@@ -4,12 +4,14 @@
 
   interface Props {
     // Module context
+    callToAction?: string
     highlightedPlanId?: string
     currentPlanId?: string
     center?: boolean
   }
 
   let {
+    callToAction = "",
     highlightedPlanId = "",
     currentPlanId = "",
     center = true,
@@ -23,9 +25,7 @@
 >
   {#each allProducts as plan: Product}
     <div
-      class="flex-none card card-bordered {plan.id === highlightedPlanId
-        ? 'border-secondary'
-        : 'border-base-300'} shadow-xl flex-1 grow min-w-[260px] max-w-[310px] p-6"
+      class="card shadow-xl flex-1 min-w-[260px] max-w-[310px] p-6 border-4 border-transparent transition-all duration-300 hover:border-accent"
     >
       <div class="flex flex-col h-full">
         <div class="text-xl font-bold">{plan.title}</div>
@@ -54,7 +54,7 @@
                 href={plan.stripe_price_id ? `/account/subscribe/${plan.stripe_price_id}` : '/login'}
                 class="btn btn-primary w-[80%] mx-auto"
               >
-                {plan.ctaLabel}
+                {callToAction || plan.ctaLabel}
               </a>
             {/if}
           </div>
