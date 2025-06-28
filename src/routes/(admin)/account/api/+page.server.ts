@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit"
 import { sendAdminEmail, sendUserEmail } from "$lib/mailer"
-import { WebsiteBaseUrl } from "../../../../config"
+import { WebsiteBaseUrl, WebsiteName } from "../../../../config"
 
 export const actions = {
   toggleEmailSubscription: async ({ locals: { supabase, safeGetSession } }) => {
@@ -45,9 +45,6 @@ export const actions = {
     if (!email || email === "") {
       validationError = "An email address is required"
     }
-    // Dead simple check -- there's no standard here (which is followed),
-    // and lots of errors will be missed until we actually email to verify, so
-    // just do that
     else if (!email.includes("@")) {
       validationError = "A valid email address is required"
     }
@@ -59,8 +56,6 @@ export const actions = {
       })
     }
 
-    // Supabase does not change the email until the user verifies both
-    // if 'Secure email change' is enabled in the Supabase dashboard
     const { error } = await supabase.auth.updateUser({ email: email })
 
     if (error) {
@@ -86,16 +81,12 @@ export const actions = {
     const newPassword2 = formData.get("newPassword2") as string
     const currentPassword = formData.get("currentPassword") as string
 
-    // Can check if we're a "password recovery" session by checking session amr
-    // let currentPassword take priority if provided (user can use either form)
     const recoveryAmr = amr?.find((x) => x.method === "recovery")
     const isRecoverySession = recoveryAmr && !currentPassword
 
-    // if this is password recovery session, check timestamp of recovery session
     if (isRecoverySession) {
       const timeSinceLogin = Date.now() - recoveryAmr.timestamp * 1000
       if (timeSinceLogin > 1000 * 60 * 15) {
-        // 15 mins in milliseconds
         return fail(400, {
           errorMessage:
             'Recovery code expired. Please log out, then use "Forgot Password" on the sign in page to reset your password. Codes are valid for 15 minutes.',
@@ -138,23 +129,19 @@ export const actions = {
     if (validationError) {
       return fail(400, {
         errorMessage: validationError,
-        errorFields: [...new Set(errorFields)], // unique values
+        errorFields: [...new Set(errorFields)],
         newPassword1,
         newPassword2,
         currentPassword,
       })
     }
 
-    // Check current password is correct before updating, but only if they didn't log in with "recover" link
-    // Note: to make this truly enforced you need to contact supabase. See: https://www.reddit.com/r/Supabase/comments/12iw7o1/updating_password_in_supabase_seems_insecure/
-    // However, having the UI accessible route still verify password is still helpful, and needed once you get the setting above enabled
     if (!isRecoverySession) {
       const { error } = await supabase.auth.signInWithPassword({
         email: user?.email || "",
         password: currentPassword,
       })
       if (error) {
-        // The user was logged out because of bad password. Redirect to error page explaining.
         redirect(303, "/login/current_password_error")
       }
     }
@@ -199,13 +186,11 @@ export const actions = {
       })
     }
 
-    // Check current password is correct before deleting account
     const { error: pwError } = await supabase.auth.signInWithPassword({
       email: user?.email || "",
       password: currentPassword,
     })
     if (pwError) {
-      // The user was logged out because of bad password. Redirect to error page explaining.
       redirect(303, "/login/current_password_error")
     }
 
@@ -271,7 +256,6 @@ export const actions = {
       })
     }
 
-    // To check if created or updated, check if priorProfile exists
     const { data: priorProfile, error: priorProfileError } = await supabase
       .from("profiles")
       .select(`*`)
@@ -300,7 +284,6 @@ export const actions = {
       })
     }
 
-    // If the profile was just created, send an email to the user and admin
     const newProfile =
       priorProfile?.updated_at === null && priorProfileError === null
     if (newProfile) {
@@ -309,14 +292,13 @@ export const actions = {
         body: `Profile created by ${session.user.email}\nFull name: ${fullName}\nCompany name: ${companyName}\nWebsite: ${website}`,
       })
 
-      // Send welcome email
       await sendUserEmail({
         user: session.user,
-        subject: "Welcome!",
-        from_email: "no-reply@saasstarter.work",
+        subject: `Welcome to ${WebsiteName}`,
+        from_email: "ops@signallynx.com", // You may want to configure this
         template_name: "welcome_email",
         template_properties: {
-          companyName: "SaaS Starter",
+          companyName: WebsiteName,
           WebsiteBaseUrl: WebsiteBaseUrl,
         },
       })

@@ -14,22 +14,22 @@
   <title>Delete Account</title>
 </svelte:head>
 
-<h1 class="text-2xl font-bold mb-6">Settings</h1>
+<h1 class="text-2xl font-bold mb-6">Danger Zone</h1>
 
 <SettingsModule
   title="Delete Account"
   editable={true}
   dangerous={true}
-  message="Deleting your account can not be undone. You are currently logged in as '{session
+  message="Warning: This action is irreversible. All your data, subscriptions, and access will be permanently destroyed. You are logged in as '{session
     ?.user?.email}'"
-  saveButtonTitle="Delete Account"
-  successTitle="Account queued for deletion"
-  successBody="Your account will be deleted shortly."
+  saveButtonTitle="Delete This Account"
+  successTitle="Account Deletion Initiated"
+  successBody="Your account and all associated data are being permanently purged from our systems."
   formTarget="/account/api?/deleteAccount"
   fields={[
     {
       id: "currentPassword",
-      label: "Current Password",
+      label: "Confirm Current Password",
       initialValue: "",
       inputType: "password",
     },

@@ -11,15 +11,16 @@
   <title>Reset Password</title>
 </svelte:head>
 
-<h1 class="text-2xl font-bold mb-6">Settings</h1>
+<h1 class="text-2xl font-bold mb-6">Set New Password</h1>
 
 <SettingsModule
   title="Reset Password"
   editable={true}
-  saveButtonTitle="Reset Password"
-  successTitle="Password Changed"
-  successBody="On next sign in, use your new password."
+  saveButtonTitle="Set New Password"
+  successTitle="Password Reset Successful"
+  successBody="Your new credentials are secure. Use your new password on next login."
   formTarget="/account/api?/updatePassword"
+  saveButtonClass="btn-gradient-electric"
   fields={[
     {
       id: "newPassword1",

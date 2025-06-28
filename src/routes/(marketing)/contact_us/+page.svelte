@@ -71,94 +71,105 @@
   }
 </script>
 
-<div
-  class="flex flex-col lg:flex-row mx-auto my-4 min-h-[70vh] place-items-center lg:place-items-start place-content-center"
->
-  <div
-    class="max-w-[400px] lg:max-w-[500px] flex flex-col place-content-center p-4 lg:mr-8 lg:mb-8 lg:min-h-[70vh]"
-  >
-    <div class="px-6 text-base-content">
-      <h1 class="text-2xl lg:text-4xl font-bold mb-4 text-primary">Contact Us</h1>
-      <p class="text-lg">Talk to one of our service professionals to:</p>
-      <ul class="list-disc list-outside pl-6 py-4 space-y-1">
-        <li class="">Get a live demo</li>
-        <li class="">Discuss your specific needs</li>
-        <li>Get a quote</li>
-        <li>Answer any technical questions you have</li>
-      </ul>
-      <p>Once you complete the form, we'll reach out to you! *</p>
-      <p class="text-sm pt-8">
-        *Not really for this demo page, but you should say something like that
-        😉
-      </p>
+<svelte:head>
+  <title>Contact Us - Signal Lynx</title>
+  <meta name="description" content="Open a channel to the Signal Lynx team. Get in touch on X, Telegram, or via our secure contact form." />
+</svelte:head>
+
+<div class="py-12 px-4 bg-base-100">
+  <div class="max-w-3xl mx-auto text-center">
+    <h1 class="text-4xl md:text-6xl font-bold text-primary">Open a Channel</h1>
+    <p class="mt-4 text-xl max-w-2xl mx-auto">
+      Got a burning question? A genius feature idea? Or maybe you just want to tell us our synthwave theme is fire? We're all ears. The fastest way to get our attention is to slide into our DMs or join the community chatter.
+    </p>
+
+    <!-- Socials First -->
+    <div class="my-12">
+      <h2 class="text-3xl font-bold text-secondary mb-6">The Fast Lane: X & Telegram</h2>
+      <div class="flex flex-col sm:flex-row gap-6 justify-center">
+        <a href="https://t.me/SignalLynx" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg flex-1 btn-gradient-electric">
+          <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-1.37.2-1.64l16.4-5.99c.75-.29 1.44.24 1.2 1.18l-2.82 13.24c-.21.99-1.01 1.23-1.81.73l-5.35-3.95l-2.55 2.45c-.28.28-.56.42-1.01.42z"/></svg>
+          Join the Command Center
+        </a>
+        <a href="https://twitter.com/SignalLynx" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg flex-1 btn-gradient-electric">
+           <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+          Follow the Signal on X
+        </a>
+      </div>
     </div>
-  </div>
 
-  <div
-    class="flex flex-col grow m-4 lg:ml-10 min-w-[300px] stdphone:min-w-[360px] max-w-[400px] place-content-center lg:min-h-[70vh]"
-  >
-    {#if showSuccess}
-      <div class="flex flex-col place-content-center lg:min-h-[70vh]">
-        <div
-          class="card card-bordered shadow-lg py-6 px-6 mx-2 lg:mx-0 lg:p-6 mb-10"
-        >
-          <div class="text-2xl font-bold mb-4">Thank you!</div>
-          <p class="">We've received your message and will be in touch soon.</p>
+    <!-- Divider -->
+    <div class="divider text-xl font-bold my-12">OR</div>
+
+    <!-- Formal Contact Form -->
+    <div id="form-section">
+      {#if showSuccess}
+        <div class="card card-bordered shadow-lg bg-base-200 py-10 px-6 mx-auto max-w-lg">
+          <h2 class="text-3xl font-bold text-success mb-4">Signal Received!</h2>
+          <p class="text-lg">
+            We've got your transmission. Our team of highly-trained cyber-lynx will decipher it and get back to you shortly. Keep an eye on your inbox.
+          </p>
         </div>
-      </div>
-    {:else}
-      <div class="card card-bordered shadow-lg p-4 pt-6 mx-2 lg:mx-0 lg:p-6">
-        <form
-          class="form-widget flex flex-col"
-          method="POST"
-          action="?/submitContactUs"
-          use:enhance={handleSubmit}
-        >
-          {#each formFields as field}
-            <label for={field.id}>
-              <div class="flex flex-row">
-                <div class="text-base font-bold">{field.label}</div>
-                {#if errors[field.id]}
-                  <div class="text-red-600 grow text-sm ml-2 text-right">
-                    {errors[field.id]}
+      {:else}
+        <div class="max-w-lg mx-auto">
+          <h2 class="text-3xl font-bold text-secondary mb-2">The Formal Route</h2>
+          <p class="mb-8">
+            For partnership inquiries, custom quotes, or messages that require a bit more... gravitas. Fill this out, and a signal will be dispatched directly to our secure inbox. We’ll get back to you, but maybe not as fast as a tweet.
+          </p>
+          <div class="card card-bordered shadow-lg bg-base-200 p-6">
+            <form
+              class="form-widget flex flex-col"
+              method="POST"
+              action="?/submitContactUs"
+              use:enhance={handleSubmit}
+            >
+              {#each formFields as field}
+                <label for={field.id}>
+                  <div class="flex flex-row text-left">
+                    <div class="text-base font-bold">{field.label}</div>
+                    {#if errors[field.id]}
+                      <div class="text-red-600 grow text-sm ml-2 text-right">
+                        {errors[field.id]}
+                      </div>
+                    {/if}
                   </div>
-                {/if}
-              </div>
-              {#if field.inputType === "textarea"}
-                <textarea
-                  id={field.id}
-                  name={field.id}
-                  autocomplete={field.autocomplete}
-                  rows={4}
-                  class="{errors[field.id]
-                    ? 'input-error'
-                    : ''} h-24 input-sm mt-1 input input-bordered w-full mb-3 text-base py-4"
-                ></textarea>
-              {:else}
-                <input
-                  id={field.id}
-                  name={field.id}
-                  type={field.inputType}
-                  autocomplete={field.autocomplete}
-                  class="{errors[field.id]
-                    ? 'input-error'
-                    : ''} input-sm mt-1 input input-bordered w-full mb-3 text-base py-4"
-                />
+                  {#if field.inputType === "textarea"}
+                    <textarea
+                      id={field.id}
+                      name={field.id}
+                      autocomplete={field.autocomplete}
+                      rows={4}
+                      class="{errors[field.id]
+                        ? 'input-error'
+                        : ''} h-24 input mt-1 input-bordered w-full mb-3 text-base py-2"
+                    ></textarea>
+                  {:else}
+                    <input
+                      id={field.id}
+                      name={field.id}
+                      type={field.inputType}
+                      autocomplete={field.autocomplete}
+                      class="{errors[field.id]
+                        ? 'input-error'
+                        : ''} input mt-1 input-bordered w-full mb-3 text-base py-2"
+                    />
+                  {/if}
+                </label>
+              {/each}
+
+              {#if Object.keys(errors).length > 0 && errors._}
+                <p class="text-red-600 text-sm mb-2 text-center">
+                  {errors._}
+                </p>
               {/if}
-            </label>
-          {/each}
 
-          {#if Object.keys(errors).length > 0}
-            <p class="text-red-600 text-sm mb-2">
-              Please resolve above issues.
-            </p>
-          {/if}
-
-          <button class="btn btn-primary {loading ? 'btn-disabled' : ''}"
-            >{loading ? "Submitting" : "Submit"}</button
-          >
-        </form>
-      </div>
-    {/if}
+              <button class="btn btn-primary mt-4 btn-gradient-electric {loading ? 'btn-disabled' : ''}"
+                >{loading ? "Transmitting..." : "Send Secure Message"}</button
+              >
+            </form>
+          </div>
+        </div>
+      {/if}
+    </div>
   </div>
 </div>

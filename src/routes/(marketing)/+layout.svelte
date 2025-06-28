@@ -18,11 +18,11 @@
   </div>
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1 hidden sm:flex font-bold text-lg">
-      <li class="dropdown dropdown-hover">
-        <button type="button" class="btn btn-ghost">Products</button>
+      <li class="dropdown dropdown-hover md:mx-2">
+        <div tabindex="0" role="button">Products</div>
         <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
           <li><a href="/trading-automation">Trading Automation</a></li>
-          <li><a href="/license-hub">License Hub</a></li>
+          <li><a href="/license-hub">Key Commander</a></li>
         </ul>
       </li>
       <li class="md:mx-2"><a href="/docs">Docs</a></li>
@@ -67,7 +67,7 @@
           <span>Products</span>
           <ul class="p-2">
             <li><a href="/trading-automation">Trading Automation</a></li>
-            <li><a href="/license-hub">License Hub</a></li>
+            <li><a href="/license-hub">Key Commander</a></li>
           </ul>
         </li>
         <li><a href="/docs">Docs</a></li>
@@ -94,7 +94,7 @@
     <nav>
       <span class="footer-title opacity-80">Products</span>
       <a class="link link-hover mb-1" href="/trading-automation">Trading Automation</a>
-      <a class="link link-hover my-1" href="/license-hub">License Hub</a>
+      <a class="link link-hover my-1" href="/license-hub">Key Commander</a>
     </nav>
     <nav>
         <span class="footer-title opacity-80">Company</span>
@@ -106,10 +106,6 @@
         <span class="footer-title opacity-80">Community</span>
         <a href="https://t.me/SignalLynx" class="link link-hover mb-1">Telegram</a>
         <a href="https://twitter.com/SignalLynx" class="link link-hover my-1">X / Twitter</a>
-        <a
-          class="link link-hover my-1"
-          href="https://github.com/TheGrandGear99/CMSaasStarter">Github</a
-        >
       </nav>
   </footer>
 </div>

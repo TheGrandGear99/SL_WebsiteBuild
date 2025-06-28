@@ -17,38 +17,43 @@
 </script>
 
 <svelte:head>
-  <title>Billing</title>
+  <title>Billing Command</title>
 </svelte:head>
 
 <h1 class="text-2xl font-bold mb-2">
-  {data.isActiveCustomer ? "Billing" : "Select a Plan"}
+  Billing Command
 </h1>
-<div>
-  View our <a href="/trading-automation" target="_blank" class="link">product pages</a> for details.
-</div>
 
 {#if !data.isActiveCustomer}
+  <div>
+    <p>Your arsenal is empty. Choose a plan to deploy your tools and go live.</p>
+    <p class="text-sm mt-1">For more details, see the full <a href="/trading-automation" target="_blank" class="link">product pages</a>.</p>
+  </div>
   <div class="mt-8">
-    <PricingModule {currentPlanId} callToAction="Select Plan" center={false} />
+    <PricingModule {currentPlanId} callToAction="Deploy Plan" center={false} ctaClass="btn-gradient-electric" />
   </div>
 
   {#if data.hasEverHadSubscription}
     <div class="mt-10">
-      <a href="/account/billing/manage" class="link">View past invoices</a>
+      <a href="/account/billing/manage" class="link">Review past invoices</a>
     </div>
   {/if}
 {:else}
+  <div>
+    <p>Manage your active subscription, payment methods, and review past invoices.</p>
+  </div>
   <SettingsModule
-    title="Subscription"
+    title="Active Subscription"
     editable={false}
     fields={[
       {
         id: "plan",
-        label: "Current Plan",
-        initialValue: currentPlanName || "",
+        label: "Current Arsenal",
+        initialValue: currentPlanName || "N/A",
       },
     ]}
     editButtonTitle="Manage Subscription"
     editLink="/account/billing/manage"
+    editButtonClass="btn-gradient-electric"
   />
 {/if}

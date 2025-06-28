@@ -14,7 +14,7 @@
   <title>Settings</title>
 </svelte:head>
 
-<h1 class="text-2xl font-bold mb-6">Settings</h1>
+<h1 class="text-2xl font-bold mb-6">Operator Settings</h1>
 
 <SettingsModule
   title="Profile"
@@ -34,6 +34,7 @@
   ]}
   editButtonTitle="Edit Profile"
   editLink="/account/settings/edit_profile"
+  editButtonClass="btn-gradient-electric"
 />
 
 <SettingsModule
@@ -42,6 +43,7 @@
   fields={[{ id: "email", initialValue: user?.email || "" }]}
   editButtonTitle="Change Email"
   editLink="/account/settings/change_email"
+  editButtonClass="btn-gradient-electric"
 />
 
 <SettingsModule
@@ -50,6 +52,7 @@
   fields={[{ id: "password", initialValue: "••••••••••••••••" }]}
   editButtonTitle="Change Password"
   editLink="/account/settings/change_password"
+  editButtonClass="btn-gradient-electric"
 />
 
 <SettingsModule

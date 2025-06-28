@@ -15,18 +15,20 @@
   <title>Change Email</title>
 </svelte:head>
 
-<h1 class="text-2xl font-bold mb-6">Settings</h1>
+<h1 class="text-2xl font-bold mb-6">Update Email Address</h1>
 
 <SettingsModule
-  title="Change Email"
+  title="Change Login Email"
   editable={true}
-  successTitle="Email change initiated"
-  successBody="You should receive emails at both the old and new address to confirm the change. Please click the link in both emails to finalized the change. Until finalized, you must sign in with your current email."
+  saveButtonTitle="Update Email"
+  successTitle="Email Update Initiated"
+  successBody="Check both your old and new inboxes. You must click the confirmation link in both emails to finalize the change."
   formTarget="/account/api?/updateEmail"
+  saveButtonClass="btn-gradient-electric"
   fields={[
     {
       id: "email",
-      label: "Email",
+      label: "New Email",
       initialValue: user?.email ?? "",
       placeholder: "Email address",
     },

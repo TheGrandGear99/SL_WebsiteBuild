@@ -15,38 +15,40 @@ export default {
   daisyui: {
     themes: [
       {
+        // The refined "Operator" theme, now with a Cyan accent
         saasstartertheme: {
-          "color-scheme": "dark", // Identifies this as a dark theme for browser UI
-
-          "primary": "#903a9d",          // Main Brand Purple (from GUI labels/borders)
-          "primary-content": "#ffffff",   // White text on primary elements
-
-          "secondary": "#FF0080",       // Hot Pink (from GUI button gradient)
+          "color-scheme": "dark",
+          
+          // Gold/Orange from "SIGNAL LYNX" text - for major headlines
+          "primary": "#ca7417",  //baseline is #F59E0B
+          "primary-content": "#ffffff",
+          
+          // Vibrant Purple from the lynx fur - for primary actions
+          "secondary": "#A855F7",
           "secondary-content": "#ffffff",
 
-          "accent": "#00FFFF",          // Bright Cyan (from GUI button gradient)
-          "accent-content": "#010516",  // Dark text for high contrast on bright cyan
+          // Bright Cyan for links and highlights
+          "accent": "#00FFFF", 
+          "accent-content": "#010516", // Black text for high contrast on the cyan
 
-          "neutral": "#1a1a2e",         // Dark Blue/Gray (from GUI table background)
-          "neutral-content": "#A6ADBB",
+          "neutral": "#1F2937",
+          "neutral-content": "#D1D5DB",
 
-          "base-100": "#010516",        // The main page background (GUI's darkest color)
-          "base-200": "#190025",        // A slightly lighter dark purple (from tab panes)
-          "base-300": "#2a2832",        // Dark gray/purple (for inactive elements)
-          "base-content": "#A6ADBB",    // The primary text color for the site (light gray)
+          "base-100": "#0d1117",
+          "base-200": "#161b22", //baseline is #161b22
+          "base-300": "#21262d",
+          "base-content": "#c9d1d9",
 
-          "info": "#66E6FF",            // Light neon cyan
-          "info-content": "#00323D",
+          "info": "#3B82F6",
+          "success": "#22C55E",
+          "warning": "#FBBF24",
+          "error": "#F87171",
 
-          "success": "#39FF14",         // Neon green for success states
-          "success-content": "#00330C",
-
-          "warning": "#FBBD23",         // A standard bright yellow for warnings
-          "warning-content": "#382800",
-
-          "error": "#E94560",           // The pink/red used for errors in the GUI
+          "info-content": "#ffffff",
+          "success-content": "#ffffff",
+          "warning-content": "#1F2937",
           "error-content": "#ffffff",
-
+          
           "--rounded-btn": "1rem",
           "--rounded-box": "0.5rem",
         },

@@ -13,7 +13,7 @@
   let showSuccess = $state(false)
 
   type Field = {
-    inputType?: string // default is "text"
+    inputType?: string
     id: string
     label?: string
     initialValue: string | boolean
@@ -22,7 +22,6 @@
   }
 
   interface Props {
-    // Module context
     editable?: boolean
     dangerous?: boolean
     title?: string
@@ -34,6 +33,8 @@
     editButtonTitle?: string | null
     editLink?: string | null
     saveButtonTitle?: string
+    saveButtonClass?: string // New property
+    editButtonClass?: string // New property
   }
 
   let {
@@ -48,6 +49,8 @@
     editButtonTitle = null,
     editLink = null,
     saveButtonTitle = "Save",
+    saveButtonClass = "",
+    editButtonClass = ""
   }: Props = $props()
 
   const handleSubmit: SubmitFunction = () => {
@@ -132,7 +135,7 @@
               type="submit"
               class="ml-auto btn btn-sm mt-3 min-w-[145px] {dangerous
                 ? 'btn-error'
-                : 'btn-primary btn-outline'}"
+                : 'btn-primary'} {saveButtonClass}"
               disabled={loading}
             >
               {#if loading}
@@ -145,12 +148,11 @@
             </button>
           </div>
         {:else if editButtonTitle && editLink}
-          <!-- !editable -->
           <a href={editLink} class="mt-1">
             <button
-              class="btn btn-outline btn-sm {dangerous
+              class="btn btn-sm {dangerous
                 ? 'btn-error'
-                : ''} min-w-[145px]"
+                : 'btn-primary'} {editButtonClass} min-w-[145px]"
             >
               {editButtonTitle}
             </button>

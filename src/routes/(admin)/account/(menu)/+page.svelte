@@ -4,85 +4,82 @@
 
   let adminSection: Writable<string> = getContext("adminSection")
   adminSection.set("home")
+
+  let { data } = $props()
+  const { user, profile, isActiveCustomer, currentPlanName, planStatus } = data;
+
+  // A helper to make the Stripe status more human-readable
+  function formatStatus(status: string | undefined) {
+    if (!status) return 'Inactive';
+    return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+  }
 </script>
 
 <svelte:head>
-  <title>Account</title>
+  <title>Operator Dashboard</title>
 </svelte:head>
 
-<h1 class="text-2xl font-bold mb-1">Dashboard</h1>
-<div class="alert alert-error max-w-lg mt-2">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="stroke-current shrink-0 h-6 w-6"
-    fill="none"
-    viewBox="0 0 24 24"
-    ><path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-    /></svg
-  >
-  <div>
-    <div class="font-bold">Demo Content</div>
-    <div class="my-2">
-      This page is just a placeholder. Replace this page with your app's content
-      and functionality.
-    </div>
-    <div class="my-2">
-      The <a href="/account/billing" class="link">billing</a> and
-      <a href="/account/settings" class="link">settings</a> pages are functional
-      demos.
-    </div>
-  </div>
+<div class="mb-8">
+  <h1 class="text-4xl font-bold text-primary">Operator Dashboard</h1>
+  <p class="text-xl mt-2">Welcome back, {profile?.full_name || user?.email || 'Operator'}.</p>
 </div>
 
-<div class="my-6">
-  <h1 class="text-xl font-bold mb-1">Users</h1>
-  <div class="stats shadow-sm stats-vertical sm:stats-horizontal sm:w-[420px]">
-    <div class="stat place-items-center">
-      <div class="stat-title">Downloads</div>
-      <div class="stat-value">31K</div>
-      <div class="stat-desc">↗︎ 546 (2%)</div>
+{#if isActiveCustomer}
+  <!-- ========== VIEW FOR ACTIVE SUBSCRIBERS ========== -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    
+    <!-- Subscription Status Card -->
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title text-2xl text-secondary">Subscription Status</h2>
+        <p class="text-lg">Your Plan: <span class="font-bold">{currentPlanName || 'N/A'}</span></p>
+        <div class="badge badge-success badge-lg my-2">{formatStatus(planStatus)}</div>
+        <div class="card-actions justify-start mt-4">
+          <a href="/account/billing/manage" class="btn btn-primary btn-gradient-electric">Manage Billing & Invoices</a>
+        </div>
+      </div>
     </div>
 
-    <div class="stat place-items-center">
-      <div class="stat-title">Users</div>
-      <div class="stat-value text-secondary">4,200</div>
-      <div class="stat-desc">↗︎ 40 (2%)</div>
-    </div>
-  </div>
-</div>
-<div class="my-6">
-  <h1 class="text-xl font-bold mb-1">Accounts</h1>
-  <div class="stats shadow-sm stats-vertical sm:stats-horizontal sm:w-[420px]">
-    <div class="stat place-items-center">
-      <div class="stat-title">New Registers</div>
-      <div class="stat-value">1,200</div>
-      <div class="stat-desc">↘︎ 90 (14%)</div>
+    <!-- Your Arsenal Card -->
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title text-2xl text-secondary">Your Arsenal</h2>
+        <p>Access your licensed software, tools, and setup guides here. All systems are go.</p>
+        <div class="card-actions justify-start mt-4">
+          <a href="/account/downloads" class="btn btn-primary btn-gradient-electric">Access Your Downloads</a>
+        </div>
+      </div>
     </div>
 
-    <div class="stat place-items-center">
-      <div class="stat-title">Churned Accounts</div>
-      <div class="stat-value">42</div>
-      <div class="stat-desc">↘︎ 6 (12%)</div>
-    </div>
-  </div>
-</div>
-<div class="my-6">
-  <h1 class="text-xl font-bold mb-1">Revenue</h1>
-  <div class="stats shadow-sm stats-vertical sm:stats-horizontal sm:w-[420px]">
-    <div class="stat place-items-center">
-      <div class="stat-title text-success">Revenue</div>
-      <div class="stat-value text-success">$4200</div>
-      <div class="stat-desc">↗︎ $180 (4%)</div>
+    <!-- Mission-Critical Links -->
+    <div class="card bg-base-200 shadow-xl lg:col-span-2">
+       <div class="card-body">
+        <h2 class="card-title text-2xl text-secondary">Mission-Critical Links</h2>
+        <p>Quick access to manage your profile or get support from the community.</p>
+        <div class="card-actions justify-start mt-4 gap-4">
+          <a href="/account/settings" class="btn btn-outline">Adjust Operator Profile</a>
+           <a href="/docs" class="btn btn-outline">Read the Docs</a>
+          <a href="https://t.me/SignalLynx" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Join Command on Telegram</a>
+        </div>
+      </div>
     </div>
 
-    <div class="stat place-items-center">
-      <div class="stat-title">New Subscribers</div>
-      <div class="stat-value">16</div>
-      <div class="stat-desc">↘︎ 1 (%7)</div>
+  </div>
+{:else}
+  <!-- ========== VIEW FOR NEW USERS (NO ACTIVE PLAN) ========== -->
+  <div class="card bg-base-200 shadow-xl border-2 border-accent">
+    <div class="card-body text-center items-center">
+      <h2 class="card-title text-3xl text-secondary">Welcome to the Command Center</h2>
+      <p class="max-w-md my-4">
+        Your account is active, but you haven't deployed an arsenal yet. Select a plan to unlock your tools and go live.
+      </p>
+      <div class="card-actions">
+        <a href="/account/billing" class="btn btn-primary btn-lg btn-gradient-electric">Choose Your Arsenal</a>
+      </div>
     </div>
   </div>
-</div>
+
+  <div class="mt-8 text-center">
+    <p>Need to adjust your basic profile or password? <a href="/account/settings" class="link">Go to Settings</a>.</p>
+  </div>
+{/if}

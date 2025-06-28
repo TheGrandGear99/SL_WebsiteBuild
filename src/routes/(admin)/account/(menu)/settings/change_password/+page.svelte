@@ -10,9 +10,6 @@
   let { data } = $props()
   let { user, supabase } = data
 
-  // True if definitely has a password, but can be false if they
-  // logged in with oAuth or email link
-
   // @ts-expect-error: we ignore because Supabase does not maintain an AMR typedef
   let hasPassword = user?.amr?.find((x) => x.method === "password")
     ? true
@@ -22,7 +19,7 @@
   let usingOAuth = user?.amr?.find((x) => x.method === "oauth") ? true : false
 
   let sendBtnDisabled = $state(false)
-  let sendBtnText = $state("Send Set Password Email")
+  let sendBtnText = $state("Send Password Reset Email")
   let sentEmail = $state(false)
   let sendForgotPassword = () => {
     sendBtnDisabled = true
@@ -37,7 +34,7 @@
         .then((d) => {
           sentEmail = d.error ? false : true
           sendBtnDisabled = false
-          sendBtnText = "Send Forgot Password Email"
+          sendBtnText = "Resend Email"
         })
     }
   }
@@ -47,16 +44,17 @@
   <title>Change Password</title>
 </svelte:head>
 
-<h1 class="text-2xl font-bold mb-6">Change Password</h1>
+<h1 class="text-2xl font-bold mb-6">Update Password</h1>
 
 {#if hasPassword}
   <SettingsModule
     title="Change Password"
     editable={true}
     saveButtonTitle="Change Password"
-    successTitle="Password Changed"
-    successBody="On next sign in, use your new password."
+    successTitle="Password Updated"
+    successBody="Your credentials have been updated. Use your new password on next login."
     formTarget="/account/api?/updatePassword"
+    saveButtonClass="btn-gradient-electric"
     fields={[
       {
         id: "newPassword1",
@@ -80,32 +78,29 @@
   />
 {:else}
   <div
-    class="card p-6 pb-7 mt-8 max-w-xl flex flex-col md:flex-row shadow-sm max-w-md"
+    class="card p-6 pb-7 mt-8 flex flex-col md:flex-row shadow-sm max-w-md"
   >
     <div class="flex flex-col gap-y-4">
       {#if usingOAuth}
-        <div class="font-bold">Set Password By Email</div>
+        <div class="font-bold">Set Your Password</div>
         <div>
-          You use oAuth to sign in ("Sign in with Github" or similar). You can
-          continue to access your account using only oAuth if you like!
+          You're using a social login (like Google or GitHub). You can set a password here to enable email/password login as an alternative.
         </div>
       {:else}
-        <div class="font-bold">Change Password By Email</div>
+        <div class="font-bold">Reset via Email</div>
       {/if}
       <div>
-        The button below will send you an email at {user?.email} which will allow
-        you to set your password.
+        Click below to send a secure password reset link to {user?.email}.
       </div>
       <button
-        class="btn btn-outline btn-wide {sentEmail ? 'hidden' : ''}"
+        class="btn btn-primary btn-wide {sentEmail ? '' : 'btn-gradient-electric'}"
         disabled={sendBtnDisabled}
         onclick={sendForgotPassword}
       >
         {sendBtnText}
       </button>
       <div class="success alert alert-success {sentEmail ? '' : 'hidden'}">
-        Sent email! Please check your inbox and use the link to set your
-        password.
+        Transmission sent! Check your inbox for the secure link.
       </div>
     </div>
   </div>

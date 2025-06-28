@@ -13,14 +13,16 @@
 
 <SettingsModule
   editable={true}
-  title="Subscription"
+  title="Communications"
   message={unsubscribed
-    ? "You are currently unsubscribed from emails"
-    : "You are currently subscribed to emails"}
+    ? "You are currently UNSUBSCRIBED from marketing and product update emails."
+    : "You are currently SUBSCRIBED to marketing and product update emails."}
   saveButtonTitle={unsubscribed ? "Re-subscribe" : "Unsubscribe"}
+  successTitle={unsubscribed ? "Subscription Reactivated" : "Unsubscribed"}
   successBody={unsubscribed
-    ? "You have been re-subscribed to emails"
-    : "You have been unsubscribed from emails"}
+    ? "You will now receive our communications."
+    : "You have been successfully unsubscribed from future emails."}
   formTarget="/account/api?/toggleEmailSubscription"
+  saveButtonClass="btn-gradient-electric"
   fields={[]}
 />

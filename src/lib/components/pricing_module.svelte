@@ -8,6 +8,7 @@
     highlightedPlanId?: string
     currentPlanId?: string
     center?: boolean
+    ctaClass?: string // New property for custom button classes
   }
 
   let {
@@ -15,6 +16,7 @@
     highlightedPlanId = "",
     currentPlanId = "",
     center = true,
+    ctaClass = ""
   }: Props = $props()
 </script>
 
@@ -52,7 +54,7 @@
             {:else}
               <a
                 href={plan.stripe_price_id ? `/account/subscribe/${plan.stripe_price_id}` : '/login'}
-                class="btn btn-primary w-[80%] mx-auto"
+                class="btn btn-primary w-[80%] mx-auto {ctaClass}"
               >
                 {callToAction || plan.ctaLabel}
               </a>

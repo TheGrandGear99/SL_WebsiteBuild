@@ -299,24 +299,6 @@ declare global {
 export {}
 </file>
 
-<file path="src/app.html">
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%sveltekit.assets%/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    %sveltekit.head%
-  </head>
-  <body
-    data-sveltekit-preload-data="hover"
-    style="min-height: 100vh; display: flex; flex-direction: column"
-  >
-    <div style="display: contents">%sveltekit.body%</div>
-  </body>
-</html>
-</file>
-
 <file path="src/index.test.ts">
 import { describe, it, expect } from "vitest"
 
@@ -622,6 +604,30 @@ declare global {
 export {}
 </file>
 
+<file path="src/app.html">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%sveltekit.assets%/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    %sveltekit.head%
+  </head>
+  <body
+    data-sveltekit-preload-data="hover"
+    style="min-height: 100vh; display: flex; flex-direction: column"
+  >
+    <div style="display: contents">%sveltekit.body%</div>
+  </body>
+</html>
+</file>
+
 <file path="src/DatabaseDefinitions.ts">
 export type Json =
   | string
@@ -778,75 +784,6 @@ export interface Database {
     </div>
   </div>
 </div>
-</file>
-
-<file path="src/lib/data/products.ts">
-// Define a common type for all products for stability
-export type Product = {
-  id: string;
-  title: string;
-  tagline: string;
-  features: string[];
-  price: string;
-  ctaLabel: string;
-  footnote: string;
-  stripe_product_id?: string;
-  stripe_price_id?: string;
-};
-
-export const automationProducts: Product[] = [
-  {
-    id: "script",
-    title: "Bootstrap Your Server in Two Minutes",
-    tagline: "One-click script: SSL, NGINX, firewalls — lifetime license to one machine.",
-    features: [
-      "Installs NGINX + Let's Encrypt",
-      "Locks inbound ports to TradingView IPs",
-      "Generates audit log for every step"
-    ],
-    price: "$1 one-time",
-    ctaLabel: "Download for $1",
-    footnote: "Digital good · no refunds",
-    // No Stripe ID for one-time purchases via script
-  },
-  {
-    id: "engine",
-    title: "Fire Signals, Track Fills, Repeat",
-    tagline: "Route TradingView alerts to exchanges with nonce guard and Telegram updates.",
-    features: [
-      "Retries & fallback order logic",
-      "Real-time Telegram feed",
-      "Free Setup Script included"
-    ],
-    price: "$5 / month",
-    ctaLabel: "Start Free Trial",
-    footnote: "7-day trial. Cancel before renewal to avoid charge.",
-    stripe_product_id: "prod_OXj1CcemGMWOlU", // From original "Pro" plan
-    stripe_price_id: "price_1NkdZCHMjzZ8mGZnRSjUm4yA",
-  }
-];
-
-export const licenseHubProduct: Product = {
-  id: "license-hub",
-  title: "Ship Software, Not Headaches",
-  tagline: "Self-hosted license manager: Stripe & PayPal webhooks, Argon2 keys, Postgres on your box.",
-  features: [
-    "Costs 90% less than legacy platforms",
-    "Keep customer data on your server",
-    "CLI & dashboard for key revokes"
-  ],
-  price: "$5 / month",
-  ctaLabel: "Start Free Trial",
-  footnote: "7-day trial · no refunds",
-  stripe_product_id: "prod_OXj20YNpHYOXi7", // From original "Enterprise" plan
-  stripe_price_id: "price_1Nkda2HMjzZ8mGZn4sKvbDAV",
-};
-
-// A combined list for use in places that need all plans
-export const allProducts: Product[] = [...automationProducts, licenseHubProduct];
-
-// The default free plan for new users
-export const defaultPlanId = "script";
 </file>
 
 <file path="src/lib/load_helpers.ts">
@@ -1474,106 +1411,6 @@ export const GET = async ({ url, locals: { supabase } }) => {
 </div>
 </file>
 
-<file path="src/routes/(marketing)/license-hub/+page.svelte">
-<script lang="ts">
-  import { licenseHubProduct } from "$lib/data/products";
-  import ProductCard from '$lib/components/ProductCard.svelte';
-</script>
-
-<svelte:head>
-  <title>License Hub - Signal Lynx</title>
-  <meta name="description" content="Ship software, not headaches. Self-hosted license management for $5 a month." />
-</svelte:head>
-
-<!-- Hero Section -->
-<div class="text-center py-16 md:py-24 px-4 bg-base-200">
-  <h1 class="text-4xl md:text-6xl font-bold text-primary">Ship software, not headaches.</h1>
-  <p class="mt-4 text-xl md:text-2xl max-w-3xl mx-auto text-base-content/80">
-    Spin up your own license server on a $5 VPS, click a few buttons, and let the keys email themselves while you grab a fresh energy drink.
-  </p>
-</div>
-
-<!-- Main Content Section with Product Card -->
-<div class="py-16 px-4 bg-base-100">
-  <div class="flex justify-center">
-    <ProductCard product={licenseHubProduct} />
-  </div>
-</div>
-
-<!-- Quick Details Section -->
-<div class="py-16 px-4 bg-base-200">
-  <div class="max-w-4xl mx-auto">
-    <div class="grid md:grid-cols-2 gap-8">
-        <!-- Details can be hardcoded here or moved to data file if needed -->
-        <div class="flex items-start gap-4">
-          <div class="text-4xl">🚀</div>
-          <div>
-            <h4 class="font-bold text-lg">Launch Speed</h4>
-            <p class="text-base-content/70">docker compose up -d → GUI live in ≈10 min</p>
-          </div>
-        </div>
-        <div class="flex items-start gap-4">
-          <div class="text-4xl">💾</div>
-          <div>
-            <h4 class="font-bold text-lg">Backups</h4>
-            <p class="text-base-content/70">Automatic nightly pg_dump to local disk or S3-compatible bucket</p>
-          </div>
-        </div>
-        <div class="flex items-start gap-4">
-          <div class="text-4xl">🔐</div>
-          <div>
-            <h4 class="font-bold text-lg">Hashing</h4>
-            <p class="text-base-content/70">Argon2id (OWASP-approved) @ ≥19 MiB RAM, 2 iters</p>
-          </div>
-        </div>
-        <div class="flex items-start gap-4">
-          <div class="text-4xl">📨</div>
-          <div>
-            <h4 class="font-bold text-lg">Customer Touch</h4>
-            <p class="text-base-content/70">Auto-emails on Stripe & PayPal payment events</p>
-          </div>
-        </div>
-    </div>
-  </div>
-</div>
-
-<!-- Deep Dive Accordion Section -->
-<div class="py-16 px-4 bg-base-100">
-  <div class="max-w-3xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-8">Technical Deep Dive</h2>
-    <div class="join join-vertical w-full">
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="deep-dive-accordion" checked={true} /> 
-        <div class="collapse-title text-xl font-medium">
-          How does the 5-step install work?
-        </div>
-        <div class="collapse-content"> 
-          <p>1. Clone the repository. <br/> 2. Edit the `.env` file with your secrets. <br/> 3. Run `docker compose up -d`. <br/> 4. Access the GUI and set your admin password. <br/> 5. Copy the generated webhook URL into your Stripe and/or PayPal dashboards. The server is now live.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="deep-dive-accordion" />
-        <div class="collapse-title text-xl font-medium">
-          What happens if my VPS dies?
-        </div>
-        <div class="collapse-content"> 
-          <p>The system runs nightly `pg_dump` backups to a local volume. To recover, you can spin up a new VPS, import yesterday’s dump with a single `pg_restore` command, and point your DNS to the new IP. Total downtime is typically less than 5 minutes.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="deep-dive-accordion" /> 
-        <div class="collapse-title text-xl font-medium">
-          How secure are the keys?
-        </div>
-        <div class="collapse-content"> 
-          <p>We use Argon2id hashing, which is designed to resist GPU cracking attacks far better than older algorithms like bcrypt. Furthermore, the entire Docker data volume can be encrypted at rest on your host machine, providing another layer of protection.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</file>
-
 <file path="src/routes/(marketing)/license-hub/+page.ts">
 export const prerender = true
 </file>
@@ -1630,80 +1467,6 @@ export const GET: RequestHandler = async () => {
 
 <file path="src/routes/(marketing)/trading-automation/+layout.ts">
 export const prerender = true
-</file>
-
-<file path="src/routes/(marketing)/trading-automation/+page.svelte">
-<script lang="ts">
-  import { automationProducts } from "$lib/data/products";
-  import ProductCard from '$lib/components/ProductCard.svelte';
-</script>
-
-<svelte:head>
-  <title>Trading Automation - Signal Lynx</title>
-  <meta name="description" content="Own the machine, own the trade. Local-first webhook tools for traders." />
-</svelte:head>
-
-<!-- Hero Section -->
-<div class="text-center py-16 md:py-24 px-4 bg-base-200">
-  <h1 class="text-4xl md:text-6xl font-bold text-primary">Own the machine. Own the trade.</h1>
-  <p class="mt-4 text-xl md:text-2xl max-w-3xl mx-auto text-base-content/80">
-    Skip mystery clouds—run our tools on a laptop or budget VPS you already control. Your API keys never leave the building, and you’ll be off to the races before your energy drink loses its fizz.
-  </p>
-</div>
-
-<!-- Product Cards Section -->
-<div class="py-16 px-4 bg-base-100">
-  <div class="flex flex-col lg:flex-row gap-8 max-w-5xl mx-auto place-content-center items-stretch">
-    {#each automationProducts as product}
-      <ProductCard {product} />
-    {/each}
-  </div>
-</div>
-
-<!-- Deep Dive Accordion Section -->
-<div class="py-16 px-4 bg-base-200">
-  <div class="max-w-3xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-8">The Nitty-Gritty Details</h2>
-    <div class="join join-vertical w-full">
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="deep-dive-accordion" checked={true} /> 
-        <div class="collapse-title text-xl font-medium">
-          Will this run on my old laptop?
-        </div>
-        <div class="collapse-content"> 
-          <p>Yes. Tested on Windows 10/11 and Windows Server 2016+. Requires at least 2 vCPU and 2 GB of RAM, which even most budget hardware from the last decade can handle.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="deep-dive-accordion" />
-        <div class="collapse-title text-xl font-medium">
-          What does the Setup Script actually do?
-        </div>
-        <div class="collapse-content"> 
-          <p>It programmatically installs and configures NGINX as a reverse proxy, requests a Let's Encrypt SSL certificate via win-acme, sets up a scheduled task for auto-renewal, and writes Windows Firewall rules to whitelist only traffic from major charting providers on ports 80 and 443.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="deep-dive-accordion" /> 
-        <div class="collapse-title text-xl font-medium">
-          What happens if my VPS reboots?
-        </div>
-        <div class="collapse-content"> 
-          <p>Both the Setup Script and the Trade Pilot engine are configured to run as persistent Windows services, so they will restart automatically on boot. No manual intervention is needed.</p>
-        </div>
-      </div>
-       <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-accordion" /> 
-        <div class="collapse-title text-xl font-medium">
-          How secure is "secure"?
-        </div>
-        <div class="collapse-content"> 
-          <p>Our philosophy is "zero trust." The Setup Script uses an industry-standard SSL provider (Let's Encrypt), hardens firewall rules, and your API keys never leave your machine. The engine communicates directly with the exchanges, not our servers. All local secrets are encrypted at rest with AES-256 and passwords are cryptographically hashed using Argon2id.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 </file>
 
 <file path="src/routes/+error.svelte">
@@ -1963,72 +1726,82 @@ export const WebsiteDescription: string =
 export const CreateProfileStep: boolean = true
 </file>
 
-<file path="src/lib/components/pricing_module.svelte">
-<script lang="ts">
-  import { allProducts } from "$lib/data/products"
-  import type { Product } from "$lib/data/products";
+<file path="src/lib/data/products.ts">
+// Define a common type for all products for stability
+export type Product = {
+  id: string;
+  name: string;
+  title: string;
+  tagline: string;
+  features: string[];
+  price: string;
+  ctaLabel: string;
+  footnote: string;
+  stripe_product_id?: string;
+  stripe_price_id?: string;
+};
 
-  interface Props {
-    // Module context
-    highlightedPlanId?: string
-    currentPlanId?: string
-    center?: boolean
+export const automationProducts: Product[] = [
+  {
+    id: "script",
+    name: "Signal Shield",
+    title: "Automated Trade Configurator",
+    tagline: "One click. One minute. You’re all set.",
+    features: [
+      "Enables your PC for Automated Trading",
+      "Safely Configures your PC for Webhooks",
+      "Establishs a secure connection to TradingView",
+      "Shields your PC from unwanted access",
+      "Your first step to automated trading"
+    ],
+    price: "$1 one-time",
+    ctaLabel: "Download for $1",
+    footnote: "Digital good · no refunds"
+  },
+  {
+    id: "engine",
+    name: "Lynx-Relay",
+    title: "Automated Trading Executor",
+    tagline: "Turn TradingView alerts into automatic order execution",
+    features: [
+      "Advanced Order Management and Fill Protection",
+      "Track Fills and Trade Performance",
+      "Live Telegram updates - never miss a trade",
+      "Works with Kraken, BinanceUS & Gemini spot markets",
+      "Signal Shield included for free"
+    ],
+    price: "$5 / month",
+    ctaLabel: "Start Free Trial",
+    footnote: "7-day trial · cancel anytime",
+    stripe_product_id: "prod_OXj1CcemGMWOlU",
+    stripe_price_id: "price_1NkdZCHMjzZ8mGZnRSjUm4yA"
   }
+];
 
-  let {
-    highlightedPlanId = "",
-    currentPlanId = "",
-    center = true,
-  }: Props = $props()
-</script>
+export const licenseHubProduct: Product = {
+  id: "license-hub",
+  name: "Key Commander",
+  title: "Ship Software, Not Headaches",
+  tagline: "Self-Hosted, 100% GUI License Manager",
+  features: [
+    "Manage One Time Buys, Subscriptions, and Trials",
+    "Multiple Products and Tiers Supported",
+    "Instantly generate and deliver license keys to customers",
+    "Visual dashboard to manage users, seats, and activations",
+    "Automatic backups keep your data safe",
+  ],
+  price: "$5 / month",
+  ctaLabel: "Start Free Trial",
+  footnote: "7-day trial · no refunds",
+  stripe_product_id: "prod_OXj20YNpHYOXi7",
+  stripe_price_id: "price_1Nkda2HMjzZ8mGZn4sKvbDAV"
+};
 
-<div
-  class="flex flex-col lg:flex-row gap-10 {center
-    ? 'place-content-center'
-    : ''} flex-wrap"
->
-  {#each allProducts as plan: Product}
-    <div
-      class="flex-none card card-bordered {plan.id === highlightedPlanId
-        ? 'border-secondary'
-        : 'border-base-300'} shadow-xl flex-1 grow min-w-[260px] max-w-[310px] p-6"
-    >
-      <div class="flex flex-col h-full">
-        <div class="text-xl font-bold">{plan.title}</div>
-        <p class="mt-2 text-sm text-base-content/70 flex-grow">
-          {plan.tagline}
-        </p>
-        <div class="mt-auto pt-4 text-sm text-base-content/80">
-          Plan Includes:
-          <ul class="list-disc list-inside mt-2 space-y-1">
-            {#each plan.features as feature}
-              <li class="">{feature}</li>
-            {/each}
-          </ul>
-        </div>
-        <div class="pt-8">
-          <span class="text-4xl font-bold">{plan.price}</span>
-          <div class="mt-6 pt-4 flex-1 flex flex-row items-center">
-            {#if plan.id === currentPlanId}
-              <div
-                class="btn btn-outline btn-success no-animation w-[80%] mx-auto cursor-default"
-              >
-                Current Plan
-              </div>
-            {:else}
-              <a
-                href={plan.stripe_price_id ? `/account/subscribe/${plan.stripe_price_id}` : '/login'}
-                class="btn btn-primary w-[80%] mx-auto"
-              >
-                {plan.ctaLabel}
-              </a>
-            {/if}
-          </div>
-        </div>
-      </div>
-    </div>
-  {/each}
-</div>
+// A combined list for use in places that need all plans
+export const allProducts: Product[] = [...automationProducts, licenseHubProduct];
+
+// The default free plan for new users
+export const defaultPlanId = "script";
 </file>
 
 <file path="src/lib/emails/welcome_email_html.hbs">
@@ -2968,424 +2741,609 @@ export const actions = {
 }
 </file>
 
-<file path="src/routes/(marketing)/faq/+page.svelte">
+<file path="src/routes/(marketing)/license-hub/+page.svelte">
 <script lang="ts">
-// No script logic needed for this static content page.
+  import { licenseHubProduct } from "$lib/data/products";
+  import { onMount } from "svelte";
+
+  let imageModal: HTMLDialogElement;
+  let selectedImageUrl = $state<string | null>(null);
+
+  function showImage(imageUrl: string) {
+    selectedImageUrl = imageUrl;
+    if (imageModal) {
+      imageModal.showModal();
+    }
+  }
+
+  // Close modal when clicking anywhere
+  function handleClick(e: MouseEvent) {
+    imageModal.close();
+  }
+
+  // Close modal with Escape key
+  function handleKeyDown(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      imageModal.close();
+    }
+  }
+
+  onMount(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  });
 </script>
 
+<!-- Image Modal -->
+<dialog 
+  id="image_modal" 
+  class="modal cursor-pointer bg-transparent p-0"
+  bind:this={imageModal}
+  onclick={handleClick}
+>
+  <div class="flex items-center justify-center w-full h-full">
+    {#if selectedImageUrl}
+      <img
+        src={selectedImageUrl}
+        alt="Enlarged view of feature"
+        class="max-w-[75vw] max-h-[75vh] object-contain rounded-lg shadow-2xl border-4 border-accent"
+      />
+    {/if}
+  </div>
+</dialog>
+
 <svelte:head>
-  <title>FAQ - Signal Lynx</title>
-  <meta name="description" content="Frequently asked questions about Signal Lynx products, billing, security, and setup." />
+  <title>Key Commander License Manager - Signal Lynx</title>
+  <meta name="description" content="Stop building licensing servers. Start building your business. The self-hosted, enterprise-grade licensing engine that puts you in control." />
 </svelte:head>
 
-<div class="py-12 px-4 bg-base-100">
-  <div class="max-w-3xl mx-auto">
-    <h1 class="text-4xl md:text-6xl font-bold text-center text-primary mb-12">Frequently Asked Questions</h1>
+<!-- HERO -->
+<section class="text-center py-16 md:py-24 px-4 bg-base-200">
+    <div class="max-w-4xl mx-auto flex flex-col items-center">
+        <h1 class="text-4xl md:text-6xl font-bold text-primary whitespace-nowrap">
+            Signal Lynx Key Commander
+        </h1>
+        <p class="mt-4 text-2xl md:text-3xl font-semibold text-secondary whitespace-nowrap">
+            License Your Ideas
+        </p>
+        <p class="mt-6 text-xl max-w-3xl mx-auto text-base-content/80">
+          Tired of License as a Service bills ballooning as you grow? With Key Commander you pay one flat fee, run it where you like, and keep every customer record locked down in your own database—no surprises, no sky-high tier jumps.
+        </p>
+    </div>
+  <div class="mt-8">
+    <a href="#product-card" class="btn btn-primary btn-wide">Get Key Commander</a>
+  </div>
+</section>
 
-    <!-- Universal Questions -->
-    <h2 class="text-3xl font-bold text-secondary mb-6">Universal Questions</h2>
-    <div class="join join-vertical w-full">
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" checked />
-        <div class="collapse-title text-xl font-medium">How do you bill me?</div>
-        <div class="collapse-content">
-          <p>We offer simple monthly or yearly subscriptions. No surprise “pro-plus-turbo” tiers or sneaky in-app purchases. We accept all major credit cards.</p>
+<!-- SECURITY BANNER -->
+<section class="bg-base-100 py-8">
+  <div class="max-w-4xl mx-auto text-center px-4">
+    <h3 class="text-2xl font-bold text-secondary">Your Data, Your Fortress.</h3>
+    <p class="opacity-70 mt-2">
+      Key Commander is a self-hosted asset you own and run on your infrastructure. Your customer data and API keys are never held hostage on our servers.
+    </p>
+  </div>
+</section>
+
+<!-- Why Self-Host? -->
+<section class="py-16 bg-base-200">
+    <div class="max-w-6xl mx-auto text-center px-4">
+        <h2 class="text-3xl font-bold text-primary mb-8">Why Self-Host Your Licensing?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-6 rounded-lg">
+                <h4 class="font-bold text-xl text-accent">Data Sovereignty</h4>
+                <p class="mt-2 text-base-content/80">Your license keys stay in your lair, not our cloud. Hackers can’t steal what we never see.</p>
+            </div>
+            <div class="p-6 rounded-lg">
+                <h4 class="font-bold text-xl text-accent">Flat, Predictable Cost</h4>
+                <p class="mt-2 text-base-content/80">Flat fee. No surprise ‘pro-plus-turbo’ tier next year.</p>
+            </div>
+            <div class="p-6 rounded-lg">
+                <h4 class="font-bold text-xl text-accent">Offline-Friendly Tokens</h4>
+                <p class="mt-2 text-base-content/80">Your app still runs when Starbucks Wi-Fi dies—boom, customer love.</p>
+            </div>
         </div>
+    </div>
+</section>
+
+<!-- PRODUCT CARD -->
+<section id="product-card" class="py-16 px-4 bg-base-100">
+  <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 px-4 justify-center items-stretch">
+       <div class="card bg-base-200 shadow-xl flex-1 flex flex-col min-w-[280px] max-w-[400px] border-4 border-transparent transition-all duration-300 hover:border-accent">
+            <div class="card-body p-8 flex flex-col">
+                <div class="text-center">
+                    <h2 class="card-title justify-center text-2xl font-bold text-secondary">{licenseHubProduct.name}</h2>
+                    <h3 class="mt-1 text-lg font-normal text-accent">{licenseHubProduct.title}</h3>
+                </div>
+                <p class="text-base-content/80 mt-4">{licenseHubProduct.tagline}</p>
+                
+                <ul class="my-6 space-y-3 text-left flex-grow">
+                {#each licenseHubProduct.features as feature}
+                    <li class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-success shrink-0 mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z" fill="currentColor"/></svg>
+                    <span>{feature}</span>
+                    </li>
+                {/each}
+                </ul>
+
+                <div class="mt-auto pt-4">
+                    <p class="text-5xl font-bold text-center">{licenseHubProduct.price}</p>
+                    <div class="card-actions justify-center mt-6">
+                        <a href={licenseHubProduct.stripe_price_id ? `/account/subscribe/${licenseHubProduct.stripe_price_id}` : '/login'} class="btn btn-primary btn-wide">{licenseHubProduct.ctaLabel}</a>
+                    </div>
+                    <p class="text-center text-xs text-base-content/50 mt-2">{licenseHubProduct.footnote}</p>
+                </div>
+            </div>
+        </div>
+  </div>
+</section>
+
+<!-- Supported Providers Banner -->
+<section class="bg-base-200 py-10">
+  <div class="max-w-5xl mx-auto text-center px-4">
+    <h3 class="text-2xl font-bold text-secondary">
+      Deep Integration with Stripe
+    </h3>
+    <p class="mt-2 opacity-70">
+      Handle purchases, subscriptions, and cancellations automatically.
+    </p>
+    <div class="mt-6 flex justify-center items-center gap-x-8 gap-y-4 flex-wrap">
+      <img src="/logos/stripe.png" alt="Stripe logo" class="h-40" />
+    </div>
+  </div>
+</section>
+
+<!-- How It Works in 4 Steps -->
+<section class="bg-base-100 py-10">
+  <div class="max-w-6xl mx-auto text-center px-4">
+    <h3 class="text-2xl font-bold">
+      Get Started in 4 Easy Steps
+    </h3>
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div class="flex flex-col items-center">
+        <div class="text-4xl font-bold text-secondary">1</div>
+        <h4 class="mt-2 font-semibold">Deploy the Server</h4>
+        <p class="opacity-70 mt-1">
+          Run our Docker container on any VPS or local machine.
+        </p>
       </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">Is there a real free trial?</div>
-        <div class="collapse-content">
-          <p>Yep! Seven days, fully unlocked. We do require a card, but if you cancel before the seven-day mark, you won't be charged a cent.</p>
-        </div>
+      <div class="flex flex-col items-center">
+        <div class="text-4xl font-bold text-secondary">2</div>
+        <h4 class="mt-2 font-semibold">Configure Key Commander</h4>
+        <p class="opacity-70 mt-1">
+          Use the secure GUI to enter your Stripe and email details, and select your business options.
+        </p>
       </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">Can I get a refund?</div>
-        <div class="collapse-content">
-          <p>Since our software is a digital download, we can't exactly "un-download" it. Therefore, all sales are final. Canceling your subscription simply prevents future renewals. Please use the free trial to make sure our tools are the right fit for your needs.</p>
-        </div>
+      <div class="flex flex-col items-center">
+        <div class="text-4xl font-bold text-secondary">3</div>
+        <h4 class="mt-2 font-semibold">Integrate with Your App</h4>
+        <p class="opacity-70 mt-1">
+          Use our README and example code to connect your application to the license manager.
+        </p>
       </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">What hardware do I need?</div>
-        <div class="collapse-content">
-          <p>The Signal Lynx applications require minimal processing power. Our tools are lightweight, but please check the specific product page for detailed requirements.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">Should I use a laptop or a VPS?</div>
-        <div class="collapse-content">
-          <p>Your laptop, desktop, or gaming PC works great, but a Virtual Private Server (VPS) gives you 24/7 uptime and spares your home power bill.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">Can I hide behind a VPN?</div>
-        <div class="collapse-content">
-          <p>Only if your VPN provides a static IP address. If the IP changes or rotates, TradingView webhooks won't be able to find your computer or our webhook engine.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">Webhooks? Am I safe from internet baddies?</div>
-        <div class="collapse-content">
-          <p>Absolutely. The Signal Lynx Installer creates a secure tunnel for webhooks, using industry-standard practices to keep you and your data safe from internet baddies.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">How safe are my passwords & API keys?</div>
-        <div class="collapse-content">
-          <p>We use leading encryption routines to protect your secure data, and it's all stored right on your local disk. Our security practices meet or exceed the stringent Open Worldwide Application Security Project (OWASP) guidelines.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">How do I scream for help?</div>
-        <div class="collapse-content">
-          <p>Our DMs are always open on Telegram and X (formerly Twitter). We're here to help.</p>
-        </div>
-      </div>
-<div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">Who is Signal Lynx?</div>
-        <div class="collapse-content">
-          <p>We’re probably a lot like you - a small team of engineers and traders with day jobs. Signal Lynx is what happens when you get tired of tools that are either too expensive or just plain don't work.</p>
-          <p class="mt-2">Fueled by late nights and questionably large amounts of caffeine, we decided to build our own solutions. Now, we're sharing them with the community.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">Why are your prices so low?</div>
-        <div class="collapse-content">
-          <p>Simple: We're not a giant, venture-capital-funded corporation with a yacht to pay for. Our tools were born out of personal need, and we believe in putting powerful, reliable software in the hands of individuals.</p>
-          <p class="mt-2">We couldn't, in good conscience, charge thousands for something we built for ourselves and our community. We call it a disruptive price - you can call it a fair one.</p>
-          <p class="mt-2">Use the money you're saving to grow your capabilities. Get that first VPS, upgrade your setup, or buy another case of your favorite energy drink. We get it.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-universal" />
-        <div class="collapse-title text-xl font-medium">What’s on the roadmap?</div>
-        <div class="collapse-content">
-          <p>We're a small, passionate team that's always building. We might not move at the speed of a time-jumping DeLorean, because we have day jobs just like you. <br/>
-          We want to hear your opinions on what to build next! Vote for features or roast us on Telegram or X (formerly Twitter)!</p>
-        </div>
+       <div class="flex flex-col items-center">
+        <div class="text-4xl font-bold text-secondary">4</div>
+        <h4 class="mt-2 font-semibold">Go Live</h4>
+        <p class="opacity-70 mt-1">
+          Start selling your software with automated license delivery and validation.
+        </p>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- Signal Lynx Webhook Engine Installer: FAQs -->
-    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">Signal Lynx Webhook Engine Installer: FAQ's</h2>
-    <div class="join join-vertical w-full">
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-setup" checked />
-        <div class="collapse-title text-xl font-medium">What exactly gets installed?</div>
-        <div class="collapse-content">
-          <p>Only what's needed to protect your computer and ensure reliable trading. The installer sets up a reverse proxy (NGINX), time synchronization (NetTime), an in-memory database for stability (Memurai), and the NSSM service manager. It also performs full SSL encryption to secure your connection.</p>
+<!-- Your Mission Control -->
+<div class="py-16 bg-base-200">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+        <div class="text-left">
+            <h2 class="text-3xl font-bold text-primary">Your Mission Control</h2>
+            <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Intuitive Navigation:</b> Jump between licenses, metrics, and logs with a single click.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Focused Workspace:</b> A dynamic interface that gives you the tools you need for the task at hand.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Modern & Responsive:</b> A smooth, desktop-grade GUI for managing your business.</span></li>
+            </ul>
         </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-setup" />
-        <div class="collapse-title text-xl font-medium">Does it touch the Windows Registry?</div>
-        <div class="collapse-content">
-          <p>Yep—just enough to ensure robust performance of the Webhook Engine. All changes are completely reversible.</p>
+        <div class="flex justify-center">
+            <button
+                type="button"
+                onclick={() => showImage('/images/kc-main-gui.png')}
+                class="block w-full transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent rounded-lg"
+                aria-label="Enlarge image of Your Mission Control"
+            >
+                <img src="/images/kc-main-gui.png" alt="Screenshot of the Key Commander main dashboard" class="rounded-lg shadow-lg max-w-full border-4 border-accent" />
+            </button>
         </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-setup" />
-        <div class="collapse-title text-xl font-medium">What if the installer fails?</div>
-        <div class="collapse-content">
-          <p>In the unlikely event the setup installer fails, the configuration can be done manually. Just follow the instructions in the Webhook Engine's `README` file for details.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-setup" />
-        <div class="collapse-title text-xl font-medium">Can I undo everything?</div>
-        <div class="collapse-content">
-          <p>Yes! Everything the installer does can be quickly and cleanly uninstalled.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-setup" />
-        <div class="collapse-title text-xl font-medium">What operating systems are supported?</div>
-        <div class="collapse-content">
-          <p>Currently, we only support Windows10/11 and Server 2016+. Support for Linux and macOS is on the roadmap.</p>
-        </div>
-      </div>
+    </div>
+</div>
+
+<!-- Fully-Automated Engine -->
+<section class="py-16 bg-base-100">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+    <!-- IMAGE LEFT ON DESKTOP - MODIFIED FOR POPUP -->
+    <div class="flex justify-center md:order-1">
+      <button
+        type="button"
+        onclick={() => showImage('/images/kc-tier-map.png')}
+        class="block w-full transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent rounded-lg"
+        aria-label="Enlarge image of automated license engine"
+      >
+        <img
+          src="/images/kc-tier-map.png"
+          alt="Screenshot showing automated license engine in action"
+          class="rounded-lg shadow-lg max-w-full border-4 border-accent"
+        />
+      </button>
+    </div>
+    
+    <!-- TEXT RIGHT ON DESKTOP -->
+    <div class="text-left md:order-2">
+      <h2 class="text-3xl font-bold text-primary">Set-It-and-Forget-It Automation</h2>
+      <p class="mt-4 text-lg text-base-content/80">
+        Point Key Commander at your Stripe products, pour another energy drink, and walk away—the
+        engine handles everything from purchase to day-30 renewal.
+      </p>
+      <ul class="mt-6 space-y-3 text-lg text-base-content/80">
+        <li class="flex items-start gap-3">
+          <span class="text-success mt-1">✓</span>
+          <span><b>Auto-Issuing:</b> New Stripe orders trigger instant license generation and email delivery.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="text-success mt-1">✓</span>
+          <span><b>24/7 Verification:</b> Every client ping is validated against the live database—no stale keys.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="text-success mt-1">✓</span>
+          <span><b>Continuous Re-Sync:</b> Regular checks with Stripe keep statuses, quantities, and trials in lock-step.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="text-success mt-1">✓</span>
+          <span><b>One-Time, Subscription, Trial:</b> Fully supports buy-once keys, recurring plans, and limited-time trials out of the box.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- Master Control Panel -->
+<div class="py-16 bg-base-200">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+    <div class="md:order-1 text-left">
+      <h2 class="text-3xl font-bold text-primary">Your Master Control Panel</h2>
+      <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+        <li class="flex items-start gap-3">
+          <span class="text-success mt-1">✓</span>
+          <span><b>Centralized Secret Management:</b> Securely store and manage encrypted API keys for Stripe.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="text-success mt-1">✓</span>
+          <span><b>Automated Emailing:</b> Configure SMTP, Brevo, or SES to automatically deliver license keys.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="text-success mt-1">✓</span>
+          <span><b>Automated Backups:</b> Schedule daily, weekly, or monthly database backups with retention policies.</span>
+        </li>
+      </ul>
     </div>
 
-    <!-- Signal Lynx Webhook Engine: FAQs -->
-    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">Signal Lynx Webhook Engine: FAQ's</h2>
-    <div class="join join-vertical w-full">
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" checked />
-        <div class="collapse-title text-xl font-medium">Which exchanges are supported?</div>
-        <div class="collapse-content">
-          <p>Kraken, Gemini, and Binance.US are currently supported. Additional exchanges are forthcoming—let us know which ones you want to see next!</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">What computer operating systems are supported?</div>
-        <div class="collapse-content">
-          <p>Same as the installer: We currently support Windows 10/11 and Server 2016+, with Linux and macOS on the way.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">How fast can I start trading?</div>
-        <div class="collapse-content">
-          <p>The host computer and Webhook Engine can be configured in less than 15 minutes, including generating your new exchange API keys.</p>
-          <p class="font-semibold mt-4">Key Setup Steps:</p>
-          <ol class="list-decimal list-inside pl-4 space-y-1">
-            <li>Run the Installer.</li>
-            <li>Launch the Webhook Engine.</li>
-            <li>Enter your Master Password.</li>
-            <li>Enter your Webhook Passphrase (a second-tier password for extra security).</li>
-            <li>Enter your License Key (sent to your email after signup).</li>
-            <li>Configure your Telegram Bot Token and Chat ID (for mobile alerts).</li>
-            <li>Configure Exchanges and enter their API Keys.</li>
-          </ol>
-          <p class="mt-2">That's it! The Webhook Engine is up and running, as visually confirmed by the connectivity status in the upper right. All that's left is to configure your TradingView alerts with the appropriate order details.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">What order types are supported?</div>
-        <div class="collapse-content">
-          <p>We support Spot Only trading for Kraken, Gemini, and Binance.US.</p>
-          <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
-            <li><b>Kraken:</b> Limit, Advanced Limit, Market, Take Profit, and Stop Loss orders. <br/>
-               (Note: Kraken Stock Trading is not supported.)</li>
-            <li><b>Gemini:</b> Limit, Advanced Limit, Take Profit, and Stop Loss orders. <br/>
-               (Note: The Gemini API doesn't allow market orders, so our Advanced Limit order type cleverly emulates one for you.)</li>
-            <li><b>Binance.US:</b> Limit, Advanced Limit, Market, Take Profit, and Stop Loss orders.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">How does the engine know what to trade?</div>
-        <div class="collapse-content">
-          <p>The engine takes its instructions from a webhook, typically generated by TradingView.<br/> In TradingView, you set up your alert conditions, assign the webhook URL, and then define the order details in the message box using the JSON format.<br/>
-          (Think of JSON as a simple, universal language for giving instructions to the engine.)</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">Where do I find my public IP address?</div>
-        <div class="collapse-content">
-          <p>Go to any "what is my IP" website. That's the address you'll enter into the TradingView webhook URL (e.g., https://123.456.78.90/webhook).</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">How many alerts per second can it handle?</div>
-        <div class="collapse-content">
-          <p>It safely operates with up to 10 alerts per second.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">What does the dashboard show?</div>
-        <div class="collapse-content">
-          <p>The dashboard shows the engine's operational status, allowing you to see when alerts arrive, how they are processed, and if they are successfully filled by the exchange. <br/>It also shows application and exchange connectivity, subscription status, an audit log of orders, and provides Profit and Loss (PNL) tracking, in addition to error logging for your peace of mind.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">Are there mobile alerts?</div>
-        <div class="collapse-content">
-          <p>Yes! Telegram integration allows you to see what alerts and orders are being triggered and monitor order fills while you're away from your computer. Never miss an execution.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">Is my API key safe?</div>
-        <div class="collapse-content">
-          <p>API keys and passwords are fully encrypted and stored on your host computer. No cloud services are involved, meaning you are in control of your keys, reducing the risk of third-party breaches.<br/>Signal Lynx does not store or see your passwords or keys—ever. We will never ask for them.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">Is there an offline mode?</div>
-        <div class="collapse-content">
-          <p>Afraid not. The Webhook Engine must be running for it to work. If your PC shuts down or loses internet connectivity, webhooks will not be processed.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">Does the engine auto-update?</div>
-        <div class="collapse-content">
-          <p>No automatic updates here. New versions will be available in the downloads section of your account.<br/>Updates are easy: just download the new `.exe` from our website, place it in your application folder, and delete or archive the old one. You're done. No other setup or configuration is required.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">Can I pause trading?</div>
-        <div class="collapse-content">
-          <p>Yes! There are multiple ways to do this, but the easiest is to simply shut down the Webhook Engine for a universal pause. Pausing individual alerts on TradingView is the recommended and most strategic approach.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">What if I forget my password?</div>
-        <div class="collapse-content">
-          <p>For enhanced security, there is no "forgot password" feature. You can change your password anytime within the "Update Keys" tab.<br/>If you do forget it, the application can be reinitialized in less than 10 minutes. Deleting the `SignalLynx_Vault.encrypted` file will reinitialize the engine. Once deleted, restart the `.exe` file, enter a new master password, re-enter your keys, and you're back up and running.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-engine" />
-        <div class="collapse-title text-xl font-medium">What are some future features?</div>
-        <div class="collapse-content">
-          <p>We're focused on adding support for more exchanges and rolling out even more useful dashboard widgets.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Signal Lynx License-Hub: FAQs -->
-    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">Signal Lynx License-Hub: FAQ's</h2>
-    <div class="join join-vertical w-full">
-    <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" checked />
-        <div class="collapse-title text-xl font-medium">How hard is the License Hub to learn?</div>
-        <div class="collapse-content">
-          <p>It's easy! The Signal Lynx License Hub is designed to be easy to learn and set up.<br/>It features 100% graphical interfaces: no `.env` files and no command-line routines required.<br/>The Administrator Portal provides all the features necessary to set up and manage your customer database.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">What capabilities does License Hub have?</div>
-        <div class="collapse-content">
-          <p>License Hub is a full-featured License-as-a-Service (LaaS) solution. It handles key generation, customer management, payment processing, license delivery, revocation, re-issuance, and more.<br/>It also includes a complete Administrator Portal, allowing you to manage your customers and license keys with ease.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Is everything included for one flat rate?</div>
-        <div class="collapse-content">
-          <p class="font-semibold">Yes. One price, all features. No hidden fees, "pro" tiers, or surprise add-ons.</p>
-          <p class="mt-2">We were just as irritated with the confusing and expensive tiers on other license managers. It’s frustrating how quickly the price can skyrocket, especially for indie developers and small businesses.</p>
-          <p class="mt-2">License Hub is a non-throttled, all-inclusive application. Bring as many products and customers as you need to support your goals—we don't penalize your growth.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">What do I need to run License Hub?</div>
-        <div class="collapse-content">
-          <p>An inexpensive, low-power VPS configured with Docker is the recommended approach. This provides a low-cost, dedicated, and professionally managed hardware option to run License Hub.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">How do I set up and configure License Hub?</div>
-        <div class="collapse-content">
-          <p>License Hub is provided as a Docker container and will run on any system that supports Docker.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">What are the system requirements?</div>
-        <div class="collapse-content">
-          <p>Minimal system requirements are needed: 2 vCPUs, 8 GB of RAM, and 100 GB of storage should be sufficient. A Docker installation is required.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">What payment providers are supported?</div>
-        <div class="collapse-content">
-          <p>Currently, only Stripe is supported by License Hub.<br/>Additional payment providers will be included in future upgrades. Please let us know what you want to see!</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">What product types are supported?</div>
-        <div class="collapse-content">
-          <p>Both one-time purchases and recurring subscription orders are supported by License Hub.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Does License Hub have software-sharing protections?</div>
-        <div class="collapse-content">
-          <p>Yes! Each license key is paired to a machine ID during initial verification. Post-initialization, only that initial machine ID will be authorized to use the license.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">What if my user gets a new computer?</div>
-        <div class="collapse-content">
-          <p>Machine ID resets are easy! License Hub has hooks for you to create an account-based automated reset using only the user's license key.<br/>To prevent malicious use, automatic resets are limited to once per month, but this allows for a user-driven update. Admins can perform additional machine resets at any time.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Does it support offline use?</div>
-        <div class="collapse-content">
-          <p>Yes! Admins can enable Offline Session Tokens. An initial online connection is required to generate the token, after which the token permits offline use until the next subscription renewal date.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">What's the security like?</div>
-        <div class="collapse-content">
-          <p>Our security practices meet or exceed the stringent Open Worldwide Application Security Project (OWASP) guidelines.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Can I issue developer or custom keys?</div>
-        <div class="collapse-content">
-          <p>Yes! Admins can generate developer and custom keys for testers, influencers, or promotional giveaways.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Can I manage multiple products and tiers?</div>
-        <div class="collapse-content">
-          <p>Absolutely! There are no product limitations, and it features fully configurable tier mapping.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Does License Hub back up the database?</div>
-        <div class="collapse-content">
-          <p>Yes! License Hub supports both manual and automatic backups of the customer and payment database.<br/>In addition, it runs reconciliation against the payment provider's database, ensuring no customers are missed and that your database stays current.</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Can it recover from a disaster?</div>
-        <div class="collapse-content">
-          <p>Yes! License Hub is intelligently designed to restore itself after a disaster, even without performing a restoration from a backup.<br/>Reconciliation runs will repopulate your customer database from your payment provider and re-generate the same license keys, maintaining continuity for your paying subscribers!<br/>(Note: Developer keys can only be recovered from a backup, so always keep a copy of your backups!)</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">Is license key generation and delivery automatic?</div>
-        <div class="collapse-content">
-          <p>Yes! License Hub will automatically generate and send license keys to new users via email.<br/>Email automation is configurable and preloaded with multiple providers (SMTP, Brevo, and Amazon SES).</p>
-        </div>
-      </div>
-      <div class="collapse collapse-arrow join-item border border-base-300">
-        <input type="radio" name="faq-license" />
-        <div class="collapse-title text-xl font-medium">How do I code my software to integrate with License-Hub?</div>
-        <div class="collapse-content">
-          <p>Please see the License-Hub ReadMe file for full details and suggested code examples to facilitate integration. <br/>
-          Additionally please reach out to us on Telegram or X/Twitter if you need additional help with your application. </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- We want to hear from you! -->
-    <div class="text-center mt-16">
-      <h2 class="text-2xl font-bold">Need more?</h2>
-      <p class="mt-2">Hit us up on Telegram or X (formerly Twitter). <br/>
-      If your question makes us double face-palm, it goes right into this FAQ.</p>
+    <div class="md:order-1 flex justify-center">
+      <!-- Wrap image in button for popup -->
+      <button
+        type="button"
+        onclick={() => showImage('/images/kc-config.gif')}
+        class="block w-full transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent rounded-lg"
+        aria-label="Enlarge image of master control panel"
+      >
+        <img
+          src="/images/kc-config.gif"
+          alt="Animated GIF showing master control panel overview"
+          class="rounded-lg shadow-lg max-w-full border-4 border-accent"
+        />
+      </button>
     </div>
   </div>
 </div>
+
+<!-- Ops Automation -->
+<section class="py-16 bg-base-100">
+    <div class="max-w-6xl mx-auto text-center px-4">
+        <h2 class="text-3xl font-bold text-primary mb-8">Automated Operations</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="card bg-base-100 p-6">
+                <h4 class="font-bold text-xl text-accent">🔄 Stripe Reconciliation</h4>
+                <p class="mt-2 text-base-content/80">Robot accountant fixes Stripe mismatches before angry emails hit.</p>
+            </div>
+            <div class="card bg-base-100 p-6">
+                <h4 class="font-bold text-xl text-accent">🗄️ Automated Backups & Health Checks</h4>
+                <p class="mt-2 text-base-content/80">Daily pg_dumps and integrity checks—because ‘Oops, I dropped prod’ shouldn’t end careers.</p>
+            </div>
+            <div class="card bg-base-100 p-6">
+                <h4 class="font-bold text-xl text-accent">📈 Live Metrics</h4>
+                <p class="mt-2 text-base-content/80">Know your MRR, churn, and who’s trying to pirate—all on one neon gauge.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Offline Validation -->
+<section class="py-16 bg-base-200">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+    <div class="text-left">
+      <h2 class="text-3xl font-bold text-primary">Offline? Still Green-Lit.</h2>
+      <p class="mt-4 text-lg text-base-content/80">
+        Key Commander signs a tiny Ed25519 token; your desktop app validates it locally for days (or weeks). No internet? No problem—your users keep working, you keep getting paid.
+      </p>
+    </div>
+    <div class="flex justify-center">
+      <img
+        src="/images/kc-offline-validation.png"
+        alt="Diagram showing offline license validation"
+        class="rounded-lg shadow-lg w-60 border-4 border-accent"
+      />
+    </div>
+  </div>
+</section>
+
+<!-- Admin Controls -->
+<div class="py-16 bg-base-100">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+         <div class="md:order-2 text-left">
+            <h2 class="text-3xl font-bold text-primary">Take Full Admin Control</h2>
+             <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Manual Overrides:</b> Directly edit, suspend, or delete any license from the master dashboard.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Comprehensive Audit Log:</b> Get a complete, immutable record of every critical system and admin action.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Data I/O:</b> Easily import existing keys from a CSV or export your entire license database for analysis.</span></li>
+            </ul>
+        </div>
+        <div class="md:order-1 flex justify-center">
+            <!-- Wrap image in button for popup -->
+            <button
+                type="button"
+                onclick={() => showImage('/images/kc-audit-log.png')}
+                class="block w-full transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent rounded-lg"
+                aria-label="Enlarge image of admin controls"
+            >
+                <img 
+                    src="/images/kc-audit-log.png" 
+                    alt="Screenshot of the license management tab in Key Commander" 
+                    class="rounded-lg shadow-lg max-w-full border-4 border-accent"
+                />
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Anti-Piracy -->
+<div class="py-16 bg-base-200">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+    <div class="text-left">
+      <h2 class="text-3xl font-bold text-primary">Stop Piracy in its Tracks</h2>
+      <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+        <li class="flex items-start gap-3">
+          <span class="text-success mt-1">✓</span>
+          <span><b>Machine ID Locking:</b> Tie each license to a unique machine fingerprint to prevent key sharing.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="text-success mt-1">✓</span>
+          <span><b>Automated Resets:</b> Provide a secure, time-limited pathway for legitimate users to reset their machine activation.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="text-success mt-1">✓</span>
+          <span><b>Burn Trial Abusers:</b> Prevent the same machine from activating multiple free trials.</span>
+        </li>
+      </ul>
+    </div>
+    <div class="flex justify-center">
+      <img
+        src="/images/piracy_SignalLynx.png"
+        alt="Iconography representing anti-piracy measures"
+        class="rounded-lg shadow-lg w-60 border-4 border-accent"
+      />
+    </div>
+  </div>
+</div>
+
+
+<!-- Audit Log Section -->
+<div class="py-16 bg-base-100">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+        <div class="md:order-2 text-left">
+            <h2 class="text-3xl font-bold text-primary">Your System's Black Box</h2>
+             <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Complete Transparency:</b> Get a detailed, timestamped record of every significant system action.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Track Admin Changes:</b> See every license modification, deletion, or creation for full accountability.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Monitor Security Events:</b> Review failed validation attempts, webhook processing, and system unlocks.</span></li>
+            </ul>
+        </div>
+        <div class="md:order-1 flex justify-center">
+            <button
+                type="button"
+                onclick={() => showImage('/images/kc-audit-log.png')}
+                class="block w-full transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent rounded-lg"
+                aria-label="Enlarge audit log screenshot"
+            >
+                <img src="/images/kc-audit-log.png" alt="Screenshot of the Audit Log tab in Key Commander" class="rounded-lg shadow-lg max-w-full border-4 border-accent" />
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Metrics Tracker and Automated Health Checks Section -->
+<div class="py-16 bg-base-200">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+        <div class="text-left">
+            <h2 class="text-3xl font-bold text-primary">Keep Your Finger on the Pulse</h2>
+            <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Track Business Metrics:</b> View a dashboard of key metrics like total licenses, active vs. trial counts, and conversion trends.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Automated Health Checks:</b> A scheduled service monitors for data integrity issues like duplicate keys or invalid activations.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Automated Backups:</b> Robust, automated daily, weekly, or monthly database backups with retention policies.</span></li>
+            </ul>
+        </div>
+        <div class="flex justify-center">
+            <button
+                type="button"
+                onclick={() => showImage('/images/kc-metrics.png')}
+                class="block w-full transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent rounded-lg"
+                aria-label="Enlarge metrics dashboard screenshot"
+            >
+                <img src="/images/kc-metrics.png" alt="Screenshot of the Metrics dashboard in Key Commander" class="rounded-lg shadow-lg max-w-full border-4 border-accent" />
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Licensing Admin Rights Section -->
+<div class="py-16 bg-base-100">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+        <div class="md:order-2 text-left">
+            <h2 class="text-3xl font-bold text-primary">Total License Control</h2>
+             <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Create Custom Licenses:</b> Generate developer, promotional, or special-use keys on the fly.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Modify On-Demand:</b> Directly edit any license to change its status, expiration, or activation count.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Revoke with a Click:</b> Instantly delete or suspend a license to manage access.</span></li>
+            </ul>
+        </div>
+        <div class="md:order-1 flex justify-center">
+            <button
+                type="button"
+                onclick={() => showImage('/images/kc-licenses.png')}
+                class="block w-full transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent rounded-lg"
+                aria-label="Enlarge license management screenshot"
+            >
+                <img src="/images/kc-licenses.png" alt="Screenshot of the license management tab showing admin controls" class="rounded-lg shadow-lg max-w-full border-4 border-accent" />
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- System Requirements -->
+<section class="py-16 bg-base-200">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+    <div class="text-left">
+      <h2 class="text-3xl font-bold text-primary">Deploy on a Low Cost, Managed VPS</h2>
+      <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+        <li>📦 <b>2 vCPUs, 8 GB of RAM, and 100 GB</b> – FastAPI + Postgres fly on tiny boxes </li>
+        <li>🐳 <b>Docker with GUI Setup</b> – No root - no .env - No drama</li>
+        <li>🔑 <b>TLS 1.3 by default</b> – Locks every admin session end-to-end</li>
+      </ul>
+    </div>
+    <div class="flex justify-center">
+      <pre class="bg-base-200 p-4 rounded-lg text-left text-sm overflow-auto">
+docker run -e MASTER_PASS=SuperSecret \
+  -p 8000:8000 ghcr.io/signallynx/key-commander:latest
+      </pre>
+    </div>
+  </div>
+</section>
+
+<!-- RBAC -->
+<section class="py-16 bg-base-100">
+  <div class="max-w-6xl mx-auto text-center px-4">
+    <h2 class="text-3xl font-bold text-primary">Role-Based Access, Zero Oopsies</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 text-left">
+      <div class="bg-base-100 p-6 rounded-lg">
+        <h4 class="font-semibold text-accent">👑 Owner</h4>
+        <p class="mt-2">All the buttons, all the power.</p>
+      </div>
+      <div class="bg-base-100 p-6 rounded-lg">
+        <h4 class="font-semibold text-accent">🛠️ Support</h4>
+        <p class="mt-2">Reset activations, view logs—no drop-tables here.</p>
+      </div>
+      <div class="bg-base-100 p-6 rounded-lg">
+        <h4 class="font-semibold text-accent">🔍 Auditor</h4>
+        <p class="mt-2">Read-only access for the compliance gremlins.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HA & Replica -->
+<section class="py-16 bg-base-200">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+    <div class="text-left">
+      <h2 class="text-3xl font-bold text-primary">Built to Survive VPS Face-Plants</h2>
+      <p class="mt-4 text-lg text-base-content/80">
+        Point Key Commander at a hot-standby Postgres read replica—tokens keep flowing even if your primary melts.
+      </p>
+      <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+        <li>🟢 Primary writes + reads</li>
+        <li>🔵 Replica serves read-only <code>/validate</code></li>
+        <li>🛠️ One env var switch to fail over</li>
+      </ul>
+    </div>
+    <div class="flex justify-center">
+      <img src="/images/kc-ha-diagram.png" alt="Primary-replica diagram" class="rounded-lg shadow-lg border-4 border-accent max-w-full" />
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Roadmap -->
+<section class="py-16 bg-base-100">
+  <div class="max-w-4xl mx-auto text-center px-4">
+    <h2 class="text-3xl font-bold text-primary">We listen to you, the community</h2>
+    <p class="mt-4 text-lg text-base-content/80">
+      Continous upgrades and new features, let us know what you need to be succesful! Top-voted items hit the roadmap next.
+    </p>
+  </div>
+</section>
+
+
+<!-- Mini-FAQ -->
+<section class="py-16 bg-base-200">
+  <div class="max-w-4xl mx-auto text-center px-4">
+    <h3 class="text-2xl font-bold">Fast Answers</h3>
+    <ul class="mt-6 space-y-4 max-w-3xl mx-auto text-left text-base-content/80">
+      <li class="p-4 bg-base-100 rounded-lg"><b>Is setup hard?</b> Nah—<code>docker run -e MASTER_PASS=**** kc-image</code> and you’re live. ✔️</li>
+      <li class="p-4 bg-base-100 rounded-lg"><b>Can I import old keys?</b> Yep. Drop a CSV from Gumroad, click “Import,” done. 🔄</li>
+    </ul>
+  </div>
+</section>
+
+<!-- TECH SPECS ACCORDION -->
+<section class="bg-base-100 py-12">
+  <div class="max-w-4xl mx-auto px-4">
+    <details class="collapse bg-base-200 mb-4">
+      <summary class="collapse-title text-xl font-bold">What's the tech stack?</summary>
+      <div class="collapse-content">
+        <p class="opacity-80">
+          A high-performance FastAPI backend with a PostgreSQL database. The admin dashboard is a modern desktop GUI built with Flet/Flutter. It's fast, reliable, and production-grade.
+        </p>
+      </div>
+    </details>
+    <details class="collapse bg-base-200 mb-4">
+      <summary class="collapse-title text-xl font-bold">How does offline validation work?</summary>
+      <div class="collapse-content">
+        <p class="opacity-80">
+          The server uses the Ed25519 digital signature algorithm to issue secure, digitally signed tokens to your client software. These tokens can be validated offline for their entire duration, ensuring your users can always access their software, even without an internet connection.
+        </p>
+      </div>
+    </details>
+    <details class="collapse bg-base-200">
+      <summary class="collapse-title text-xl font-bold">How does it prevent piracy?</summary>
+       <div class="collapse-content">
+        <p class="opacity-80">
+          Each license key is tied to a specific number of machine activations. Our validation endpoint tracks these machine IDs to prevent overuse. We also "burn" machine IDs from expired trials to stop users from repeatedly signing up for new trials on the same computer.
+        </p>
+      </div>
+    </details>
+     <p class="mt-4 text-center">
+      Need more answers? <a href="/faq" class="link link-primary">Check out the full FAQ →</a>
+    </p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="bg-base-200 py-16 text-center px-4">
+  <h2 class="text-3xl md:text-5xl font-bold text-primary">Ready to take command of your business?</h2>
+  <p class="mt-4 text-xl max-w-2xl mx-auto">
+    Get the Signal Lynx Key Commander and unlock your business's true potential.
+  </p>
+  <a href="#product-card"><button class="btn btn-primary btn-lg mt-6 px-12">Start 7-Day Trial</button></a>
+</section>
 </file>
 
 <file path="src/routes/(marketing)/login/forgot_password/+page.svelte">
@@ -3460,6 +3418,456 @@ export async function GET() {
   const searchData = await buildSearchIndex();
   return json(searchData);
 }
+</file>
+
+<file path="src/routes/(marketing)/trading-automation/+page.svelte">
+<script lang="ts">
+  import { automationProducts } from "$lib/data/products";
+  import { onMount } from "svelte";
+
+  let imageModal: HTMLDialogElement;
+  let selectedImageUrl = $state<string | null>(null);
+
+  function showImage(imageUrl: string) {
+    selectedImageUrl = imageUrl;
+    if (imageModal) {
+      imageModal.showModal();
+    }
+  }
+
+  // Close modal when clicking anywhere
+  function handleClick(e: MouseEvent) {
+    imageModal.close();
+  }
+
+  // Close modal with Escape key
+  function handleKeyDown(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      imageModal.close();
+    }
+  }
+
+  onMount(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  });
+</script>
+
+<!-- Image Modal -->
+<dialog 
+  id="image_modal" 
+  class="modal cursor-pointer bg-transparent p-0"
+  bind:this={imageModal}
+  onclick={handleClick}
+>
+  <div class="flex items-center justify-center w-full h-full">
+    {#if selectedImageUrl}
+      <img
+        src={selectedImageUrl}
+        alt="Enlarged view of feature"
+        class="max-w-[75vw] max-h-[75vh] object-contain rounded-lg shadow-2xl border-4 border-accent"
+      />
+    {/if}
+  </div>
+</dialog>
+
+
+<svelte:head>
+  <title>Trading Automation - Signal Lynx</title>
+  <meta name="description" content="Automate Your Alerts. Own Your Keys. Local-first automation tools for hands-free trading." />
+</svelte:head>
+
+<!-- HERO -->
+<section class="text-center py-16 md:py-24 px-4 bg-base-200">
+    <div class="max-w-4xl mx-auto flex flex-col items-center">
+        <h1 class="text-4xl md:text-6xl font-bold text-primary whitespace-nowrap">
+            Signal Lynx Automated Trading Arsenal
+        </h1>
+        <p class="mt-4 text-2xl md:text-3xl font-semibold text-secondary whitespace-nowrap">
+            Fully Automated - 24/7 Trading
+        </p>
+        <p class="mt-6 text-xl max-w-3xl mx-auto text-base-content/80">
+          Heard the saying "Not Your Keys, Not Your Coins"? We take it seriously. <br/>
+          Your Keys live on your machine, and never see the cloud. Period.
+        </p>
+    </div>
+  <div class="mt-8">
+    <a href="#cards" class="btn btn-primary btn-wide">See the Toolkit</a>
+  </div>
+</section>
+
+<!-- SECURITY BANNER -->
+<section class="bg-base-100 py-8">
+  <div class="max-w-4xl mx-auto text-center px-4">
+    <h3 class="text-2xl font-bold text-secondary">Signal Lynx Easily Enables Automated algorithmic Trading</h3>
+    <p class="opacity-70 mt-2">
+      Easy Set Up & Easy to Understand <br/>
+      Always Connected, Always Secure, Always Private.
+    </p>
+  </div>
+</section>
+
+<!-- PRODUCT CARDS -->
+<section id="cards" class="py-16 px-4 bg-base-200">
+  <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 px-4 justify-center items-stretch">
+    {#each automationProducts as product (product.id)}
+       <div class="card bg-base-100 shadow-xl flex-1 flex flex-col min-w-[280px] max-w-[400px] border-4 border-transparent transition-all duration-300 hover:border-accent">
+            <div class="card-body p-8 flex flex-col">
+                <div class="text-center">
+                    <h2 class="card-title justify-center text-2xl font-bold text-secondary">{product.name}</h2>
+                    <h3 class="mt-1 text-lg font-normal text-accent">{product.title}</h3>
+                </div>
+                <p class="text-base-content/80 mt-4">{product.tagline}</p>
+                
+                <ul class="my-6 space-y-3 text-left flex-grow">
+                {#each product.features as feature}
+                    <li class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-success shrink-0 mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z" fill="currentColor"/></svg>
+                    <span>{feature}</span>
+                    </li>
+                {/each}
+                </ul>
+
+                <div class="mt-auto pt-4">
+                    <p class="text-5xl font-bold text-center">{product.price}</p>
+                    <div class="card-actions justify-center mt-6">
+                        <a href={product.stripe_price_id ? `/account/subscribe/${product.stripe_price_id}` : '/login'} class="btn btn-primary btn-wide">{product.ctaLabel}</a>
+                    </div>
+                    <p class="text-center text-xs text-base-content/50 mt-2">{product.footnote}</p>
+                </div>
+            </div>
+        </div>
+    {/each}
+  </div>
+</section>
+
+<!-- Supported Exchanges -->
+<section class="bg-base-100 py-10">
+  <div class="max-w-4xl mx-auto text-center px-4">
+    <h3 class="text-2xl font-bold text-secondary">
+      Works with Your Favorite Spot Exchanges
+    </h3>
+    <div class="mt-6 flex justify-center items-center gap-8">
+      <!-- NOTE: You will need to add these logo files to /static/logos/ -->
+      <img src="/logos/kraken.png" alt="Kraken logo" class="h-40" />
+      <img src="/logos/binanceus.png" alt="Binance US logo" class="h-40" />
+      <img src="/logos/gemini.png" alt="Gemini logo" class="h-40" />
+    </div>
+    <p class="mt-4 opacity-70">
+      Spot trading on Kraken, Binance US & Gemini. Zero surprises, zero middlemen.
+    </p>
+  </div>
+</section>
+
+<!-- How It Works in 3 Steps -->
+<section class="bg-base-200 py-10">
+  <div class="max-w-4xl mx-auto text-center px-4">
+    <h3 class="text-2xl font-bold">
+      Get Started in 3 Easy Steps
+    </h3>
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Step 1 -->
+      <div class="flex flex-col items-center">
+        <div class="text-4xl font-bold text-secondary">1</div>
+        <h4 class="mt-2 font-semibold">Install Signal Shield</h4>
+        <p class="opacity-70 mt-1">
+          One-click setup that fortifies and primes your PC.
+        </p>
+      </div>
+      <!-- Step 2 -->
+      <div class="flex flex-col items-center">
+        <div class="text-4xl font-bold text-secondary">2</div>
+        <h4 class="mt-2 font-semibold">Configure Lynx-Relay</h4>
+        <p class="opacity-70 mt-1">
+          Drop in your exchange API keys and prep for action.
+        </p>
+      </div>
+      <!-- Step 3 -->
+      <div class="flex flex-col items-center">
+        <div class="text-4xl font-bold text-secondary">3</div>
+        <h4 class="mt-2 font-semibold">Go Live</h4>
+        <p class="opacity-70 mt-1">
+          Watch your alerts turn into hands-off trades in real time.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Setup Script Details -->
+<section class="py-16 bg-base-100">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+        <div class="text-left">
+            <h2 class="text-3xl font-bold text-secondary">Signal Shield Installer</h2>
+            <h3 class="text-2xl font-bold text-primary mt-2">The One-Button Bodyguard</h3>
+            <p class="mt-4 text-lg text-base-content/80">
+                Signal Shield is your one-click fortress—instantly locking down and optimizing any Windows PC for rock-solid webhook reception and automated trading readiness. In moments, it configures your system for reliable, hands-off strategy execution without you lifting a finger.
+            </p>
+             <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Fortify in Minutes:</b> Get your PC ready for automated alerts—no tech skills needed.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Block All but Your Alerts:</b> Only your trading signals reach the engine.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Always-On Service:</b> Ensures Trade Services Auto-start on boot and stay synced for 24/7 reliability.</span></li>
+            </ul>
+        </div>
+        <div class="flex justify-center">
+            <img src="/images/ta-setup-script.png" alt="Screenshot of the Signal Lynx setup script running in a PowerShell terminal" class="rounded-lg shadow-lg max-w-full border-4 border-accent" />
+        </div>
+    </div>
+</section>
+
+<!-- Lynx-Relay Banner -->
+<section class="py-16 bg-base-200 text-center">
+  <div class="max-w-3xl mx-auto px-4">
+    <h2 class="text-4xl font-bold text-secondary">Lynx-Relay</h2>
+    <p class="mt-4 text-xl text-base-content/80">
+        Okay, your server's bodyguard is on duty. Now for the fun part. Lynx-Relay is your private, self-hosted command center where TradingView alerts become real-money trades. No cloud detours, no shared servers, just a direct line from your strategy to the exchange. This is where you watch the machine work.
+    </p>
+  </div>
+</section>
+
+<!-- LYNX-RELAY WORKFLOW -->
+<section class="py-16 bg-base-100">
+  <div class="max-w-7xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-primary mb-12 text-center">The Signal Lynx Workflow: Direct & Secure</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      
+      <!-- Image on the left -->
+      <div class="flex items-center justify-center">
+        <img 
+          src="/images/LynxRelay_FlowChart.png" 
+          alt="Flowchart showing TradingView alerts sent to Signal Lynx, which communicates with exchanges and sends notifications to Telegram"
+          class="rounded-lg shadow-2xl border-4 border-accent"
+        />
+      </div>
+
+      <!-- Bulleted List on the right -->
+      <div class="space-y-6">
+        <div class="flex items-start gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary text-secondary-content flex items-center justify-center font-bold">1</div>
+          <div>
+            <h4 class="font-bold text-lg">Signal Sent</h4>
+            <p class="opacity-80">Your strategy on TradingView fires an alert to your secure webhook URL.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary text-secondary-content flex items-center justify-center font-bold">2</div>
+          <div>
+            <h4 class="font-bold text-lg">Secure Reception</h4>
+            <p class="opacity-80">Lynx-Relay validates the alert on your local machine.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary text-secondary-content flex items-center justify-center font-bold">3</div>
+          <div>
+            <h4 class="font-bold text-lg">Local Execution</h4>
+            <p class="opacity-80">Lynx-Relay communicates directly with the exchange using your private, local API keys to place and monitor the trade. This is a two-way street—it checks for fills and updates.</p>
+          </div>
+        </div>
+         <div class="flex items-start gap-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary text-secondary-content flex items-center justify-center font-bold">4</div>
+          <div>
+            <h4 class="font-bold text-lg">Instant Notification</h4>
+            <p class="opacity-80">Real time notifications go out to Telegram as Lynx Relay is working your orders - No Delays.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Main GUI Screen -->
+<section class="py-16 bg-base-200">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+        <div class="text-left">
+            <h2 class="text-3xl font-bold text-primary">Run Your Command Center</h2>
+            <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>See Your Live Status:</b> A synthwave-inspired GUI with a single green light for "go."</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Navigate with Ease:</b> One-click access to your vault, trade history, and connectivity hub.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Monitor Your License:</b> No surprise expirations. See your subscription status in real time.</span></li>
+            </ul>
+        </div>
+        <div class="flex justify-center">
+            <img src="/images/ta-main-gui.png" alt="Screenshot of the Lynx-Relay main screen" class="rounded-lg shadow-lg max-w-full max-h-[600px] object-contain border-4 border-accent" />
+        </div>
+    </div>
+</section>
+
+<!-- Key Vault -->
+<section class="py-16 bg-base-100">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+        <div class="md:order-2 text-left">
+            <h2 class="text-3xl font-bold text-primary">Lock Down Your Keys</h2>
+            <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Lock every key with military-grade encryption</b>—only your master pass opens the vault.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Use Your Master Password:</b> The entire application remains locked until you provide your unique password.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Organize Your Arsenal:</b> Separate tabs for your Telegram bot and exchange accounts.</span></li>
+            </ul>
+        </div>
+        <div class="md:order-1 flex justify-center items-center space-x-4">
+            <!-- First image with popup -->
+            <button
+                type="button"
+                onclick={() => showImage('/images/ta-setup-1.png')}
+                class="w-full transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent rounded-lg flex-1 min-w-0"
+                aria-label="Enlarge Lynx-Relay setup screen"
+            >
+                <img 
+                    src="/images/ta-setup-1.png" 
+                    alt="Screenshot of the Lynx-Relay setup screen" 
+                    class="rounded-lg shadow-lg object-contain border-4 border-accent max-h-[600px]"
+                />
+            </button>
+            
+            <!-- Second image with popup -->
+            <button
+                type="button"
+                onclick={() => showImage('/images/ta-setup-2.png')}
+                class="w-full transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent rounded-lg flex-1 min-w-0 hidden lg:block"
+                aria-label="Enlarge Lynx-Relay API key setup screen"
+            >
+                <img 
+                    src="/images/ta-setup-2.png" 
+                    alt="Screenshot of the Lynx-Relay API key setup screen" 
+                    class="rounded-lg shadow-lg object-contain border-4 border-accent max-h-[600px]"
+                />
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Insights -->
+<section class="py-16 bg-base-200">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+        <div class="text-left">
+            <h2 class="text-3xl font-bold text-primary">Get Actionable Insights</h2>
+            <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Audit Every Signal:</b> Get a timestamped log of every alert received and its final outcome.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Track Live PnL:</b> See your open positions and review the profitability of every closed trade.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Unify Your History:</b> Consolidate trade data from all your connected exchanges into a single view.</span></li>
+            </ul>
+        </div>
+        <div class="flex justify-center items-center space-x-4">
+            <!-- First image with popup -->
+            <button
+                type="button"
+                onclick={() => showImage('/images/ta-alert-history.png')}
+                class="w-full transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent rounded-lg flex-1 min-w-0"
+                aria-label="Enlarge Alert History screenshot"
+            >
+                <img 
+                    src="/images/ta-alert-history.png" 
+                    alt="Screenshot of the Alert History tab in the Lynx-Relay" 
+                    class="rounded-lg shadow-lg object-contain border-4 border-accent max-h-[600px]"
+                />
+            </button>
+            
+            <!-- Second image with popup -->
+            <button
+                type="button"
+                onclick={() => showImage('/images/ta-history.png')}
+                class="w-full transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent rounded-lg flex-1 min-w-0 hidden lg:block"
+                aria-label="Enlarge History tab screenshot"
+            >
+                <img 
+                    src="/images/ta-history.png" 
+                    alt="Screenshot of the History tab in the Lynx-Relay" 
+                    class="rounded-lg shadow-lg object-contain border-4 border-accent max-h-[600px]"
+                />
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Connectivity Hub -->
+<section class="py-16 bg-base-100">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+        <div class="md:order-2 text-left">
+            <h2 class="text-3xl font-bold text-primary">Check Your Connectivity</h2>
+            <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Instant Health Check:</b> A simple, color-coded API Status column lets you know the health of each connection.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Eliminate Guesswork:</b> Quickly identify and resolve API key or connectivity issues.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Proactive Diagnostics:</b> Click "Test Connections" to run a live test of all exchange links.</span></li>
+            </ul>
+        </div>
+        <div class="md:order-1 flex justify-center">
+            <img src="/images/ta-exchanges.png" alt="Screenshot of the Exchanges tab in the Lynx-Relay" class="rounded-lg shadow-lg max-w-full max-h-[600px] object-contain border-4 border-accent" />
+        </div>
+    </div>
+</section>
+
+<!-- Telegram Notifications -->
+<section class="py-16 bg-base-200">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-4">
+        <div class="text-left">
+            <h2 class="text-3xl font-bold text-primary">Ping Your Phone, Not Your Nerves</h2>
+             <ul class="mt-4 space-y-3 text-lg text-base-content/80">
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Get 24/7 Updates:</b> Instant push notifications for every key action your bot takes.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Know It All:</b> Receive detailed alerts for new order requests, successful placements, and final fills.</span></li>
+                <li class="flex items-start gap-3"><span class="text-success mt-1">✓</span><span><b>Algo Overwatch:</b> Protect your funds - always know where the trades are.</span></li>
+            </ul>
+        </div>
+        <div class="flex justify-center">
+            <img src="/images/ta-telegram.png" alt="Screenshot of Signal Lynx notifications in the Telegram app on a phone" class="max-h-[600px] rounded-lg shadow-lg border-4 border-accent" />
+        </div>
+    </div>
+</section>
+
+<!-- TECH SPECS ACCORDION -->
+<section class="bg-base-100 py-12">
+  <div class="max-w-4xl mx-auto px-4">
+    <details class="collapse bg-base-200 mb-4">
+      <summary class="collapse-title text-xl font-bold">How does the Signal Shield Installer harden my PC?</summary>
+      <div class="collapse-content">
+        <p class="opacity-80">
+          It installs NGINX as a reverse proxy, pulls a free Let’s Encrypt TLS certificate for HTTPS, and writes multiple firewall rules to only allow traffic from major charting providers. This is in addition to configuring your machine to to a realiable algorythmic trading center.
+        </p>
+      </div>
+    </details>
+    <details class="collapse bg-base-200 mb-4">
+      <summary class="collapse-title text-xl font-bold">What’s protecting the Key Vault?</summary>
+      <div class="collapse-content">
+        <p class="opacity-80">
+          Your license key, webhook secret, Telegram token, and each exchange API key are encrypted on your local disk using advanced encryption algorithms. The vault can only be unlocked with your master password.
+        </p>
+      </div>
+    </details>
+    <details class="collapse bg-base-200 mb-4">
+      <summary class="collapse-title text-xl font-bold">How does Lynx-Relay know what to do?</summary>
+      <div class="collapse-content">
+        <p class="opacity-80">
+          Lynx-Relay listens for TradingView alerts sent to your webhook URL. When an alert is received, it checks the alert message for specific commands and parameters, then executes trades on your behalf using the configured exchange API keys. <br/>
+          Trade details are fully customize within each alert via an easy to configure JSON package, allowing you to set parameters like order type, quantity, any stop loss or take profit levels, and more. <br/>
+          You can also set up multiple alert types for different strategies and exchanges, all managed from the same Lynx-Relay interface.
+        </p>
+      </div>
+    </details>
+    <details class="collapse bg-base-200 mb-4">
+      <summary class="collapse-title text-xl font-bold">Does Lynx-Relay ensure my order is placed?</summary>
+       <div class="collapse-content">
+        <p class="opacity-80">
+          Yes! Lynx-Relay monitors your order with exchanges, and ensure it's filled with advanced mitigation routines. Giving you the confidence to place limit orders, even with scalp trades!
+        </p>
+      </div>
+    </details>
+     <p class="mt-4 text-center">
+      Need more answers? <a href="/faq" class="link link-primary">Check out the full FAQ →</a>
+    </p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="bg-base-200 py-16 text-center px-4">
+  <h2 class="text-3xl md:text-5xl font-bold text-primary">Ready to automate the smart way?</h2>
+  <p class="mt-4 text-xl max-w-2xl mx-auto">
+    Start a zero-risk 7-day trial <br/>
+    Keep the $1 Signal Shield Installer forever, even if you cancel.
+  </p>
+  <a href="#cards"><button class="btn btn-primary btn-lg mt-6 px-12">Start 7-Day Trial</button></a>
+</section>
 </file>
 
 <file path="svelte.config.js">
@@ -3553,6 +3961,74 @@ export default {
     autoprefixer: {},
   },
 }
+</file>
+
+<file path="src/lib/components/pricing_module.svelte">
+<script lang="ts">
+  import { allProducts } from "$lib/data/products"
+  import type { Product } from "$lib/data/products";
+
+  interface Props {
+    // Module context
+    callToAction?: string
+    highlightedPlanId?: string
+    currentPlanId?: string
+    center?: boolean
+  }
+
+  let {
+    callToAction = "",
+    highlightedPlanId = "",
+    currentPlanId = "",
+    center = true,
+  }: Props = $props()
+</script>
+
+<div
+  class="flex flex-col lg:flex-row gap-10 {center
+    ? 'place-content-center'
+    : ''} flex-wrap"
+>
+  {#each allProducts as plan: Product}
+    <div
+      class="card shadow-xl flex-1 min-w-[260px] max-w-[310px] p-6 border-4 border-transparent transition-all duration-300 hover:border-accent"
+    >
+      <div class="flex flex-col h-full">
+        <div class="text-xl font-bold">{plan.title}</div>
+        <p class="mt-2 text-sm text-base-content/70 flex-grow">
+          {plan.tagline}
+        </p>
+        <div class="mt-auto pt-4 text-sm text-base-content/80">
+          Plan Includes:
+          <ul class="list-disc list-inside mt-2 space-y-1">
+            {#each plan.features as feature}
+              <li class="">{feature}</li>
+            {/each}
+          </ul>
+        </div>
+        <div class="pt-8">
+          <span class="text-4xl font-bold">{plan.price}</span>
+          <div class="mt-6 pt-4 flex-1 flex flex-row items-center">
+            {#if plan.id === currentPlanId}
+              <div
+                class="btn btn-outline btn-success no-animation w-[80%] mx-auto cursor-default"
+              >
+                Current Plan
+              </div>
+            {:else}
+              <a
+                href={plan.stripe_price_id ? `/account/subscribe/${plan.stripe_price_id}` : '/login'}
+                class="btn btn-primary w-[80%] mx-auto"
+              >
+                {callToAction || plan.ctaLabel}
+              </a>
+            {/if}
+          </div>
+        </div>
+      </div>
+    </div>
+  {/each}
+</div>
 </file>
 
 <file path="src/lib/mailer.test.ts">
@@ -4541,6 +5017,587 @@ export const actions = {
 }
 </file>
 
+<file path="src/routes/(marketing)/faq/+page.svelte">
+<script lang="ts">
+// No script logic needed for this static content page.
+</script>
+
+<svelte:head>
+  <title>FAQ – Signal Lynx</title>
+  <meta
+    name="description"
+    content="Frequently asked questions about Signal Shield, Lynx-Relay, and Key Commander: billing, security, setup, and more."
+  />
+</svelte:head>
+
+<div class="py-12 px-4 bg-base-100">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-6xl font-bold text-center text-primary mb-12">
+      Frequently Asked Questions
+    </h1>
+
+    <!-- Universal Questions -->
+    <h2 class="text-3xl font-bold text-secondary mb-6">Universal Questions</h2>
+    <div class="join join-vertical w-full">
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" checked />
+        <div class="collapse-title text-xl font-medium">How am I billed?</div>
+        <div class="collapse-content">
+          <p>
+            We offer straightforward monthly or yearly subscriptions—no hidden tiers,
+            in-app purchases, or surprise fees. We accept all major credit cards.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">Is there a genuine free trial?</div>
+        <div class="collapse-content">
+          <p>
+            Yes! Enjoy a fully unlocked seven-day trial. We require a card to start,
+            but if you cancel before the trial ends, you won’t be charged.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">Can I get a refund?</div>
+        <div class="collapse-content">
+          <p>
+            Since our software is delivered digitally, all sales are final. Canceling
+            your subscription simply prevents future renewals. Please use the trial
+            to ensure our tools meet your needs.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">What hardware do I need?</div>
+        <div class="collapse-content">
+          <p>
+            Our applications are lightweight and require minimal processing power.
+            Refer to each product’s page for detailed system requirements.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">Laptop or VPS?</div>
+        <div class="collapse-content">
+          <p>
+            You can use a laptop, desktop, or gaming PC. A Virtual Private Server (VPS)
+            provides 24/7 uptime without impacting your home power usage.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">Can I use a VPN?</div>
+        <div class="collapse-content">
+          <p>
+            Only if your VPN provides a static IP. If the IP changes, TradingView
+            webhooks won’t reach your host or Lynx-Relay.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">Are webhooks secure?</div>
+        <div class="collapse-content">
+          <p>
+            Absolutely. Signal Shield creates a secure tunnel for webhooks, using
+            industry-standard practices to protect your data from online threats.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">How safe are my passwords and API keys?</div>
+        <div class="collapse-content">
+          <p>
+            We use top-tier encryption routines to protect your data locally. Our
+            security practices meet or exceed OWASP guidelines.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">How can I contact support?</div>
+        <div class="collapse-content">
+          <p>
+            You can reach us on Telegram and X (formerly Twitter). We’re always here
+            to help.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">Who is Signal Lynx?</div>
+        <div class="collapse-content">
+          <p>
+            We’re a small team of engineers and traders building reliable, affordable
+            tools because existing solutions were either too expensive or didn’t work.
+          </p>
+          <p class="mt-2">
+            Fueled by late nights and questionable amounts of caffeine, we created
+            our own solutions—and now we’re sharing them with you.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">Why are your prices so low?</div>
+        <div class="collapse-content">
+          <p>
+            We’re not backed by venture capital or paying for yachts. Our tools were
+            built for personal use and priced fairly for individual traders.
+          </p>
+          <p class="mt-2">
+            Use the money you save to upgrade your setup or grab another energy drink.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-universal" />
+        <div class="collapse-title text-xl font-medium">What’s on the roadmap?</div>
+        <div class="collapse-content">
+          <p>
+            We’re continuously adding new features as time allows. Let us know what
+            you’d like by voting on features or giving feedback on Telegram or X.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signal Shield: FAQs -->
+    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">Signal Shield: FAQs</h2>
+    <div class="join join-vertical w-full">
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-setup" checked />
+        <div class="collapse-title text-xl font-medium">What does Signal Shield install?</div>
+        <div class="collapse-content">
+          <p>
+            Installs everything needed for secure, reliable trading: NGINX reverse
+            proxy, NetTime synchronization, in-memory database (Memurai), NSSM
+            service manager, and full SSL encryption.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-setup" />
+        <div class="collapse-title text-xl font-medium">Does it modify the Windows Registry?</div>
+        <div class="collapse-content">
+          <p>Yes—just enough to ensure optimal performance. All changes are reversible.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-setup" />
+        <div class="collapse-title text-xl font-medium">What if the installer fails?</div>
+        <div class="collapse-content">
+          <p>
+            If setup fails, you can configure Lynx-Relay manually. Refer to the
+            Lynx-Relay README for detailed instructions.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-setup" />
+        <div class="collapse-title text-xl font-medium">Can I uninstall completely?</div>
+        <div class="collapse-content">
+          <p>Absolutely. Signal Shield can be fully removed, including all configurations.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-setup" />
+        <div class="collapse-title text-xl font-medium">Which operating systems are supported?</div>
+        <div class="collapse-content">
+          <p>Windows 10/11 and Server 2016+ are supported. Linux and macOS are coming soon.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lynx-Relay: FAQs -->
+    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">Lynx-Relay: FAQs</h2>
+    <div class="join join-vertical w-full">
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" checked />
+        <div class="collapse-title text-xl font-medium">Which exchanges are supported?</div>
+        <div class="collapse-content">
+          <p>
+            Lynx-Relay currently supports Kraken, Gemini, and Binance.US. Let us know
+            which exchanges you’d like added next!
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">Which operating systems are supported?</div>
+        <div class="collapse-content">
+          <p>Windows 10/11 and Server 2016+ (same as Signal Shield). Linux and macOS support coming soon.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">How quickly can I start trading?</div>
+        <div class="collapse-content">
+          <p>You can have everything set up in under 15 minutes, including API key creation.</p>
+          <p class="font-semibold mt-4">Key Setup Steps:</p>
+          <ol class="list-decimal list-inside pl-4 space-y-1">
+            <li>Run Signal Shield.</li>
+            <li>Launch Lynx-Relay.</li>
+            <li>Enter your master password and webhook passphrase.</li>
+            <li>Enter your license key.</li>
+            <li>Configure your Telegram Bot Token and Chat ID.</li>
+            <li>Add your exchanges and API keys.</li>
+          </ol>
+          <p class="mt-2">Point your TradingView alerts to the webhook URL, and you’re live.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">What order types are supported?</div>
+        <div class="collapse-content">
+          <p>Lynx-Relay supports spot trading on Kraken, Gemini, and Binance.US:</p>
+          <ul class="list-disc list-inside pl-4 space-y-2 mt-2">
+            <li><strong>Kraken:</strong> Limit, Advanced Limit, Market, Take Profit, Stop Loss.</li>
+            <li>
+              <strong>Gemini:</strong> Limit, Advanced Limit, Take Profit, Stop Loss
+              (market orders emulated via Advanced Limit).
+            </li>
+            <li><strong>Binance.US:</strong> Limit, Advanced Limit, Market, Take Profit, Stop Loss.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">How does Lynx-Relay know what to trade?</div>
+        <div class="collapse-content">
+          <p>
+            Lynx-Relay processes JSON instructions from TradingView webhooks. Set your
+            alert conditions in TradingView, specify the webhook URL, and include order
+            details in JSON.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">How do I find my public IP address?</div>
+        <div class="collapse-content">
+          <p>
+            Visit a “what is my IP” site and use that address in your TradingView webhook
+            URL, e.g. <code>https://123.456.78.90/webhook</code>.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">How many alerts per second can it handle?</div>
+        <div class="collapse-content">
+          <p>Lynx-Relay safely handles up to 10 alerts per second.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">What does the dashboard display?</div>
+        <div class="collapse-content">
+          <p>
+            The dashboard shows status, incoming alerts, execution results, connectivity,
+            audit logs, P&L tracking, and error messages for full transparency.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">Are mobile alerts available?</div>
+        <div class="collapse-content">
+          <p>Yes—Telegram integration lets you monitor alerts and fills on the go.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">Are my API keys secure?</div>
+        <div class="collapse-content">
+          <p>API keys and passwords are fully encrypted and stored locally. We never see or store your credentials.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">Is there an offline mode?</div>
+        <div class="collapse-content">
+          <p>No—Lynx-Relay must be running to process webhooks. Loss of power or internet connectivity will pause trading.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">Does Lynx-Relay update automatically?</div>
+        <div class="collapse-content">
+          <p>
+            No automatic updates. Download new versions from your account and replace the
+            old executable—no additional setup required.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">Can I pause trading?</div>
+        <div class="collapse-content">
+          <p>
+            Yes—stop the Lynx-Relay service for a global pause, or pause individual alerts
+            in TradingView for more control.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">What if I forget my password?</div>
+        <div class="collapse-content">
+          <p>
+            For security, there’s no “forgot password.” To reset, delete
+            <code>SignalLynx_Vault.encrypted</code>, restart Lynx-Relay, set a new password,
+            and re-enter your keys. You’ll be back up in under 10 minutes.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-engine" />
+        <div class="collapse-title text-xl font-medium">What future features are planned?</div>
+        <div class="collapse-content">
+          <p>We’re planning support for additional exchanges and new dashboard widgets—let us know what you’d like to see!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Commander: FAQs -->
+    <h2 class="text-3xl font-bold text-secondary mt-16 mb-6">Key Commander: FAQs</h2>
+    <div class="join join-vertical w-full">
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" checked />
+        <div class="collapse-title text-xl font-medium">How easy is Key Commander to learn?</div>
+        <div class="collapse-content">
+          <p>
+            Key Commander features a 100% graphical interface—no command line or
+            <code>.env</code> files required. The Admin Portal lets you manage customers,
+            products, and licenses visually.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">What features does Key Commander include?</div>
+        <div class="collapse-content">
+          <p>
+            Key Commander handles key generation, customer management, payment
+            processing, license delivery, revocation, reissue, and more—everything
+            accessible from the Admin Portal.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Is it all-inclusive for one price?</div>
+        <div class="collapse-content">
+          <p><strong>Yes.</strong> One flat rate with all features—no hidden fees, tiers, or add-ons. Scale freely.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">What are the system requirements?</div>
+        <div class="collapse-content">
+          <p>A low-cost VPS with Docker is recommended. At least 2 vCPUs, 8 GB RAM, and 100 GB storage.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">How do I set up Key Commander?</div>
+        <div class="collapse-content">
+          <p>Deploy the provided Docker container on any Docker-compatible system. The Admin Portal guides you through setup and configuration.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">How does Key Commander work?</div>
+        <div class="collapse-content">
+          <p>
+            Key Commander consists of a GUI Admin Portal and a background server. After
+            initial cryptographic pairing, only the correct password unlocks the server.
+            Once initialized, the server runs independently of the portal.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">How does the Admin Portal connect?</div>
+        <div class="collapse-content">
+          <p>
+            The Admin Portal can run on the same VPS as the server or from your local
+            machine. No command prompts, <code>.env</code> files, or direct database calls.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Which payment providers are supported?</div>
+        <div class="collapse-content">
+          <p>Currently supports Stripe. More providers are on the way—let us know your preferences!</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">What product types are supported?</div>
+        <div class="collapse-content">
+          <p>One-time purchases, subscriptions, and trial licenses are all supported.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Does Key Commander prevent sharing?</div>
+        <div class="collapse-content">
+          <p>
+            Yes—each license key binds to a machine ID. Only that machine can use the
+            key after activation.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">What if a user changes computers?</div>
+        <div class="collapse-content">
+          <p>
+            Users can request a machine ID reset once per month via their license key.
+            Admins can perform additional resets as needed.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Is offline use supported?</div>
+        <div class="collapse-content">
+          <p>
+            Yes—admins can enable offline session tokens. After an initial online
+            check, tokens grant offline use until the next renewal.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">How secure is Key Commander?</div>
+        <div class="collapse-content">
+          <p>Our security practices meet or exceed OWASP guidelines.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Can I generate developer or custom keys?</div>
+        <div class="collapse-content">
+          <p>Yes—admins can create developer or promotional keys for testing and giveaways.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Can I manage multiple products and tiers?</div>
+        <div class="collapse-content">
+          <p>Key Commander supports unlimited products and fully configurable tier mapping.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Does it back up your data?</div>
+        <div class="collapse-content">
+          <p>Yes—manual and automatic backups are supported. Data is reconciled with Stripe to ensure accuracy.</p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Can it recover from disaster?</div>
+        <div class="collapse-content">
+          <p>
+            Yes—after restoring from backup or running reconciliation, your customer data
+            and licenses are fully restored. Developer keys require a backup for recovery.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">Is key generation automatic?</div>
+        <div class="collapse-content">
+          <p>
+            Yes—new license keys are generated and emailed automatically. SMTP, Brevo,
+            and Amazon SES are supported out of the box.
+          </p>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq-license" />
+        <div class="collapse-title text-xl font-medium">How do I integrate Key Commander with my software?</div>
+        <div class="collapse-content">
+          <p>
+            See the Key Commander README for code examples and integration details.
+            Contact us on Telegram or X if you need further assistance.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="text-center mt-16">
+      <h2 class="text-2xl font-bold">Need more?</h2>
+      <p class="mt-2">
+        Reach out on Telegram or X (formerly Twitter). If your question makes us
+        facepalm, it goes straight into the FAQ.
+      </p>
+    </div>
+  </div>
+</div>
+```
+</file>
+
 <file path="src/routes/(marketing)/login/+layout.ts">
 import {
   PUBLIC_SUPABASE_ANON_KEY,
@@ -4612,65 +5669,6 @@ export const load = async ({ fetch, data, depends }) => {
 <div class="text-l mt-4 mb-2">
   Have an account? <a class="link" href="/login/sign_in">Sign in</a>.
 </div>
-</file>
-
-<file path="tailwind.config.ts">
-import typography from '@tailwindcss/typography';
-import daisyui from 'daisyui';
-
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ['./src/**/*.{html,js,svelte,ts}'],
-  theme: {
-    extend: {
-      backgroundImage: {
-        'synth-grid': "url('/images/synthwave_grid.png')",
-      }
-    },
-  },
-  plugins: [typography, daisyui],
-  daisyui: {
-    themes: [
-      {
-        saasstartertheme: {
-          "color-scheme": "dark", // Identifies this as a dark theme for browser UI
-
-          "primary": "#903a9d",          // Main Brand Purple (from GUI labels/borders)
-          "primary-content": "#ffffff",   // White text on primary elements
-
-          "secondary": "#FF0080",       // Hot Pink (from GUI button gradient)
-          "secondary-content": "#ffffff",
-
-          "accent": "#00FFFF",          // Bright Cyan (from GUI button gradient)
-          "accent-content": "#010516",  // Dark text for high contrast on bright cyan
-
-          "neutral": "#1a1a2e",         // Dark Blue/Gray (from GUI table background)
-          "neutral-content": "#A6ADBB",
-
-          "base-100": "#010516",        // The main page background (GUI's darkest color)
-          "base-200": "#190025",        // A slightly lighter dark purple (from tab panes)
-          "base-300": "#2a2832",        // Dark gray/purple (for inactive elements)
-          "base-content": "#A6ADBB",    // The primary text color for the site (light gray)
-
-          "info": "#66E6FF",            // Light neon cyan
-          "info-content": "#00323D",
-
-          "success": "#39FF14",         // Neon green for success states
-          "success-content": "#00330C",
-
-          "warning": "#FBBD23",         // A standard bright yellow for warnings
-          "warning-content": "#382800",
-
-          "error": "#E94560",           // The pink/red used for errors in the GUI
-          "error-content": "#ffffff",
-
-          "--rounded-btn": "1rem",
-          "--rounded-box": "0.5rem",
-        },
-      },
-    ],
-  },
-};
 </file>
 
 <file path="src/hooks.server.ts">
@@ -5214,6 +6212,65 @@ export async function buildSearchIndex() {
 </div>
 </file>
 
+<file path="tailwind.config.ts">
+import typography from '@tailwindcss/typography';
+import daisyui from 'daisyui';
+
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{html,js,svelte,ts}'],
+  theme: {
+    extend: {
+      fontFamily: {
+        handwriting: ['Kalam', 'cursive'],
+      },
+    },
+  },
+  plugins: [typography, daisyui],
+  daisyui: {
+    themes: [
+      {
+        saasstartertheme: {
+          "color-scheme": "dark", // Identifies this as a dark theme for browser UI
+
+          "primary": "#903a9d",          // Main Brand Purple (from GUI labels/borders)
+          "primary-content": "#ffffff",   // White text on primary elements
+
+          "secondary": "#FF0080",       // Hot Pink (from GUI button gradient)
+          "secondary-content": "#ffffff",
+
+          "accent": "#00FFFF",          // Bright Cyan (from GUI button gradient)
+          "accent-content": "#010516",  // Dark text for high contrast on bright cyan
+
+          "neutral": "#1a1a2e",         // Dark Blue/Gray (from GUI table background)
+          "neutral-content": "#A6ADBB",
+
+          "base-100": "#010516",        // The main page background (GUI's darkest color)
+          "base-200": "#190025",        // A slightly lighter dark purple (from tab panes)
+          "base-300": "#2a2832",        // Dark gray/purple (for inactive elements)
+          "base-content": "#A6ADBB",    // The primary text color for the site (light gray)
+
+          "info": "#66E6FF",            // Light neon cyan
+          "info-content": "#00323D",
+
+          "success": "#39FF14",         // Neon green for success states
+          "success-content": "#00330C",
+
+          "warning": "#FBBD23",         // A standard bright yellow for warnings
+          "warning-content": "#382800",
+
+          "error": "#E94560",           // The pink/red used for errors in the GUI
+          "error-content": "#ffffff",
+
+          "--rounded-btn": "1rem",
+          "--rounded-box": "0.5rem",
+        },
+      },
+    ],
+  },
+};
+</file>
+
 <file path="tsconfig.json">
 {
   "extends": "./.svelte-kit/tsconfig.json",
@@ -5556,7 +6613,7 @@ export const _hasFullProfile = (
     WebsiteBaseUrl,
     WebsiteDescription,
   } from "./../../config"
-  import PricingModule from "$lib/components/pricing_module.svelte";
+  import { allProducts } from "$lib/data/products";
 
   const ldJson = {
     "@context": "https://schema.org",
@@ -5638,16 +6695,22 @@ export const _hasFullProfile = (
   {@html jsonldScript}
 </svelte:head>
 
-<div class="hero min-h-[70vh] bg-synth-grid bg-repeat">
+<!-- New Banner Image Section -->
+<div class="w-full bg-base-200 flex justify-center">
+  <img src="/images/SignalLynxHomePageBanner.png" alt="Signal Lynx synthwave and retro electronics collage" class="w-full max-w-7xl object-contain max-h-[50vh]"/>
+</div>
+
+<!-- New Hero Text Section -->
+<div class="hero min-h-[50vh] bg-base-200">
   <div class="hero-content text-center py-12">
-    <div class="max-w-xl">
+    <div class="max-w-xl flex flex-col items-center">
       <h1
-        class="text-4xl md:text-6xl font-bold text-primary px-2"
+        class="text-4xl md:text-6xl font-bold text-primary px-2 whitespace-nowrap"
         style="line-height: 1.2;"
       >
         Control the Flow, Keep the Dough.
       </h1>
-      <h2 class="mt-6 md:mt-10 text-lg md:text-2xl">
+      <h2 class="mt-6 md:mt-10 text-lg md:text-2xl whitespace-nowrap">
         Security-first automation priced lower than a neon energy drink.
       </h2>
       <div
@@ -5656,75 +6719,133 @@ export const _hasFullProfile = (
         <a href="#pricing">
           <button class="btn btn-primary px-8">Start Free Trial</button>
         </a>
-        <a href="#demo">
-          <button class="btn btn-outline btn-secondary px-8">Watch 60-sec Demo</button>
-        </a>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trust Bar -->
+<div class="bg-base-100 py-8">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center px-4">
+        <div class="flex flex-col items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <h4 class="font-bold mt-2">Keys Stay Local</h4>
+            <p class="text-sm text-base-content/70">Your API keys never touch our servers. Period.</p>
+        </div>
+        <div class="flex flex-col items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1h4a1 1 0 011 1v10a1 1 0 01-1 1h-4v-1m-4-1v1H7a1 1 0 01-1-1V7a1 1 0 011-1h4v1m0 0h-4" />
+            </svg>
+            <h4 class="font-bold mt-2">No Surprise Bills</h4>
+            <p class="text-sm text-base-content/70">One flat, fair price. We don't tax your success.</p>
+        </div>
+        <div class="flex flex-col items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h4 class="font-bold mt-2">Setup in Minutes</h4>
+            <p class="text-sm text-base-content/70">Live before you can finish an energy drink.</p>
+        </div>
+    </div>
+</div>
+
+<!-- About Us Section -->
+<div class="py-16 bg-base-200">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h2 class="text-4xl md:text-5xl font-bold text-primary mb-8">About Us</h2>
+    <div class="space-y-6 text-lg text-base-content/80 text-left">
+      <p>
+        Signal Lynx got its start when a handful of engineers and traders—just like you—said “enough” to automation tools that cost more than rent, miss trades while you’re grabbing snacks, and scatter your API keys across the internet after every big-name breach. So we built our own neon-fueled stack and now we’re sharing it—no VC yachts, no endless upsells, no usage-based fees—just battle-tested code we run on our own rigs.
+      </p>
+      <p>
+        We believe automation should be as simple as pressing “go.” Every feature—from our one-click setup wizard to our self-hosted license hub—was crafted with beginners in mind. No obscure configs, no hidden menus, just intuitive workflows that get you trading or shipping software in minutes.
+      </p>
+      <p>
+        Forged in 2 AM coding sprints and powered by way too many energy drinks, Signal Lynx is built by folks who punch a time clock by day. We refuse to slap Fortune 500 prices on software you host yourself. Others call it disruptive pricing; we call it fair.
+      </p>
+      <p>
+        Our roadmap is yours to shape. Tell us what features or products you need next on Telegram or X—we really do read every message, probably while sipping our third energy drink of the day.
+      </p>
     </div>
   </div>
 </div>
 
 <!-- Feature Showcase Section -->
-<div class="py-16 bg-base-200 overflow-hidden relative">
+<div class="py-16 bg-base-100 overflow-hidden relative">
   <div class="max-w-7xl mx-auto px-4">
-    <!-- Left Arrow -->
-    <button on:click={() => scroll('left')} class="btn btn-circle btn-ghost absolute left-2 top-1/2 -translate-y-1/2 z-10">❮</button>
-    
-    <div bind:this={scrollContainer} class="flex space-x-8 overflow-x-auto pb-4 hide-scrollbar">
-      {#each featureShowcase as feature}
-        <div class="card bg-base-100 w-80 md:w-96 flex-none shadow-xl flex flex-col">
-          <div class="card-body">
-            <h3 class="card-title text-2xl text-accent">{feature.title}</h3>
-            <p class="text-base-content/70 mt-2 flex-grow">{feature.description}</p>
-            <ul class="mt-4 space-y-2">
-              {#each feature.details as detail}
-                <li class="flex items-center gap-2">
-                  <svg class="w-5 h-5 text-success shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z" fill="currentColor"/></svg>
-                  <span>{detail}</span>
-                </li>
-              {/each}
-            </ul>
-          </div>
+    <div class="relative">
+        <!-- Left Arrow -->
+        <button on:click={() => scroll('left')} class="btn btn-circle btn-ghost absolute left-[-1rem] top-1/2 -translate-y-1/2 z-10 hidden md:flex">❮</button>
+        
+        <div bind:this={scrollContainer} class="flex space-x-8 overflow-x-auto pb-4 hide-scrollbar">
+        {#each featureShowcase as feature}
+            <div class="card bg-base-200 w-80 md:w-96 flex-none shadow-xl flex flex-col">
+            <div class="card-body">
+                <h3 class="card-title text-2xl text-accent">{feature.title}</h3>
+                <p class="text-base-content/70 mt-2 flex-grow">{feature.description}</p>
+                <ul class="mt-4 space-y-2">
+                {#each feature.details as detail}
+                    <li class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-success shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z" fill="currentColor"/></svg>
+                    <span>{detail}</span>
+                    </li>
+                {/each}
+                </ul>
+            </div>
+            </div>
+        {/each}
         </div>
-      {/each}
-    </div>
 
-    <!-- Right Arrow -->
-    <button on:click={() => scroll('right')} class="btn btn-circle btn-ghost absolute right-2 top-1/2 -translate-y-1/2 z-10">❯</button>
+        <!-- Right Arrow -->
+        <button on:click={() => scroll('right')} class="btn btn-circle btn-ghost absolute right-[-1rem] top-1/2 -translate-y-1/2 z-10 hidden md:flex">❯</button>
+    </div>
   </div>
 </div>
 
-
-<div id="pricing" class="py-16 bg-base-100">
-  <div class="max-w-lg mx-auto text-center mb-12">
-      <h2 class="text-3xl md:text-5xl font-bold text-primary pb-2">
-        Pick Your Poison
+<div id="pricing" class="py-16 bg-base-200">
+  <div class="max-w-4xl mx-auto text-center mb-12 px-4">
+      <h2 class="text-4xl md:text-5xl font-bold text-primary pb-2">
+        Meet the Arsenal
       </h2>
-      <p class="mt-4 text-xl">
+      <p class="mt-4 text-xl whitespace-nowrap">
         No hidden fees. No enterprise sales calls. Just tools that work.
       </p>
   </div>
-  <PricingModule callToAction="Get Started" highlightedPlanId="engine" />
-</div>
+  
+  <!-- Powered Up Product Cards -->
+  <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 px-4 justify-center items-stretch">
+    {#each allProducts as product (product.id)}
+       <div class="card bg-base-100 shadow-xl flex-1 flex flex-col min-w-[280px] max-w-[400px] border-4 border-transparent transition-all duration-300 hover:border-accent">
+            <div class="card-body p-8 flex flex-col">
+                <div class="text-center">
+                    <h2 class="card-title justify-center text-2xl font-bold text-secondary">{product.name}</h2>
+                    <h3 class="mt-1 text-lg font-normal text-accent">{product.title}</h3>
+                </div>
+                <p class="text-base-content/80 mt-4">{product.tagline}</p>
+                
+                <ul class="my-6 space-y-3 text-left flex-grow">
+                {#each product.features as feature}
+                    <li class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-success shrink-0 mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z" fill="currentColor"/></svg>
+                    <span>{feature}</span>
+                    </li>
+                {/each}
+                </ul>
 
-<div id="demo" class="hero min-h-[60vh] mt-12 bg-base-300">
-  <div class="hero-content text-center pb-16 pt-4 px-4">
-    <div class="max-w-lg">
-      <div
-        class="text-3xl md:text-5xl font-bold text-primary mt-4 pb-2"
-      >
-        See How It Works
-      </div>
-       <div class="mt-4 text-xl">
-         (Your awesome 60-second demo video goes here)
-       </div>
-        <div class="mt-6 rounded-lg bg-black aspect-video w-full max-w-lg flex items-center justify-center">
-            <p class="text-base-content/50">Demo video coming soon...</p>
+                <div class="mt-auto pt-4">
+                    <p class="text-5xl font-bold text-center">{product.price}</p>
+                    <div class="card-actions justify-center mt-6">
+                        <a href={product.stripe_price_id ? `/account/subscribe/${product.stripe_price_id}` : '/login'} class="btn btn-primary btn-wide">{product.ctaLabel}</a>
+                    </div>
+                    <p class="text-center text-xs text-base-content/50 mt-2">{product.footnote}</p>
+                </div>
+            </div>
         </div>
-    </div>
+    {/each}
   </div>
 </div>
-
 <style>
   .hide-scrollbar {
     scrollbar-width: none; /* For Firefox */

@@ -1,6 +1,6 @@
 {
-  "name": "cmsassstarter",
-  "version": "0.0.1",
+  "name": "signal-lynx",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "vite dev",
@@ -13,6 +13,9 @@
     "lint": "eslint .",
     "format": "prettier --write --plugin prettier-plugin-svelte ./",
     "format_check": "prettier --check --plugin prettier-plugin-svelte ./"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^6.0.0",

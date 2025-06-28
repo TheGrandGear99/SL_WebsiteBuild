@@ -14,10 +14,24 @@ a {
   @apply cursor-pointer;
 }
 
-/* Hack to temporarily solve https://github.com/supabase/auth-ui/issues/219 */
+/* Updated Supabase Auth Button Styling */
 .authBtn {
-  @apply btn;
+  @apply btn; /* Keep base button styles */
+  background-image: linear-gradient(to right, oklch(var(--p)) 0%, oklch(var(--s)) 100%);
+  border: none;
+  transition: background-size 0.3s ease-in-out, filter 0.3s ease-in-out;
+  background-size: 100% 100%;
+  color: oklch(var(--pc));
 }
+.authBtn:hover {
+  background-size: 150% 150%;
+  filter: brightness(1.15);
+  /* The default DaisyUI hover sets a background-color, which would hide our gradient.
+     We ensure it stays transparent so the gradient's size change is visible. */
+  background-color: transparent; 
+}
+
+/* Hack to show loading text on disabled Supabase buttons */
 button[disabled].authBtn {
   font-size: 0.001px;
   filter: brightness(65%);
@@ -26,4 +40,18 @@ button[disabled].authBtn::before {
   font-size: 14px;
   content: "Loading...";
   color: oklch(var(--pc));
+}
+
+/* Custom Gradient Button (for non-Supabase buttons) */
+.btn-gradient-electric {
+  background-image: linear-gradient(to right, oklch(var(--p)) 0%, oklch(var(--s)) 100%);
+  border: none;
+  transition: background-size 0.3s ease-in-out, filter 0.3s ease-in-out;
+  background-size: 100% 100%;
+  color: oklch(var(--pc));
+}
+
+.btn-gradient-electric:hover {
+  background-size: 150% 150%;
+  filter: brightness(1.15);
 }

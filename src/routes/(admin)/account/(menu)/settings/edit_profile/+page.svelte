@@ -15,13 +15,15 @@
   <title>Edit Profile</title>
 </svelte:head>
 
-<h1 class="text-2xl font-bold mb-6">Settings</h1>
+<h1 class="text-2xl font-bold mb-6">Update Profile</h1>
 
 <SettingsModule
   editable={true}
-  title="Edit Profile"
-  successTitle="Saved Profile"
+  title="Operator Details"
+  successTitle="Profile Updated"
+  successBody="Your information has been saved, operator."
   formTarget="/account/api?/updateProfile"
+  saveButtonClass="btn-gradient-electric"
   fields={[
     {
       id: "fullName",
