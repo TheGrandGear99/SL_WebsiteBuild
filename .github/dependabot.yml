@@ -1,0 +1,31 @@
+version: 2
+updates:
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/" # Location of package files
+    schedule:
+      interval: "weekly"
+    reviewers:
+      # Add your GitHub username here to be automatically assigned to review the PRs
+      - "TheGrandGear99" 
+    labels:
+      - "dependencies"
+      - "automated"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "TheGrandGear99"
+    labels:
+      - "ci"
+      - "dependencies"
+      - "automated"
+    commit-message:
+      prefix: "chore"
+      include: "scope"

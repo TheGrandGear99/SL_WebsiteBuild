@@ -4,6 +4,7 @@ import type { Database } from "../../../DatabaseDefinitions"
 import { PRIVATE_STRIPE_API_KEY } from "$env/static/private"
 import Stripe from "stripe"
 import { allProducts } from "$lib/data/products"
+
 const stripe = new Stripe(PRIVATE_STRIPE_API_KEY, { apiVersion: "2023-08-16" })
 
 export const getOrCreateCustomerId = async ({
@@ -11,8 +12,16 @@ export const getOrCreateCustomerId = async ({
   user,
 }: {
   supabaseServiceRole: SupabaseClient<Database>
-  user: User
+  // --- HARDENING UPGRADE ---
+  // The user object can be null if the session is invalid.
+  // We must handle this possibility.
+  user: User | null 
 }) => {
+  // If no user exists, we cannot proceed.
+  if (!user) {
+    return { error: new Error("User not found.") }
+  }
+
   const { data: dbCustomer, error } = await supabaseServiceRole
     .from("stripe_customers")
     .select("stripe_customer_id")
@@ -43,11 +52,11 @@ export const getOrCreateCustomerId = async ({
   try {
     customer = await stripe.customers.create({
       email: user.email,
-      name: profile.full_name ?? "",
+      name: profile?.full_name ?? "",
       metadata: {
         user_id: user.id,
-        company_name: profile.company_name ?? "",
-        website: profile.website ?? "",
+        company_name: profile?.company_name ?? "",
+        website: profile?.website ?? "",
       },
     })
   } catch (e) {
@@ -55,7 +64,7 @@ export const getOrCreateCustomerId = async ({
   }
 
   if (!customer.id) {
-    return { error: "Unknown stripe user creation error" }
+    return { error: new Error("Unknown stripe user creation error") }
   }
 
   // insert instead of upsert so we never over-write. PK ensures later attempts error.
@@ -106,7 +115,7 @@ export const fetchSubscription = async ({
     
     if (!productId) {
       return {
-        error: "Stripe subscription is missing a product ID. This can happen if the subscription was created improperly or is in a strange state."
+        error: new Error("Stripe subscription is missing a product ID.")
       }
     }
 
@@ -116,7 +125,7 @@ export const fetchSubscription = async ({
     if (!appSubscription) {
       return {
         error:
-          "Stripe subscription does not have matching app subscription in pricing_plans.ts (via product id match)",
+          new Error("Stripe subscription does not have matching app subscription.")
       }
     }
   }

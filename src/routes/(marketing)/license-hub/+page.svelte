@@ -2,9 +2,32 @@
   import { licenseHubProduct } from "$lib/data/products";
   import { onMount } from "svelte";
   import { fly } from 'svelte/transition';
+  import { WebsiteBaseUrl } from "../../../config";
 
   let imageModal: HTMLDialogElement;
   let selectedImageUrl = $state<string | null>(null);
+
+  const ldJson = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Key Commander",
+    "operatingSystem": "Linux, Windows, macOS (via Docker)",
+    "applicationCategory": "DeveloperTool",
+    "offers": {
+      "@type": "Offer",
+      "price": "5.00",
+      "priceCurrency": "USD",
+      "priceSpecification": {
+        "@type": "PriceSpecification",
+        "billingIncrement": "Month"
+      }
+    },
+    "description": "A self-hosted, GUI-driven software license manager for SaaS founders and developers. Integrates with Stripe for automated key generation, subscriptions, and trial management.",
+    "url": `${WebsiteBaseUrl}/license-hub`
+  }
+  const jsonldScript = `<script type="application/ld+json">${
+    JSON.stringify(ldJson) + "<"
+  }/script>`
 
   function showImage(imageUrl: string) {
     selectedImageUrl = imageUrl;
@@ -52,8 +75,10 @@
 </dialog>
 
 <svelte:head>
-  <title>Key Commander License Manager - Signal Lynx</title>
-  <meta name="description" content="Stop building licensing servers. Start building your business. The self-hosted, enterprise-grade licensing engine that puts you in control." />
+  <title>Self-Hosted License Manager | Key Commander by Signal Lynx</title>
+  <meta name="description" content="Stop building licensing servers. Key Commander is a flat-rate, self-hosted software licensing solution with full Stripe integration for SaaS and indie developers." />
+  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+  {@html jsonldScript}
 </svelte:head>
 
 <!-- HERO -->

@@ -14,17 +14,16 @@
   <title>Delete Account</title>
 </svelte:head>
 
-<h1 class="text-2xl font-bold mb-6">Danger Zone</h1>
+<h1 class="text-2xl font-bold mb-6">Danger Zone: Self-Destruct</h1>
 
 <SettingsModule
   title="Delete Account"
   editable={true}
   dangerous={true}
-  message="Warning: This action is irreversible. All your data, subscriptions, and access will be permanently destroyed. You are logged in as '{session
-    ?.user?.email}'"
-  saveButtonTitle="Delete This Account"
-  successTitle="Account Deletion Initiated"
-  successBody="Your account and all associated data are being permanently purged from our systems."
+  message="Warning: This is the big red button. This action is irreversible. All your data, subscriptions, and access will be permanently purged from our systems. There is no undo."
+  saveButtonTitle="Initiate Self-Destruct"
+  successTitle="Account Deletion In Progress"
+  successBody="Signal received. Your account and all associated data are being permanently wiped."
   formTarget="/account/api?/deleteAccount"
   fields={[
     {

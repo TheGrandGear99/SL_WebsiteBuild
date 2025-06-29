@@ -6,5 +6,11 @@ node_modules
 .env
 .env.*
 !.env.example
+
+# SvelteKit/Vite auto-generated temporary files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Playwright test artifacts
+/playwright-report/
+/test-results/

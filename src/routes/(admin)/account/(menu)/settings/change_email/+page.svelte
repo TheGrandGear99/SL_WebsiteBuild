@@ -22,7 +22,7 @@
   editable={true}
   saveButtonTitle="Update Email"
   successTitle="Email Update Initiated"
-  successBody="Check both your old and new inboxes. You must click the confirmation link in both emails to finalize the change."
+  successBody="Signal sent. Check both your old and new inboxes. You must click the confirmation link in both transmissions to finalize the change."
   formTarget="/account/api?/updateEmail"
   saveButtonClass="btn-gradient-electric"
   fields={[

@@ -1,13 +1,34 @@
-// src/hooks.server.ts
-import { PRIVATE_SUPABASE_SERVICE_ROLE } from "$env/static/private"
-import {
-  PUBLIC_SUPABASE_ANON_KEY,
-  PUBLIC_SUPABASE_URL,
-} from "$env/static/public"
-import { createServerClient } from "@supabase/ssr"
-import { createClient } from "@supabase/supabase-js"
-import type { Handle } from "@sveltejs/kit"
-import { sequence } from "@sveltejs/kit/hooks"
+import { PRIVATE_SUPABASE_SERVICE_ROLE } from "$env/static/private";
+import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from "$env/static/public";
+import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
+import type { Handle } from "@sveltejs/kit";
+import { sequence } from "@sveltejs/kit/hooks";
+
+// --- SECURITY HARDENING: CONTENT SECURITY POLICY ---
+// This handle attaches a robust Content Security Policy (CSP) to every server response.
+// A CSP is a critical security layer that helps prevent cross-site scripting (XSS) attacks.
+// NOTE: This is a strict policy. If you add new external scripts, fonts, or images,
+// you MUST add their sources to the policy below, or they will be blocked by the browser.
+const securityHeaders: Handle = async ({ event, resolve }) => {
+  const response = await resolve(event);
+  response.headers.set(
+    'Content-Security-Policy',
+    [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com", // 'unsafe-inline' is needed for Svelte's reactivity and Google Analytics
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", // 'unsafe-inline' is needed for Svelte's dynamic styles
+      "font-src 'self' https://fonts.gstatic.com",
+      "img-src 'self' data:",
+      "connect-src 'self' https://*.supabase.co https://www.google-analytics.com",
+      "frame-src 'self' https://js.stripe.com",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join('; ')
+  );
+  return response;
+};
 
 export const supabase: Handle = async ({ event, resolve }) => {
   event.locals.supabase = createServerClient(
@@ -16,72 +37,62 @@ export const supabase: Handle = async ({ event, resolve }) => {
     {
       cookies: {
         getAll: () => event.cookies.getAll(),
-        /**
-         * SvelteKit's cookies API requires `path` to be explicitly set in
-         * the cookie options. Setting `path` to `/` replicates previous/
-         * standard behavior.
-         */
         setAll: (cookiesToSet) => {
           cookiesToSet.forEach(({ name, value, options }) => {
-            event.cookies.set(name, value, { ...options, path: "/" })
-          })
+            // --- SECURITY HARDENING: HTTP-ONLY COOKIES ---
+            // We ensure the HttpOnly flag is always set on our auth cookies
+            event.cookies.set(name, value, { ...options, path: "/", httpOnly: true, secure: true });
+          });
         },
       },
     },
-  )
+  );
 
   event.locals.supabaseServiceRole = createClient(
     PUBLIC_SUPABASE_URL,
     PRIVATE_SUPABASE_SERVICE_ROLE,
     { auth: { persistSession: false } },
-  )
+  );
 
-  /**
-   * Unlike `supabase.auth.getSession()`, which returns the session _without_
-   * validating the JWT, this function also calls `getUser()` to validate the
-   * JWT before returning the session.
-   */
   event.locals.safeGetSession = async () => {
     const {
       data: { session },
-    } = await event.locals.supabase.auth.getSession()
+    } = await event.locals.supabase.auth.getSession();
     if (!session) {
-      return { session: null, user: null, amr: null }
+      return { session: null, user: null, amr: null };
     }
 
     const {
       data: { user },
       error: userError,
-    } = await event.locals.supabase.auth.getUser()
+    } = await event.locals.supabase.auth.getUser();
     if (userError) {
-      // JWT validation has failed
-      return { session: null, user: null, amr: null }
+      return { session: null, user: null, amr: null };
     }
 
     const { data: aal, error: amrError } =
-      await event.locals.supabase.auth.mfa.getAuthenticatorAssuranceLevel()
+      await event.locals.supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (amrError) {
-      return { session, user, amr: null }
+      return { session, user, amr: null };
     }
 
-    return { session, user, amr: aal.currentAuthenticationMethods }
-  }
+    return { session, user, amr: aal.currentAuthenticationMethods };
+  };
 
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
-      return name === "content-range" || name === "x-supabase-api-version"
+      return name === "content-range" || name === "x-supabase-api-version";
     },
-  })
-}
+  });
+};
 
-// Not called for prerendered marketing pages so generally okay to call on ever server request
-// Next-page CSR will mean relatively minimal calls to this hook
 const authGuard: Handle = async ({ event, resolve }) => {
-  const { session, user } = await event.locals.safeGetSession()
-  event.locals.session = session
-  event.locals.user = user
+  const { session, user } = await event.locals.safeGetSession();
+  event.locals.session = session;
+  event.locals.user = user;
+  return resolve(event);
+};
 
-  return resolve(event)
-}
-
-export const handle: Handle = sequence(supabase, authGuard)
+// The 'sequence' function runs our handles in the order they are listed.
+// Security headers are applied first to every response.
+export const handle: Handle = sequence(securityHeaders, supabase, authGuard);

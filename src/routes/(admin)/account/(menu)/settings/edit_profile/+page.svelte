@@ -21,7 +21,7 @@
   editable={true}
   title="Operator Details"
   successTitle="Profile Updated"
-  successBody="Your information has been saved, operator."
+  successBody="Your command center information has been successfully updated."
   formTarget="/account/api?/updateProfile"
   saveButtonClass="btn-gradient-electric"
   fields={[

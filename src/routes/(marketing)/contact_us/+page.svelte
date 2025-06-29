@@ -56,16 +56,16 @@
   const handleSubmit: SubmitFunction = () => {
     loading = true
     errors = {}
-    return async ({ update, result }) => {
-      await update({ reset: false })
-      await applyAction(result)
+    return async ({ result }) => {
+      // The enhance function automatically handles form submission and result application.
+      // We just need to manage our component's state based on the result.
       loading = false
-      if (result.type === "success") {
+      if (result.type === 'success' && result.status === 200) {
         showSuccess = true
-      } else if (result.type === "failure") {
+      } else if (result.type === 'failure') {
         errors = result.data?.errors ?? {}
-      } else if (result.type === "error") {
-        errors = { _: "An error occurred. Please check inputs and try again." }
+      } else if (result.type === 'error') {
+        errors = { _: "An unexpected error occurred. Please try again." }
       }
     }
   }
@@ -83,7 +83,6 @@
       Got a burning question? A genius feature idea? Or maybe you just want to tell us our synthwave theme is fire? We're all ears. The fastest way to get our attention is to slide into our DMs or join the community chatter.
     </p>
 
-    <!-- Socials First -->
     <div class="my-12">
       <h2 class="text-3xl font-bold text-secondary mb-6">The Fast Lane: X & Telegram</h2>
       <div class="flex flex-col sm:flex-row gap-6 justify-center">
@@ -98,10 +97,8 @@
       </div>
     </div>
 
-    <!-- Divider -->
     <div class="divider text-xl font-bold my-12">OR</div>
 
-    <!-- Formal Contact Form -->
     <div id="form-section">
       {#if showSuccess}
         <div class="card card-bordered shadow-lg bg-base-200 py-10 px-6 mx-auto max-w-lg">
@@ -114,34 +111,29 @@
         <div class="max-w-lg mx-auto">
           <h2 class="text-3xl font-bold text-secondary mb-2">The Formal Route</h2>
           <p class="mb-8">
-            For partnership inquiries, custom quotes, or messages that require a bit more... gravitas. Fill this out, and a signal will be dispatched directly to our secure inbox. We’ll get back to you, but maybe not as fast as a tweet.
+            For partnership inquiries, custom quotes, or messages that require a bit more... gravitas. Fill this out, and a signal will be dispatched directly to our secure inbox.
           </p>
           <div class="card card-bordered shadow-lg bg-base-200 p-6">
             <form
-              class="form-widget flex flex-col"
               method="POST"
               action="?/submitContactUs"
               use:enhance={handleSubmit}
             >
               {#each formFields as field}
-                <label for={field.id}>
-                  <div class="flex flex-row text-left">
-                    <div class="text-base font-bold">{field.label}</div>
+                <div class="form-control w-full">
+                  <label for={field.id} class="label">
+                    <span class="label-text font-bold">{field.label}</span>
                     {#if errors[field.id]}
-                      <div class="text-red-600 grow text-sm ml-2 text-right">
-                        {errors[field.id]}
-                      </div>
+                      <span class="label-text-alt text-error">{errors[field.id]}</span>
                     {/if}
-                  </div>
+                  </label>
                   {#if field.inputType === "textarea"}
                     <textarea
                       id={field.id}
                       name={field.id}
                       autocomplete={field.autocomplete}
                       rows={4}
-                      class="{errors[field.id]
-                        ? 'input-error'
-                        : ''} h-24 input mt-1 input-bordered w-full mb-3 text-base py-2"
+                      class="textarea textarea-bordered h-24 {errors[field.id] ? 'textarea-error' : ''}"
                     ></textarea>
                   {:else}
                     <input
@@ -149,23 +141,28 @@
                       name={field.id}
                       type={field.inputType}
                       autocomplete={field.autocomplete}
-                      class="{errors[field.id]
-                        ? 'input-error'
-                        : ''} input mt-1 input-bordered w-full mb-3 text-base py-2"
+                      class="input input-bordered w-full {errors[field.id] ? 'input-error' : ''}"
                     />
                   {/if}
-                </label>
+                </div>
               {/each}
 
-              {#if Object.keys(errors).length > 0 && errors._}
-                <p class="text-red-600 text-sm mb-2 text-center">
-                  {errors._}
-                </p>
+              {#if errors._}
+                <div role="alert" class="alert alert-error text-sm mt-4">
+                  <span>{errors._}</span>
+                </div>
               {/if}
 
-              <button class="btn btn-primary mt-4 btn-gradient-electric {loading ? 'btn-disabled' : ''}"
-                >{loading ? "Transmitting..." : "Send Secure Message"}</button
-              >
+              <div class="form-control mt-6">
+                <button type="submit" class="btn btn-primary btn-gradient-electric" disabled={loading}>
+                  {#if loading}
+                    <span class="loading loading-spinner"></span>
+                    Transmitting...
+                  {:else}
+                    Send Secure Message
+                  {/if}
+                </button>
+              </div>
             </form>
           </div>
         </div>

@@ -36,7 +36,6 @@
       error = true
     } finally {
       loading = false;
-      // Use a timeout to ensure the element is in the DOM after the loading state changes
       setTimeout(() => document.getElementById("search-input")?.focus(), 0);
     }
   })
@@ -112,21 +111,18 @@
       bind:value={searchQuery}
       onfocus={() => (focusItem = 0)}
       aria-label="Search input"
+      disabled={loading || error}
     />
   </div>
 
-
-  {#if loading && searchQuery.length > 0}
-    <div class="text-center mt-10 text-accent text-xl">Querying Databanks...</div>
-  {/if}
-
-  {#if error}
+  <!-- --- UX UPGRADE: LOADING AND ERROR STATES --- -->
+  {#if loading}
+    <div class="text-center mt-10 text-accent text-xl animate-pulse">Connecting to Intel Terminal...</div>
+  {:else if error}
     <div class="text-center mt-10 text-error text-xl">
       Error: Connection to intel terminal failed. Please try again later.
     </div>
-  {/if}
-
-  {#if !loading && searchQuery.length > 0 && results.length === 0 && !error}
+  {:else if searchQuery.length > 0 && results.length === 0}
     <div class="text-center mt-10 text-accent text-xl">No Signal Found for "{searchQuery}"</div>
     {#if dev}
       <div class="text-center mt-4 font-mono text-base-content/50">

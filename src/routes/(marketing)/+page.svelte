@@ -10,8 +10,9 @@
   const ldJson = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: WebsiteName,
-    url: WebsiteBaseUrl,
+    "name": WebsiteName,
+    "url": WebsiteBaseUrl,
+    "description": WebsiteDescription,
   }
   const jsonldScript = `<script type="application/ld+json">${
     JSON.stringify(ldJson) + "<"
@@ -60,7 +61,6 @@
     }
   ];
 
-  // --- NEW, MORE ROBUST SCROLLING LOGIC ---
   let scrollContainer: HTMLElement;
   let cards: HTMLElement[] = [];
   let currentCardIndex = 0;
@@ -71,12 +71,7 @@
     const card = cards[index];
     const firstCard = cards[0];
     if (!card || !firstCard) return;
-
-    // Calculate the precise scroll position relative to the container,
-    // which prevents the main page from scrolling.
-    // This accounts for any padding within the scroll container.
     const targetScrollLeft = card.offsetLeft - firstCard.offsetLeft;
-
     scrollContainer.scrollTo({
         left: targetScrollLeft,
         behavior: 'smooth'
@@ -87,10 +82,8 @@
   function advanceCarousel(direction: 'forward' | 'backward') {
     let nextIndex = currentCardIndex;
     if (direction === 'forward') {
-      // If we are at the last card, loop back to the start, otherwise advance
       nextIndex = (currentCardIndex + 1) % cards.length;
     } else {
-      // If we are at the first card, loop to the end, otherwise go back
       nextIndex = (currentCardIndex - 1 + cards.length) % cards.length;
     }
     scrollToCard(nextIndex);
@@ -105,7 +98,7 @@
   function startAutoScroll() {
     scrollInterval = setInterval(() => {
       advanceCarousel('forward');
-    }, 5000); // Auto-scroll every 5 seconds
+    }, 5000);
   }
 
   onMount(() => {
@@ -124,8 +117,8 @@
 </script>
 
 <svelte:head>
-  <title>{WebsiteName}: Automate Everything. Own Everything.</title>
-  <meta name="description" content={WebsiteDescription} />
+  <title>{WebsiteName}: Local-First Automation for Traders & Builders</title>
+  <meta name="description" content="Secure, self-hosted automation tools. Take control of your TradingView webhooks and software licensing with Signal Lynx. Your keys, your server, your rules." />
   <!-- eslint-disable-next-line svelte/no-at-html-tags -->
   {@html jsonldScript}
 </svelte:head>
@@ -258,7 +251,7 @@
         No surprise tiers. No enterprise sales calls. Just gear that gets the job done.
       </p>
   </div>
-  
+
   <!-- Powered Up Product Cards -->
   <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 px-4 justify-center items-stretch">
     {#each allProducts as product (product.id)}
@@ -269,7 +262,7 @@
                     <h3 class="mt-1 text-lg font-normal text-accent">{product.title}</h3>
                 </div>
                 <p class="text-base-content/80 mt-4">{product.tagline}</p>
-                
+
                 <ul class="my-6 space-y-3 text-left flex-grow">
                 {#each product.features as feature}
                     <li class="flex items-start gap-3">
@@ -307,7 +300,7 @@
     <div class="mt-12">
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 items-center">
         <div class="flex justify-center" title="TradingView">
-          <img src="/logos/tradingview.png" alt="TradingView Logo" class="h-20 sm:h-24" />
+          <img src="/logos/tradingview.png" alt="TradingView Logo" class="h-12 sm:h-16" />
         </div>
         <div class="flex justify-center" title="Stripe">
           <img src="/logos/stripe.png" alt="Stripe Logo" class="h-20 sm:h-24" />
@@ -322,13 +315,13 @@
           <img src="/logos/gemini.png" alt="Gemini Logo" class="h-20 sm:h-24" />
         </div>
         <div class="flex justify-center" title="Docker">
-           <img src="/logos/docker.png" alt="Docker Logo" class="h-20 sm:h-24" />
+           <img src="/logos/docker.png" alt="Docker Logo" class="h-16 sm:h-20" />
         </div>
         <div class="flex justify-center" title="Telegram">
-           <img src="/logos/telegram.png" alt="Telegram Logo" class="h-20 sm:h-24" />
+           <img src="/logos/telegram.png" alt="Telegram Logo" class="h-12 sm:h-16" />
         </div>
          <div class="flex justify-center" title="Windows">
-           <img src="/logos/windows.png" alt="Windows Logo" class="h-20 sm:h-24" />
+           <img src="/logos/windows.png" alt="Windows Logo" class="h-12 sm:h-16" />
         </div>
       </div>
     </div>
@@ -345,7 +338,7 @@
     </p>
 
     <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-      <!-- Step 1 - The Philosophy of Easy Deployment -->
+      <!-- Step 1 -->
       <div class="card bg-base-200 shadow-xl">
         <div class="card-body">
           <div class="font-bold text-secondary text-4xl mb-2">1.</div>
@@ -354,7 +347,7 @@
         </div>
       </div>
 
-      <!-- Step 2 - The Philosophy of Guided Setup -->
+      <!-- Step 2 -->
       <div class="card bg-base-200 shadow-xl">
         <div class="card-body">
            <div class="font-bold text-secondary text-4xl mb-2">2.</div>
@@ -363,7 +356,7 @@
         </div>
       </div>
 
-      <!-- Step 3 - The Philosophy of Speed to Value -->
+      <!-- Step 3 -->
       <div class="card bg-base-200 shadow-xl">
         <div class="card-body">
            <div class="font-bold text-secondary text-4xl mb-2">3.</div>
@@ -377,7 +370,6 @@
     </div>
   </div>
 </div>
-
 <style>
   .hide-scrollbar {
     -ms-overflow-style: none;  /* IE and Edge */

@@ -17,8 +17,8 @@
   title="Reset Password"
   editable={true}
   saveButtonTitle="Set New Password"
-  successTitle="Password Reset Successful"
-  successBody="Your new credentials are secure. Use your new password on next login."
+  successTitle="Password Reset"
+  successBody="Authentication confirmed. Your new password is now active."
   formTarget="/account/api?/updatePassword"
   saveButtonClass="btn-gradient-electric"
   fields={[

@@ -2,9 +2,41 @@
   import { automationProducts } from "$lib/data/products";
   import { onMount } from "svelte";
   import { fly } from 'svelte/transition';
+  import { WebsiteBaseUrl } from "../../../config";
 
   let imageModal: HTMLDialogElement;
   let selectedImageUrl = $state<string | null>(null);
+  
+  const ldJson = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Signal Lynx Trading Automation Suite",
+    "operatingSystem": "Windows",
+    "applicationCategory": "FinanceApplication",
+    "offers": [
+      {
+        "@type": "Offer",
+        "price": "1.00",
+        "priceCurrency": "USD",
+        "name": "Signal Shield"
+      },
+      {
+        "@type": "Offer",
+        "price": "5.00",
+        "priceCurrency": "USD",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "billingIncrement": "Month"
+        },
+        "name": "Lynx-Relay"
+      }
+    ],
+    "description": "A suite of self-hosted tools to automate TradingView alerts into real-money trades on major exchanges like Kraken, Binance.US, and Gemini.",
+    "url": `${WebsiteBaseUrl}/trading-automation`
+  }
+  const jsonldScript = `<script type="application/ld+json">${
+    JSON.stringify(ldJson) + "<"
+  }/script>`
 
   function showImage(imageUrl: string) {
     selectedImageUrl = imageUrl;
@@ -53,9 +85,12 @@
 
 
 <svelte:head>
-  <title>Trading Automation - Signal Lynx</title>
-  <meta name="description" content="Automate Your Alerts. Own Your Keys. Local-first automation tools for hands-free trading." />
+  <title>TradingView Webhook Automation | Signal Lynx</title>
+  <meta name="description" content="Turn TradingView alerts into hands-free trades. Our self-hosted webhook engine gives you full control and security for automated trading on Kraken, Binance, and Gemini." />
+  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+  {@html jsonldScript}
 </svelte:head>
+
 
 <!-- HERO -->
 <section class="py-16 md:py-24 px-4 bg-base-200 overflow-hidden">

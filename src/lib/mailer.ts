@@ -5,6 +5,7 @@ import { PUBLIC_SUPABASE_URL } from "$env/static/public"
 import { createClient, type User } from "@supabase/supabase-js"
 import type { Database } from "../DatabaseDefinitions"
 import handlebars from "handlebars"
+import { error } from "@sveltejs/kit";
 
 // Sends an email to the admin email address.
 // Does not throw errors, but logs them.
@@ -15,11 +16,9 @@ export const sendAdminEmail = async ({
   subject: string
   body: string
 }) => {
-  // Check admin email is setup
   if (!env.PRIVATE_ADMIN_EMAIL) {
     return
   }
-
   try {
     const resend = new Resend(env.PRIVATE_RESEND_API_KEY)
     const resp = await resend.emails.send({
@@ -30,10 +29,10 @@ export const sendAdminEmail = async ({
     })
 
     if (resp.error) {
-      console.log("Failed to send admin email, error:", resp.error)
+      console.error("Failed to send admin email, error:", resp.error)
     }
   } catch (e) {
-    console.log("Failed to send admin email, error:", e)
+    console.error("Failed to send admin email, error:", e)
   }
 }
 
@@ -52,12 +51,12 @@ export const sendUserEmail = async ({
 }) => {
   const email = user.email
   if (!email) {
-    console.log("No email for user. Aborting email. ", user.id)
-    return
+    // --- HARDENING UPGRADE ---
+    // Throw an explicit error instead of failing silently.
+    console.error("Email Error: Attempted to send email to user with no email address.", { userId: user.id });
+    throw new Error("User has no email address.");
   }
 
-  // Check if the user email is verified using the full user object from service role
-  // Oauth uses email_verified, and email auth uses email_confirmed_at
   const serverSupabase = createClient<Database>(
     PUBLIC_SUPABASE_URL,
     PRIVATE_SUPABASE_SERVICE_ROLE,
@@ -71,11 +70,11 @@ export const sendUserEmail = async ({
     serviceUserData.user?.user_metadata?.email_verified
 
   if (!emailVerified) {
-    console.log("User email not verified. Aborting email. ", user.id, email)
-    return
+    console.warn("Email Aborted: Attempted to send email to unverified address.", { userId: user.id, email });
+    // We can choose to fail silently here, as this is an expected state for new users.
+    return;
   }
 
-  // Fetch user profile to check unsubscribed status
   const { data: profile, error: profileError } = await serverSupabase
     .from("profiles")
     .select("unsubscribed")
@@ -83,13 +82,14 @@ export const sendUserEmail = async ({
     .single()
 
   if (profileError) {
-    console.log("Error fetching user profile. Aborting email. ", user.id, email)
-    return
+    // --- HARDENING UPGRADE ---
+    console.error("Email Error: Could not fetch user profile to check subscription status.", { userId: user.id, email, error: profileError });
+    throw new Error("Failed to fetch user profile.");
   }
 
   if (profile?.unsubscribed) {
-    console.log("User unsubscribed. Aborting email. ", user.id, email)
-    return
+    console.log("Email Aborted: User is unsubscribed.", { userId: user.id, email });
+    return;
   }
 
   await sendTemplatedEmail({
@@ -115,7 +115,7 @@ export const sendTemplatedEmail = async ({
   template_properties: Record<string, string>
 }) => {
   if (!env.PRIVATE_RESEND_API_KEY) {
-    // email not configured.  Emails are optional so no error is thrown
+    console.warn("Email not configured. PRIVATE_RESEND_API_KEY is not set. Skipping email send.");
     return
   }
 
@@ -128,7 +128,6 @@ export const sendTemplatedEmail = async ({
     plaintextBody = template(template_properties)
   } catch (e) {
     // ignore, plaintextBody is optional
-    plaintextBody = undefined
   }
 
   let htmlBody: string | undefined = undefined
@@ -140,37 +139,34 @@ export const sendTemplatedEmail = async ({
     htmlBody = template(template_properties)
   } catch (e) {
     // ignore, htmlBody is optional
-    htmlBody = undefined
   }
 
   if (!plaintextBody && !htmlBody) {
-    console.log(
-      "No email body: requires plaintextBody or htmlBody. Template: ",
+    console.error(
+      "Email Error: No email body templates found. Requires plaintext or html. Template name: ",
       template_name,
     )
-    return
+    throw new Error(`No email templates found for ${template_name}`);
   }
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const email: any = {
+    const resend = new Resend(env.PRIVATE_RESEND_API_KEY)
+    const emailPayload: any = {
       from: from_email,
       to: to_emails,
       subject: subject,
     }
-    if (plaintextBody) {
-      email.text = plaintextBody
-    }
-    if (htmlBody) {
-      email.html = htmlBody
-    }
-    const resend = new Resend(env.PRIVATE_RESEND_API_KEY)
-    const resp = await resend.emails.send(email)
+    if (plaintextBody) emailPayload.text = plaintextBody;
+    if (htmlBody) emailPayload.html = htmlBody;
 
-    if (resp.error) {
-      console.log("Failed to send email, error:", resp.error)
+    const { error: sendError } = await resend.emails.send(emailPayload);
+
+    if (sendError) {
+      console.error("Email Error: Failed to send email via Resend.", { error: sendError });
+      throw new Error(`Resend API Error: ${sendError.message}`);
     }
   } catch (e) {
-    console.log("Failed to send email, error:", e)
+    console.error("Email Error: Unhandled exception in sendTemplatedEmail.", { error: e });
+    throw e; // Re-throw the error to be handled by the caller
   }
 }

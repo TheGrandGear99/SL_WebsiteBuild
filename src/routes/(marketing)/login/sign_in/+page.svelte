@@ -1,31 +1,25 @@
 <script lang="ts">
-  import { Auth } from "@supabase/auth-ui-svelte"
-  import { sharedAppearance, oauthProviders } from "../login_config"
-  import { goto } from "$app/navigation"
-  import { onMount } from "svelte"
-  import { page } from "$app/stores"
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
+  import { page } from "$app/stores";
+  import AuthWrapper from '$lib/components/login/AuthWrapper.svelte';
 
-  let { data } = $props()
-  let { supabase } = data
+  let { data } = $props();
 
   onMount(() => {
-    supabase.auth.onAuthStateChange((event) => {
-      // Redirect to account after successful login
-      if (event == "SIGNED_IN") {
-        // Delay needed because order of callback not guaranteed.
-        // Give the layout callback priority to update state or
-        // we'll just bounch back to login when /account tries to load
+    const { data: { subscription } } = data.supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_IN") {
         setTimeout(() => {
-          goto("/account")
-        }, 1)
+          goto("/account");
+        }, 1);
       }
-    })
-  })
-</script>
+    });
 
-<svelte:head>
-  <title>Sign in</title>
-</svelte:head>
+    return () => {
+      subscription.unsubscribe();
+    };
+  });
+</script>
 
 {#if $page.url.searchParams.get("verified") == "true"}
   <div role="alert" class="alert alert-success mb-5">
@@ -44,20 +38,5 @@
     <span>Email verified! Please sign in.</span>
   </div>
 {/if}
-<h1 class="text-2xl font-bold mb-6">Sign In</h1>
-<Auth
-  supabaseClient={data.supabase}
-  view="sign_in"
-  redirectTo={`${data.url}/auth/callback`}
-  providers={oauthProviders}
-  socialLayout="horizontal"
-  showLinks={false}
-  appearance={sharedAppearance}
-  additionalData={undefined}
-/>
-<div class="text-l mt-4">
-  <a class="link" href="/login/forgot_password">Forgot password?</a>
-</div>
-<div class="text-l mt-3">
-  Don't have an account? <a class="link" href="/login/sign_up">Sign up</a>.
-</div>
+
+<AuthWrapper view="sign_in" {data} />

@@ -1,6 +1,9 @@
 import { fail } from "@sveltejs/kit"
 import { sendAdminEmail } from "$lib/mailer.js"
 
+// Industry-standard regex for basic email format validation
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 /** @type {import('./$types').Actions} */
 export const actions = {
   submitContactUs: async ({ request, locals: { supabaseServiceRole } }) => {
@@ -28,8 +31,8 @@ export const actions = {
       errors["email"] = "Email is required"
     } else if (email.length > 500) {
       errors["email"] = "Email too long"
-    } else if (!email.includes("@") || !email.includes(".")) {
-      errors["email"] = "Invalid email"
+    } else if (!emailRegex.test(email)) { // --- HARDENING UPGRADE ---
+      errors["email"] = "Invalid email format"
     }
 
     const company = formData.get("company")?.toString() ?? ""
@@ -66,7 +69,7 @@ export const actions = {
 
     if (insertError) {
       console.error("Error saving contact request", insertError)
-      return fail(500, { errors: { _: "Error saving" } })
+      return fail(500, { errors: { _: "Error saving contact request." } })
     }
 
     // Send email to admin
@@ -74,5 +77,8 @@ export const actions = {
       subject: "New contact request",
       body: `New contact request from ${firstName} ${lastName}.\n\nEmail: ${email}\n\nPhone: ${phone}\n\nCompany: ${company}\n\nMessage: ${message}`,
     })
+
+    // Return a success state for the form
+    return { success: true };
   },
 }

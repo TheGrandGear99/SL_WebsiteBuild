@@ -51,8 +51,8 @@
     title="Change Password"
     editable={true}
     saveButtonTitle="Change Password"
-    successTitle="Password Updated"
-    successBody="Your credentials have been updated. Use your new password on next login."
+    successTitle="Credentials Updated"
+    successBody="Your new password is now active. Use it on your next login."
     formTarget="/account/api?/updatePassword"
     saveButtonClass="btn-gradient-electric"
     fields={[
