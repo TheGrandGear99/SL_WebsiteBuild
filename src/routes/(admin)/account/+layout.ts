@@ -10,7 +10,6 @@ import {
 import { redirect } from "@sveltejs/kit"
 import type { Database } from "../../../DatabaseDefinitions.js"
 import { CreateProfileStep } from "../../../config"
-import { load_helper } from "$lib/load_helpers"
 
 export const load = async ({ fetch, data, depends, url }) => {
   depends("supabase:auth")
@@ -32,7 +31,12 @@ export const load = async ({ fetch, data, depends, url }) => {
         },
       })
 
-  const { session, user } = await load_helper(data.session, supabase)
+  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // --- SECURITY HARDENING ---
+  // This is the primary auth guard for the entire /account area.
+  // If there is no session OR no valid user, redirect to login.
   if (!session || !user) {
     const redirectUrl = `/login?next=${url.pathname}`
     redirect(303, redirectUrl);
@@ -41,7 +45,7 @@ export const load = async ({ fetch, data, depends, url }) => {
   const { data: profile } = await supabase
     .from("profiles")
     .select(`*`)
-    .eq("id", user.id)
+    .eq("id", user.id) // This is now safe because we've confirmed user is not null
     .single()
 
   const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel()
